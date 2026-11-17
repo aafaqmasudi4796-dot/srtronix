@@ -33,13 +33,13 @@ export default function AboutPage() {
         {/* Full Screen Background Image Container */}
         <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
           <Image
-            src="/assets/about_turquoise_oscilloscope_uhd.webp"
-            alt="SRTRONIX High-Precision Benchtop Digital Storage Oscilloscope"
+            src="/assets/about_owon_sds1102_desk_uhd.jpg"
+            alt="SRTRONIX Digital Storage Oscilloscope Laboratory Workbench"
             fill
             priority
             quality={95}
             sizes="100vw"
-            className="object-cover object-center lg:object-[65%_center]"
+            className="object-cover object-center lg:object-[68%_center]"
           />
           {/* Clean gradient overlays for razor-sharp readability & 4K vibrance */}
           <div className="absolute inset-0 bg-gradient-to-r from-[#09090b]/80 via-[#09090b]/40 to-transparent pointer-events-none" />
