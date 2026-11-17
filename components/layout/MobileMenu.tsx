@@ -161,10 +161,10 @@ export function MobileMenu({ isOpen, onClose, navLinks }: MobileMenuProps) {
                       }, 100);
                     }
                   }}
-                  className="flex items-center justify-center gap-2 w-full px-5 py-3 rounded-lg bg-white text-neutral-900 font-bold hover:bg-neutral-100 transition-colors shadow-md"
+                  className="flex items-center justify-center gap-2 w-full px-5 py-3 rounded-lg bg-gradient-to-r from-[#2563eb] via-[#4A7EB8] to-[#1d4ed8] border border-[#7bb0ed]/50 text-white font-bold hover:brightness-110 transition-all shadow-md shadow-blue-950/40"
                 >
                   <span>Inquire / Contact Us</span>
-                  <ArrowRight className="w-4 h-4" />
+                  <ArrowRight className="w-4 h-4 text-sky-200" />
                 </Link>
               </div>
 

@@ -306,17 +306,17 @@ export function Navbar() {
               <span className="hidden lg:inline">WhatsApp</span>
             </a>
 
-            {/* INQUIRY BUTTON (Visible on all screens with responsive sizing) */}
+            {/* INQUIRY BUTTON (Matching SRTRONIX Logo Blue) */}
 
             <Link
               href="/contact#inquire"
               onClick={handleInquireClick}
-              className="group inline-flex items-center gap-1 sm:gap-1.5 rounded-xl bg-gradient-to-r from-amber-400 to-orange-500 px-2.5 py-1.5 sm:px-4 sm:py-2 text-[11px] sm:text-xs font-bold text-black shadow-lg shadow-orange-950/20 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-orange-500/20 active:translate-y-0"
+              className="group inline-flex items-center gap-1 sm:gap-1.5 rounded-xl bg-gradient-to-r from-[#2563eb] via-[#4A7EB8] to-[#1d4ed8] border border-[#7bb0ed]/50 px-2.5 py-1.5 sm:px-4 sm:py-2 text-[11px] sm:text-xs font-bold text-white shadow-lg shadow-blue-950/40 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_0_20px_rgba(74,126,184,0.45)] hover:border-[#7bb0ed] active:translate-y-0"
             >
               <span className="hidden xs:inline">Inquire Now</span>
               <span className="xs:hidden">Inquire</span>
 
-              <ArrowUpRight className="h-3 w-3 sm:h-3.5 sm:w-3.5 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+              <ArrowUpRight className="h-3 w-3 sm:h-3.5 sm:w-3.5 text-sky-200 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-white" />
             </Link>
 
             {/* MOBILE MENU BUTTON */}
