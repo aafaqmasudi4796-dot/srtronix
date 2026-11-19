@@ -9,7 +9,6 @@ import {
   Microscope,
   ArrowRight,
   Factory,
-  Sparkles,
 } from 'lucide-react';
 import { Container } from '@/components/ui/Container';
 import { Button } from '@/components/ui/Button';
@@ -29,10 +28,10 @@ export const metadata: Metadata = {
 export default function AboutPage() {
   return (
     <div className="bg-[#09090b] text-slate-200">
-      {/* Hero Section with Laboratory Background - Responsive Desktop & Mobile */}
-      <section className="relative min-h-[90vh] sm:min-h-screen min-h-[100dvh] flex items-center pt-24 sm:pt-28 pb-12 sm:pb-20 border-b border-slate-800 overflow-hidden">
-        {/* DESKTOP FULL-SCREEN BACKGROUND (lg and up) */}
-        <div className="hidden lg:block absolute inset-0 z-0 overflow-hidden pointer-events-none">
+      {/* Hero Section with Laboratory Background - Full Screen Height */}
+      <section className="relative min-h-screen min-h-[100dvh] flex items-center pt-24 sm:pt-28 pb-16 sm:pb-20 border-b border-slate-800 overflow-hidden">
+        {/* Full Screen Background Image Container - Vivid & Visible on Mobile and Desktop */}
+        <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
           <Image
             src="/assets/about_owon_sds1102_desk_uhd.jpg"
             alt="SRTRONIX Digital Storage Oscilloscope Laboratory Workbench"
@@ -40,71 +39,31 @@ export default function AboutPage() {
             priority
             quality={95}
             sizes="100vw"
-            className="object-cover object-[68%_center]"
+            className="object-cover object-[55%_center] sm:object-center lg:object-[68%_center] brightness-110 contrast-105"
           />
-          {/* Clean gradient overlays for razor-sharp readability & 4K vibrance */}
-          <div className="absolute inset-0 bg-gradient-to-r from-[#09090b]/90 via-[#09090b]/50 to-transparent pointer-events-none" />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#09090b]/85 via-transparent to-transparent pointer-events-none" />
+          {/* Calibrated gradient overlays: lighter on mobile so the oscilloscope background is clearly visible */}
+          <div className="absolute inset-0 bg-gradient-to-r from-[#09090b]/55 via-[#09090b]/20 sm:from-[#09090b]/80 sm:via-[#09090b]/40 to-transparent pointer-events-none" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#09090b]/60 via-transparent sm:from-[#09090b]/85 to-transparent pointer-events-none" />
         </div>
 
-        {/* MOBILE AMBIENT BACKDROP (blurred subtle background on mobile) */}
-        <div className="lg:hidden absolute inset-0 z-0 overflow-hidden pointer-events-none">
-          <div className="absolute inset-0 bg-gradient-to-b from-[#09090b] via-[#09090b]/90 to-[#09090b] z-10" />
-          <Image
-            src="/assets/about_owon_sds1102_desk_uhd.jpg"
-            alt="SRTRONIX Ambient Background"
-            fill
-            priority
-            quality={60}
-            sizes="100vw"
-            className="object-cover object-center blur-md opacity-25"
-          />
-        </div>
-
-        {/* Hero Content */}
-        <Container className="relative z-10 w-full">
-          <div className="max-w-2xl sm:max-w-3xl text-left space-y-4 sm:space-y-5">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#0f2a4a]/90 text-[#7bb0ed] text-xs font-semibold tracking-wider uppercase border border-[#4A7EB8]/60 shadow-lg backdrop-blur-md">
+        {/* Hero Content - Left Aligned with high-contrast mobile text protection */}
+        <Container className="relative z-10">
+          <div className="max-w-2xl sm:max-w-3xl text-left space-y-4 sm:space-y-5 rounded-2xl p-4 sm:p-0 bg-[#09090b]/30 sm:bg-transparent backdrop-blur-xs sm:backdrop-blur-none border border-white/5 sm:border-transparent">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#0f2a4a]/95 text-[#7bb0ed] text-xs font-semibold tracking-wider uppercase border border-[#4A7EB8]/80 shadow-lg backdrop-blur-md">
               <span className="w-1.5 h-1.5 rounded-full bg-[#4A7EB8] animate-pulse" />
               <span>ABOUT SRTRONIX</span>
             </div>
 
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-extrabold text-white tracking-tight leading-[1.14] drop-shadow-[0_2px_12px_rgba(0,0,0,0.85)]">
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-extrabold text-white tracking-tight leading-[1.14] drop-shadow-[0_2px_16px_rgba(0,0,0,0.95)]">
               Engineering Precision. <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#4A7EB8] via-[#7bb0ed] to-[#4A7EB8]">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#4A7EB8] via-[#7bb0ed] to-[#4A7EB8] drop-shadow-[0_2px_12px_rgba(0,0,0,0.85)]">
                 Empowering Innovation.
               </span>
             </h1>
 
-            <p className="text-sm sm:text-base lg:text-lg text-slate-200 leading-relaxed font-normal pt-1 max-w-2xl drop-shadow-[0_2px_8px_rgba(0,0,0,0.85)]">
+            <p className="text-sm sm:text-base lg:text-lg text-slate-100 sm:text-slate-200 leading-relaxed font-normal pt-1 max-w-2xl drop-shadow-[0_2px_12px_rgba(0,0,0,0.95)]">
               SRTRONIX is an Indian manufacturer of professional electronic test and measurement instruments, specializing in integrated Smart Work Bench Stations and benchtop scientific equipment.
             </p>
-
-            {/* DEDICATED MOBILE HERO IMAGE SHOWCASE (visible on mobile & tablet) */}
-            <div className="lg:hidden pt-2 sm:pt-4">
-              <div className="relative w-full aspect-[16/10] sm:aspect-[16/9] rounded-2xl overflow-hidden border border-[#4A7EB8]/40 shadow-2xl shadow-black/90 bg-slate-950/80">
-                <Image
-                  src="/assets/about_owon_sds1102_desk_uhd.jpg"
-                  alt="SRTRONIX Digital Storage Oscilloscope Laboratory Workbench"
-                  fill
-                  priority
-                  quality={95}
-                  sizes="(max-width: 1024px) 100vw, 50vw"
-                  className="object-contain object-center"
-                />
-                {/* Clean vignette and high-tech status badge */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent pointer-events-none" />
-                <div className="absolute bottom-2.5 left-2.5 right-2.5 flex items-center justify-between text-xs pointer-events-none">
-                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-black/80 backdrop-blur-md border border-[#4A7EB8]/40 text-[#7bb0ed] font-semibold text-[11px]">
-                    <Sparkles className="w-3 h-3 text-[#4A7EB8]" />
-                    OWON SDS1102 Lab Station
-                  </span>
-                  <span className="text-[10px] text-slate-300 font-mono bg-black/75 px-2 py-1 rounded border border-white/10 backdrop-blur-md">
-                    100MHz • 1GS/s
-                  </span>
-                </div>
-              </div>
-            </div>
           </div>
         </Container>
       </section>
