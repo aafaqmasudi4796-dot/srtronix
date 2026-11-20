@@ -40,9 +40,9 @@ interface FanPosition {
 
 const FAN_POSITIONS: FanPosition[] = [
   { defaultRotate: -14, hoverRotate: -20, defaultX: -75, hoverX: -120, defaultY: 22, baseZ: 10 },
-  { defaultRotate: -6,  hoverRotate: -8,  defaultX: -26, hoverX: -42,  defaultY: 8,  baseZ: 22 },
-  { defaultRotate: 2,   hoverRotate: 4,   defaultX: 24,  hoverX: 38,   defaultY: -12, baseZ: 35, isCenter: true },
-  { defaultRotate: 12,  hoverRotate: 18,  defaultX: 74,  hoverX: 118,  defaultY: 20, baseZ: 18 },
+  { defaultRotate: -6, hoverRotate: -8, defaultX: -26, hoverX: -42, defaultY: 8, baseZ: 22 },
+  { defaultRotate: 2, hoverRotate: 4, defaultX: 24, hoverX: 38, defaultY: -12, baseZ: 35, isCenter: true },
+  { defaultRotate: 12, hoverRotate: 18, defaultX: 74, hoverX: 118, defaultY: 20, baseZ: 18 },
 ];
 
 const fannedCards: FannedCardItem[] = [
@@ -354,11 +354,10 @@ export function About() {
                         setActiveCardIndex(index);
                       }
                     }}
-                    className={`absolute w-[210px] xs:w-[245px] sm:w-[290px] h-[300px] xs:h-[340px] sm:h-[390px] rounded-3xl overflow-hidden border bg-gradient-to-b from-slate-900 to-slate-950 shadow-2xl shadow-black/90 cursor-pointer transition-all duration-300 ${
-                      isCenter
-                        ? 'border-white/30 shadow-[#4A7EB8]/20 ring-1 ring-white/10'
-                        : 'border-slate-800 hover:border-slate-700'
-                    }`}
+                    className={`absolute w-[210px] xs:w-[245px] sm:w-[290px] h-[300px] xs:h-[340px] sm:h-[390px] rounded-3xl overflow-hidden border bg-gradient-to-b from-slate-900 to-slate-950 shadow-2xl shadow-black/90 cursor-pointer transition-all duration-300 ${isCenter
+                      ? 'border-white/30 shadow-[#4A7EB8]/20 ring-1 ring-white/10'
+                      : 'border-slate-800 hover:border-slate-700'
+                      }`}
                   >
                     <Link href={card.href} className="block w-full h-full relative group">
                       {/* Product Image */}
@@ -431,11 +430,10 @@ export function About() {
                     type="button"
                     onClick={() => setActiveCardIndex(i)}
                     aria-label={`Switch to ${c.title}`}
-                    className={`h-2 rounded-full transition-all duration-300 ${
-                      activeCardIndex === i
-                        ? 'w-7 bg-[#4A7EB8] shadow-sm shadow-[#4A7EB8]/50'
-                        : 'w-2 bg-slate-700 hover:bg-slate-500'
-                    }`}
+                    className={`h-2 rounded-full transition-all duration-300 ${activeCardIndex === i
+                      ? 'w-7 bg-[#4A7EB8] shadow-sm shadow-[#4A7EB8]/50'
+                      : 'w-2 bg-slate-700 hover:bg-slate-500'
+                      }`}
                   />
                 ))}
               </div>
