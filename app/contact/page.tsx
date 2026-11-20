@@ -35,20 +35,20 @@ export default function ContactPage() {
     <div className="bg-[#09090b] text-slate-200">
       {/* Contact Hero with Oscilloscope Background - Full Screen Height */}
       <section className="relative min-h-screen min-h-[100dvh] flex items-center pt-24 sm:pt-28 pb-16 sm:pb-20 border-b border-slate-800 overflow-hidden">
-        {/* Full Screen Background Image Container */}
+        {/* Full Screen Background Image Container - Ultra HD Signal Waveform */}
         <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
           <Image
-            src="/assets/contact_oscilloscope_lab_uhd.webp"
-            alt="SRTRONIX Multi-Channel Oscilloscope Signal Testing Laboratory"
+            src="/assets/contact_probe_waveform_uhd.jpg"
+            alt="SRTRONIX Multi-Channel Oscilloscope Signal Testing & Probe Measurement"
             fill
             priority
             quality={95}
             sizes="100vw"
-            className="object-cover object-center lg:object-right"
+            className="object-cover object-[62%_center] lg:object-[72%_center] brightness-105 contrast-105"
           />
           {/* Clean gradient overlays for razor-sharp readability & 4K vibrance */}
-          <div className="absolute inset-0 bg-gradient-to-r from-[#09090b]/80 via-[#09090b]/40 to-transparent pointer-events-none" />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#09090b]/85 via-transparent to-transparent pointer-events-none" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#09090b]/75 via-[#09090b]/30 to-transparent pointer-events-none" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#09090b]/75 via-transparent to-[#09090b]/25 pointer-events-none" />
         </div>
 
         {/* Contact Hero Content - Shifted to Left Side */}
