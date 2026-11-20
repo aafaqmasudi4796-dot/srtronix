@@ -356,43 +356,75 @@ export function Hero() {
                   <span className="absolute right-0 top-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-purple-400 shadow-md shadow-purple-400" />
                 </motion.div>
 
-                {/* CIRCULAR APERTURE MASK (The Rotating Slide Portal) */}
-                <div className="relative w-full h-full rounded-full overflow-hidden border-2 sm:border-4 border-white/20 bg-slate-950">
+                {/* CIRCULAR APERTURE MASK (The Rotating Slide Portal with Framer Motion) */}
+                <motion.div
+                  whileHover={{ scale: 1.025 }}
+                  transition={{ type: 'spring', stiffness: 280, damping: 22 }}
+                  className="relative w-full h-full rounded-full overflow-hidden border-2 sm:border-4 border-white/20 bg-slate-950 shadow-2xl shadow-black/90"
+                >
 
                   <AnimatePresence mode="wait" custom={direction}>
                     <motion.div
                       key={currentSlide.id + '-lens'}
                       custom={direction}
                       initial={{
-                        rotate: direction > 0 ? 32 : -32,
-                        scale: 0.9,
+                        rotate: direction > 0 ? 28 : -28,
+                        scale: 0.88,
                         opacity: 0,
+                        filter: 'blur(6px)',
                       }}
                       animate={{
                         rotate: 0,
                         scale: 1,
                         opacity: 1,
+                        filter: 'blur(0px)',
                       }}
                       exit={{
-                        rotate: direction > 0 ? -32 : 32,
-                        scale: 0.9,
+                        rotate: direction > 0 ? -28 : 28,
+                        scale: 0.88,
                         opacity: 0,
+                        filter: 'blur(6px)',
                       }}
                       transition={{
-                        duration: 0.85,
+                        duration: 0.75,
                         ease: [0.16, 1, 0.3, 1],
                       }}
                       className="absolute inset-0 w-full h-full"
                     >
-                      <Image
-                        src={currentSlide.image}
-                        alt={currentSlide.badge}
-                        fill
-                        priority
-                        quality={100}
-                        unoptimized={true}
-                        sizes="(max-width: 640px) 320px, (max-width: 1024px) 420px, 480px"
-                        className="object-cover object-center"
+                      {/* AMBIENT FLOATING & BREATHING MOTION FOR SLIDE IMAGE */}
+                      <motion.div
+                        animate={{
+                          y: [-5, 6, -5],
+                          rotate: [-0.6, 0.6, -0.6],
+                          scale: [1, 1.025, 1],
+                        }}
+                        transition={{
+                          duration: 5.5,
+                          repeat: Infinity,
+                          repeatType: 'reverse',
+                          ease: 'easeInOut',
+                        }}
+                        className="relative w-full h-full"
+                      >
+                        <Image
+                          src={currentSlide.image}
+                          alt={currentSlide.badge}
+                          fill
+                          priority
+                          quality={100}
+                          unoptimized={true}
+                          sizes="(max-width: 640px) 320px, (max-width: 1024px) 420px, 480px"
+                          className="object-cover object-center"
+                        />
+                      </motion.div>
+
+                      {/* Optical Aperture Lens Glare Sweep on Slide Shift */}
+                      <motion.div
+                        key={currentSlide.id + '-glare'}
+                        initial={{ x: '-120%', y: '-120%', opacity: 0 }}
+                        animate={{ x: '120%', y: '120%', opacity: [0, 0.45, 0.65, 0] }}
+                        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.05 }}
+                        className="pointer-events-none absolute -inset-full bg-gradient-to-br from-transparent via-white/20 to-transparent rotate-45 z-10"
                       />
 
                       {/* Aperture Inner Radial Vignette & Gloss - Clearer for Ultra HD */}
@@ -401,14 +433,23 @@ export function Hero() {
                     </motion.div>
                   </AnimatePresence>
 
-                  {/* FLOATING PRODUCT BADGE ON LENS */}
-                  <div className="absolute bottom-6 inset-x-6 z-20 flex justify-center">
-                    <div className="px-4 py-2 rounded-full bg-slate-950/85 border border-white/20 backdrop-blur-md text-xs font-semibold text-white shadow-xl flex items-center gap-2">
-                      <span className="w-2 h-2 rounded-full bg-[#4A7EB8] animate-ping" />
-                      <span>{currentSlide.badge}</span>
-                    </div>
-                  </div>
-                </div>
+                  {/* FLOATING PRODUCT BADGE ON LENS WITH FRAMER MOTION ENTRANCE */}
+                  <AnimatePresence mode="wait">
+                    <motion.div
+                      key={currentSlide.id + '-badge'}
+                      initial={{ y: 16, opacity: 0, scale: 0.92 }}
+                      animate={{ y: 0, opacity: 1, scale: 1 }}
+                      exit={{ y: 12, opacity: 0, scale: 0.92 }}
+                      transition={{ duration: 0.45, delay: 0.18, ease: 'easeOut' }}
+                      className="absolute bottom-6 inset-x-6 z-20 flex justify-center pointer-events-none"
+                    >
+                      <div className="px-4 py-2 rounded-full bg-slate-950/85 border border-white/20 backdrop-blur-md text-xs font-semibold text-white shadow-xl flex items-center gap-2">
+                        <span className="w-2 h-2 rounded-full bg-[#4A7EB8] animate-ping" />
+                        <span>{currentSlide.badge}</span>
+                      </div>
+                    </motion.div>
+                  </AnimatePresence>
+                </motion.div>
 
                 {/* ROTATING CRESCENT ACCENT RING */}
                 <div className="absolute -inset-1 rounded-full border-t-2 border-r-2 border-[#4A7EB8]/70 pointer-events-none animate-spin [animation-duration:14s]" />
