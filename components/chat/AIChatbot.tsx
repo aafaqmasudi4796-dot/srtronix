@@ -8,7 +8,6 @@ import {
   X,
   Send,
   Sparkles,
-  Bot,
   User,
   Trash2,
   Minimize2,
@@ -25,6 +24,8 @@ import {
   GripVertical,
   RotateCcw,
   Move,
+  ArrowLeftToLine,
+  ArrowRightToLine,
 } from 'lucide-react';
 import { WhatsAppIcon } from '@/components/ui/WhatsAppButton';
 
@@ -96,9 +97,62 @@ export function AIChatbot() {
   const inputRef = useRef<HTMLInputElement>(null);
   const dragBoundaryRef = useRef<HTMLDivElement>(null);
   const dragControls = useDragControls();
+
+  // Side-docking state: never allow chatbot to stay in center
+  const [dockSide, setDockSide] = useState<'right' | 'left'>('right');
+  const [launcherY, setLauncherY] = useState(0);
+  const [windowY, setWindowY] = useState(0);
   const [dragResetKey, setDragResetKey] = useState(0);
 
   const handleResetPosition = () => {
+    setDockSide('right');
+    setLauncherY(0);
+    setWindowY(0);
+    setDragResetKey((k) => k + 1);
+  };
+
+  const toggleDockSide = () => {
+    setDockSide((prev) => (prev === 'right' ? 'left' : 'right'));
+    setDragResetKey((k) => k + 1);
+  };
+
+  // When drag ends on launcher, magnetic-snap to nearest side (never stays in center)
+  const handleLauncherDragEnd = (
+    _event: MouseEvent | TouchEvent | PointerEvent,
+    info: { point: { x: number; y: number }; offset: { x: number; y: number } }
+  ) => {
+    if (typeof window === 'undefined') return;
+    const screenMid = window.innerWidth / 2;
+    // Disallow staying in center: snap to whichever side it was dragged towards
+    const targetSide: 'left' | 'right' = info.point.x < screenMid ? 'left' : 'right';
+    setDockSide(targetSide);
+
+    setLauncherY((prev) => {
+      const nextY = prev + info.offset.y;
+      const maxUp = -(window.innerHeight - 150);
+      const maxDown = 40;
+      return Math.max(maxUp, Math.min(maxDown, nextY));
+    });
+    setDragResetKey((k) => k + 1);
+  };
+
+  // When drag ends on chat window, magnetic-snap to nearest side (never stays in center)
+  const handleWindowDragEnd = (
+    _event: MouseEvent | TouchEvent | PointerEvent,
+    info: { point: { x: number; y: number }; offset: { x: number; y: number } }
+  ) => {
+    if (typeof window === 'undefined') return;
+    const screenMid = window.innerWidth / 2;
+    // Disallow staying in center: snap to nearest side
+    const targetSide: 'left' | 'right' = info.point.x < screenMid ? 'left' : 'right';
+    setDockSide(targetSide);
+
+    setWindowY((prev) => {
+      const nextY = prev + info.offset.y;
+      const maxUp = -(window.innerHeight - 250);
+      const maxDown = 60;
+      return Math.max(maxUp, Math.min(maxDown, nextY));
+    });
     setDragResetKey((k) => k + 1);
   };
 
@@ -444,15 +498,19 @@ Contact: +91 70224 29004 | sales@srtronix.com`;
       {/* VIEWPORT BOUNDARY REFERENCE FOR DRAG CONSTRAINTS */}
       <div ref={dragBoundaryRef} className="fixed inset-3 sm:inset-5 pointer-events-none z-30" aria-hidden="true" />
 
-      {/* FLOATING ACTION LAUNCHER (Movable Anywhere via Drag) */}
+      {/* FLOATING ACTION LAUNCHER (Side-Docked, Never Stays in Center) */}
       <motion.div
-        key={`launcher-${dragResetKey}`}
+        key={`launcher-${dockSide}-${dragResetKey}`}
         drag
         dragConstraints={dragBoundaryRef}
         dragElastic={0.12}
         dragMomentum={false}
+        onDragEnd={handleLauncherDragEnd}
+        style={{ y: launcherY }}
         whileDrag={{ scale: 1.08 }}
-        className="fixed bottom-5 right-5 sm:bottom-6 sm:right-6 z-50 flex flex-col items-end cursor-grab active:cursor-grabbing select-none"
+        className={`fixed bottom-5 ${
+          dockSide === 'right' ? 'right-5 sm:right-6 items-end' : 'left-5 sm:left-6 items-start'
+        } z-50 flex flex-col cursor-grab active:cursor-grabbing select-none`}
       >
         {/* Teaser Tooltip Bubble */}
         <AnimatePresence>
@@ -462,13 +520,15 @@ Contact: +91 70224 29004 | sales@srtronix.com`;
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: 5, scale: 0.9 }}
               transition={{ duration: 0.3 }}
-              className="mb-3 mr-1 bg-gradient-to-r from-slate-900 via-[#0f2a4a] to-slate-900 text-white text-xs px-3.5 py-2.5 rounded-xl shadow-2xl border border-[#4A7EB8]/50 backdrop-blur-md flex items-center gap-2 cursor-pointer max-w-[270px]"
+              className={`mb-3 ${
+                dockSide === 'right' ? 'mr-1' : 'ml-1'
+              } bg-gradient-to-r from-slate-900 via-[#0f2a4a] to-slate-900 text-white text-xs px-3.5 py-2.5 rounded-xl shadow-2xl border border-[#4A7EB8]/50 backdrop-blur-md flex items-center gap-2 cursor-pointer max-w-[270px]`}
               onClick={() => setIsOpen(true)}
             >
               <div className="w-2 h-2 rounded-full bg-[#7bb0ed] animate-ping shrink-0" />
               <div className="flex-1">
                 <span className="font-semibold block text-[11px] text-cyan-300">24/7 AI Technical Assistant</span>
-                <span className="text-[10px] text-slate-300">Drag to move anywhere • Click to open</span>
+                <span className="text-[10px] text-slate-300">Side-Docked ({dockSide === 'right' ? 'Right' : 'Left'}) • Drag along edge</span>
               </div>
               <button
                 type="button"
@@ -497,7 +557,7 @@ Contact: +91 70224 29004 | sales@srtronix.com`;
           {/* Drag Indicator Tooltip on Hover */}
           <div className="absolute -top-7 bg-slate-900/90 text-slate-300 text-[10px] px-2 py-0.5 rounded-full border border-white/10 opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1 pointer-events-none whitespace-nowrap shadow-md">
             <Move className="w-2.5 h-2.5 text-[#7bb0ed]" />
-            <span>Drag to move</span>
+            <span>Drag along edge</span>
           </div>
 
           {/* Subtle Outer Radar Ping */}
@@ -517,37 +577,45 @@ Contact: +91 70224 29004 | sales@srtronix.com`;
             ) : (
               <motion.div
                 key="open"
-                initial={{ rotate: 90, opacity: 0 }}
-                animate={{ rotate: 0, opacity: 1 }}
-                exit={{ rotate: -90, opacity: 0 }}
+                initial={{ scale: 0.8, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                exit={{ scale: 0.8, opacity: 0 }}
                 transition={{ duration: 0.2 }}
-                className="relative"
+                className="relative flex items-center justify-center font-bold tracking-wide"
               >
-                <Bot className="w-6 h-6 text-white" />
-                <span className="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-emerald-400 border border-black animate-pulse" />
+                <span className="text-[15px] font-black tracking-wider uppercase text-white font-mono drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
+                  Ask
+                </span>
+                <span className="absolute -top-2 -right-2.5 w-2.5 h-2.5 rounded-full bg-emerald-400 border border-slate-900 animate-pulse shadow-[0_0_8px_#34d399]" />
               </motion.div>
             )}
           </AnimatePresence>
         </motion.button>
       </motion.div>
 
-      {/* CHAT WINDOW (Movable Floating Pane with Header Drag) */}
+      {/* CHAT WINDOW (Side-Docked Floating Pane, Never Stays in Center) */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            key={`window-${dragResetKey}`}
+            key={`window-${dockSide}-${dragResetKey}`}
             drag
             dragListener={false}
             dragControls={dragControls}
             dragConstraints={dragBoundaryRef}
             dragElastic={0.08}
             dragMomentum={false}
+            onDragEnd={handleWindowDragEnd}
+            style={{ y: windowY }}
             whileDrag={{ scale: 1.01, boxShadow: '0 30px 60px -12px rgba(0,0,0,0.95), 0 0 25px rgba(74,126,184,0.4)' }}
-            initial={{ opacity: 0, y: 25, scale: 0.94 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 25, scale: 0.94 }}
+            initial={{ opacity: 0, y: windowY + 25, scale: 0.94 }}
+            animate={{ opacity: 1, y: windowY, scale: 1 }}
+            exit={{ opacity: 0, y: windowY + 25, scale: 0.94 }}
             transition={{ type: 'spring', damping: 25, stiffness: 320 }}
-            className="fixed bottom-22 right-4 sm:bottom-24 sm:right-6 z-50 w-[calc(100vw-2rem)] sm:w-[440px] h-[610px] max-h-[85dvh] flex flex-col rounded-2xl overflow-hidden border border-[#4A7EB8]/40 bg-[#090e17]/95 backdrop-blur-2xl shadow-2xl shadow-black/90 text-slate-200"
+            className={`fixed bottom-22 ${
+              dockSide === 'right'
+                ? 'right-4 sm:right-6 left-4 sm:left-auto'
+                : 'left-4 sm:left-6 right-4 sm:right-auto'
+            } z-50 w-[calc(100vw-2rem)] sm:w-[440px] h-[610px] max-h-[85dvh] flex flex-col rounded-2xl overflow-hidden border border-[#4A7EB8]/40 bg-[#090e17]/95 backdrop-blur-2xl shadow-2xl shadow-black/90 text-slate-200`}
           >
             {/* CHAT HEADER - DRAGGABLE BAR */}
             <div
@@ -557,16 +625,16 @@ Contact: +91 70224 29004 | sales@srtronix.com`;
                 dragControls.start(e);
               }}
               className="px-4 py-3 bg-gradient-to-r from-[#0f2a4a] via-[#16385e] to-[#0f2a4a] border-b border-[#4A7EB8]/40 flex items-center justify-between shrink-0 cursor-grab active:cursor-grabbing select-none"
-              title="Click and drag anywhere on this header to reposition the window"
+              title="Click and drag header to move up/down or snap to opposite side"
             >
               <div className="flex items-center gap-2.5">
                 {/* Grip Handle */}
-                <div className="flex items-center justify-center p-1 rounded-md text-slate-400 hover:text-white transition-colors cursor-grab" title="Drag to move window anywhere">
+                <div className="flex items-center justify-center p-1 rounded-md text-slate-400 hover:text-white transition-colors cursor-grab" title="Drag to move along side or switch sides">
                   <GripVertical className="w-4 h-4 text-slate-400/80" />
                 </div>
 
-                <div className="relative flex items-center justify-center w-8 h-8 rounded-xl bg-gradient-to-br from-[#4A7EB8] to-[#2563eb] border border-white/20 shadow-md">
-                  <Bot className="w-4.5 h-4.5 text-white" />
+                <div className="relative flex items-center justify-center px-2.5 h-8 rounded-xl bg-gradient-to-br from-[#4A7EB8] to-[#2563eb] border border-white/20 shadow-md">
+                  <span className="text-[11px] font-black uppercase text-white font-mono tracking-wider">Ask</span>
                   <span className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-emerald-400 border border-slate-900" />
                 </div>
                 <div>
@@ -578,18 +646,33 @@ Contact: +91 70224 29004 | sales@srtronix.com`;
                   </div>
                   <p className="text-[10px] text-slate-300 flex items-center gap-1">
                     <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                    <span>Movable Window • Drag header</span>
+                    <span>Docked {dockSide === 'right' ? 'Right' : 'Left'} • Movable</span>
                   </p>
                 </div>
               </div>
 
               {/* Header Action Icons */}
               <div className="flex items-center gap-1.5 text-slate-300">
+                {/* Switch Side Button (Dock Left / Dock Right) */}
+                <button
+                  type="button"
+                  onClick={toggleDockSide}
+                  title={dockSide === 'right' ? 'Switch to left side' : 'Switch to right side'}
+                  aria-label={dockSide === 'right' ? 'Switch to left side' : 'Switch to right side'}
+                  className="p-1.5 rounded-lg hover:bg-white/10 hover:text-white transition-colors cursor-pointer text-slate-300"
+                >
+                  {dockSide === 'right' ? (
+                    <ArrowLeftToLine className="w-4 h-4" />
+                  ) : (
+                    <ArrowRightToLine className="w-4 h-4" />
+                  )}
+                </button>
+
                 {/* Reset Position Button */}
                 <button
                   type="button"
                   onClick={handleResetPosition}
-                  title="Reset window position"
+                  title="Reset to default bottom-right"
                   aria-label="Reset window position"
                   className="p-1.5 rounded-lg hover:bg-white/10 hover:text-white transition-colors cursor-pointer text-slate-300"
                 >
@@ -641,7 +724,7 @@ Contact: +91 70224 29004 | sales@srtronix.com`;
                     : 'text-slate-400 hover:text-white hover:bg-slate-900'
                 }`}
               >
-                <Bot className="w-3.5 h-3.5" />
+                <MessageSquare className="w-3.5 h-3.5" />
                 <span>AI Chat</span>
               </button>
 
@@ -689,7 +772,7 @@ Contact: +91 70224 29004 | sales@srtronix.com`;
                       >
                         {!isUser && (
                           <div className="w-6 h-6 rounded-full bg-[#0f2a4a] border border-[#4A7EB8]/40 flex items-center justify-center shrink-0 mt-0.5">
-                            <Bot className="w-3.5 h-3.5 text-[#7bb0ed]" />
+                            <span className="text-[9px] font-black uppercase text-[#7bb0ed] font-mono">Ask</span>
                           </div>
                         )}
 
