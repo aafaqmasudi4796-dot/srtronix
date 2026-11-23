@@ -13,6 +13,7 @@ import {
 import { Container } from '@/components/ui/Container';
 import { Button } from '@/components/ui/Button';
 import { companyDetails, productCategories } from '@/data/products';
+import { AboutShowcase3D } from '@/components/about/AboutShowcase3D';
 
 export const metadata: Metadata = {
   title: 'About Us | Engineering Precision & Innovation',
@@ -99,22 +100,7 @@ export default function AboutPage() {
             </div>
 
             <div className="lg:col-span-6">
-              <div className="relative rounded-2xl overflow-hidden border border-slate-800 shadow-2xl">
-                <div className="relative aspect-[4/3] bg-slate-950">
-                  <Image
-                    src="/assets/hero_slide_2_smart_workbench_uhd.png"
-                    alt="SRTRONIX Smart Work Station Assembly"
-                    fill
-                    quality={95}
-                    sizes="(max-width: 1024px) 100vw, 50vw"
-                    className="object-cover"
-                  />
-                </div>
-                <div className="p-4 bg-slate-900 border-t border-slate-800 text-xs text-slate-400 flex items-center justify-between">
-                  <span>Customizable Workbench Console</span>
-                  <span className="font-mono text-[#7bb0ed] font-semibold">SR-STATION-1500</span>
-                </div>
-              </div>
+              <AboutShowcase3D />
             </div>
           </div>
         </Container>

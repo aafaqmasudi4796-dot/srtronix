@@ -50,3 +50,93 @@ body {
   background-image: radial-gradient(rgba(168, 85, 247, 0.12) 1px, transparent 1px);
   background-size: 24px 24px;
 }
+
+/* 3D SPATIAL TRANSFORM UTILITIES */
+.preserve-3d {
+  transform-style: preserve-3d;
+}
+
+.perspective-800 {
+  perspective: 800px;
+}
+
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+.perspective-1500 {
+  perspective: 1500px;
+}
+
+.translate-z-10 {
+  transform: translateZ(10px);
+}
+
+.translate-z-20 {
+  transform: translateZ(20px);
+}
+
+.translate-z-30 {
+  transform: translateZ(30px);
+}
+
+.translate-z-40 {
+  transform: translateZ(40px);
+}
+
+.translate-z-50 {
+  transform: translateZ(50px);
+}
+
+.translate-z-60 {
+  transform: translateZ(60px);
+}
+
+/* 3D FLOATING LEVITATION KEYFRAMES */
+@keyframes float-3d {
+  0%, 100% {
+    transform: translateY(0px) rotateX(0deg) rotateY(0deg) translateZ(30px);
+  }
+  50% {
+    transform: translateY(-10px) rotateX(2deg) rotateY(-2deg) translateZ(45px);
+  }
+}
+
+.animate-float-3d {
+  animation: float-3d 6s ease-in-out infinite;
+  transform-style: preserve-3d;
+}
+
+/* 3D GYROSCOPIC ACCENT RINGS */
+@keyframes gyro-spin {
+  0% {
+    transform: rotateX(65deg) rotateY(15deg) rotateZ(0deg);
+  }
+  100% {
+    transform: rotateX(65deg) rotateY(15deg) rotateZ(360deg);
+  }
+}
+
+.animate-gyro-spin {
+  animation: gyro-spin 18s linear infinite;
+  transform-style: preserve-3d;
+}
+
+/* 3D HOLOGRAM SCANLINE SWEEP */
+@keyframes scanline-3d {
+  0% {
+    transform: translateY(-100%) translateZ(10px);
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.6;
+  }
+  100% {
+    transform: translateY(200%) translateZ(10px);
+    opacity: 0;
+  }
+}
+
+.animate-scanline-3d {
+  animation: scanline-3d 4s ease-in-out infinite;
+}

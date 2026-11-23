@@ -336,8 +336,12 @@ export function Hero() {
                 className="hidden sm:flex -bottom-4 right-10"
               />
 
-              {/* ROTATING DIAL BASE (Clean, no outside bleeding shade) */}
-              <div className="relative w-[260px] h-[260px] xs:w-[300px] xs:h-[300px] sm:w-[420px] sm:h-[420px] lg:w-[480px] lg:h-[480px] flex items-center justify-center">
+              {/* ROTATING DIAL BASE (3D Perspective Viewport) */}
+              <div className="relative w-[260px] h-[260px] xs:w-[300px] xs:h-[300px] sm:w-[420px] sm:h-[420px] lg:w-[480px] lg:h-[480px] flex items-center justify-center [perspective:1400px] [transform-style:preserve-3d]">
+
+                {/* 3D HOLOGRAPHIC AMBIENT GLOW & PEDESTAL */}
+                <div className="pointer-events-none absolute -inset-8 sm:-inset-12 rounded-full bg-gradient-to-tr from-[#4A7EB8]/25 via-blue-600/15 to-purple-600/10 blur-2xl animate-pulse" />
+                <div className="pointer-events-none absolute -inset-10 sm:-inset-16 rounded-full border border-cyan-400/20 animate-gyro-spin" />
 
                 {/* OUTER ROTATING DIAL WHEEL (Turns with Slide Transitions) */}
                 <motion.div
@@ -360,7 +364,7 @@ export function Hero() {
                 <motion.div
                   whileHover={{ scale: 1.025 }}
                   transition={{ type: 'spring', stiffness: 280, damping: 22 }}
-                  className="relative w-full h-full rounded-full overflow-hidden border-2 sm:border-4 border-white/20 bg-slate-950 shadow-2xl shadow-black/90"
+                  className="relative w-full h-full rounded-full overflow-hidden border-2 sm:border-4 border-white/20 bg-slate-950 shadow-2xl shadow-black/90 [transform-style:preserve-3d]"
                 >
 
                   <AnimatePresence mode="wait" custom={direction}>
@@ -414,7 +418,7 @@ export function Hero() {
                           quality={100}
                           unoptimized={true}
                           sizes="(max-width: 640px) 320px, (max-width: 1024px) 420px, 480px"
-                          className="object-cover object-center"
+                          className="object-cover object-center drop-shadow-[0_20px_40px_rgba(0,0,0,0.95)]"
                         />
                       </motion.div>
 

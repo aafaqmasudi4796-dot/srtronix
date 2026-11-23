@@ -145,6 +145,7 @@ export default function ContactPage() {
                     </div>
                   </li>
 
+
                   {/* Email Address */}
                   <li className="flex items-start gap-3.5">
                     <div className="p-2 rounded-lg bg-[#0f2a4a] text-[#7bb0ed] border border-[#4A7EB8]/40 shrink-0 mt-0.5">

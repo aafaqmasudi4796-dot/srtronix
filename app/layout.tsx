@@ -6,6 +6,7 @@ import './globals.css';
 import Navbar from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
 import { AIChatbot } from '@/components/chat/AIChatbot';
+import { ThreeDBackground } from '@/components/ui/ThreeDBackground';
 
 export const viewport: Viewport = {
   width: 'device-width',
@@ -86,8 +87,9 @@ export default function RootLayout({
     <html lang="en" className="h-full scroll-smooth antialiased dark overflow-x-hidden">
       <body
         suppressHydrationWarning
-        className="min-h-screen flex flex-col bg-[#09090b] text-slate-100 overflow-x-hidden w-full"
+        className="min-h-screen flex flex-col bg-[#09090b] text-slate-100 overflow-x-hidden w-full relative"
       >
+        <ThreeDBackground />
         <Navbar />
 
         <main className="flex-1 min-w-0 w-full overflow-x-hidden">
