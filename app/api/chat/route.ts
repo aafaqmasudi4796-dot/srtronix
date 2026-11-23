@@ -6,67 +6,508 @@ interface Message {
   content: string;
 }
 
-// Build comprehensive grounding system knowledge
+// Approved Product Catalog with Official List Prices (INR, Ex-factory + 18% GST)
+const APPROVED_PRICING: Record<string, { name: string; price: number; slug: string; category: string; gstRate: number }> = {
+  'electronic-smart-work-station': {
+    name: 'Smart Work Bench Station (5-in-1 Modular Flagship)',
+    price: 145000,
+    slug: 'electronic-smart-work-station',
+    category: 'Smart Workbench Systems',
+    gstRate: 0.18,
+  },
+  'handheld-oscilloscope-hds272s': {
+    name: 'Handheld Oscilloscope HDS272S (70MHz, 2-CH + DMM)',
+    price: 28500,
+    slug: 'handheld-oscilloscope-hds272s',
+    category: 'Oscilloscopes',
+    gstRate: 0.18,
+  },
+  'bench-oscilloscope-sds1102': {
+    name: 'Bench Oscilloscope SDS1102 (100MHz, 2-CH, 1GS/s, 7" LCD)',
+    price: 24900,
+    slug: 'bench-oscilloscope-sds1102',
+    category: 'Oscilloscopes',
+    gstRate: 0.18,
+  },
+  'tablet-oscilloscope-tao3000': {
+    name: 'Tablet Oscilloscope TAO3000 (100MHz, 4-CH, 8" Touch, Wi-Fi)',
+    price: 68000,
+    slug: 'tablet-oscilloscope-tao3000',
+    category: 'Oscilloscopes',
+    gstRate: 0.18,
+  },
+  'dc-power-supply-mps-200': {
+    name: 'DC Power Supply MPS-200 (0-30V / 0-6A, 180W Linear)',
+    price: 18500,
+    slug: 'dc-power-supply-mps-200',
+    category: 'DC Power Supplies',
+    gstRate: 0.18,
+  },
+  '3-in-1-power-supply-spm3103': {
+    name: '3-in-1 Power Supply SPM3103 (30V/10A/300W + 4.5D DMM)',
+    price: 32000,
+    slug: '3-in-1-power-supply-spm3103',
+    category: 'DC Power Supplies',
+    gstRate: 0.18,
+  },
+  'owon-lcr2000-series-lcr-meter': {
+    name: 'OWON LCR2000 Series LCR Meter (0.05% Accuracy, 100kHz)',
+    price: 54000,
+    slug: 'owon-lcr2000-series-lcr-meter',
+    category: 'LCR Meters',
+    gstRate: 0.18,
+  },
+  'waveform-generator-ag4151': {
+    name: 'Waveform Generator AG4151 (150MHz DDS, 400MS/s, 14-bit)',
+    price: 42500,
+    slug: 'waveform-generator-ag4151',
+    category: 'Waveform Generators',
+    gstRate: 0.18,
+  },
+  'clamp-multimeter-cm2100b': {
+    name: 'Clamp Multimeter CM2100B (0.1A-100A AC/DC, True RMS)',
+    price: 9800,
+    slug: 'clamp-multimeter-cm2100b',
+    category: 'Multimeters',
+    gstRate: 0.18,
+  },
+  'owon-oel85-series-dc-electronic-load': {
+    name: 'OWON OEL85 Series DC Electronic Load (5kHz Dynamic, CC/CV/CR/CP)',
+    price: 48000,
+    slug: 'owon-oel85-series-dc-electronic-load',
+    category: 'Electronic Loads',
+    gstRate: 0.18,
+  },
+  'owon-owh9800-series-power-meter': {
+    name: 'OWON OWH9800 Series Power Meter (2-CH, 63rd Harmonics)',
+    price: 62000,
+    slug: 'owon-owh9800-series-power-meter',
+    category: 'Power Meters',
+    gstRate: 0.18,
+  },
+};
+
+// Build comprehensive system knowledge for AI agents
 function buildSystemKnowledge(): string {
-  const productSummaries = products.map((p) => {
-    const specs = p.keySpecs.map((s) => `${s.label}: ${s.value}`).join(', ');
-    return `• ${p.name} (Category: ${p.category}) [Link: /products/${p.slug}]: ${p.shortDescription} Key Specs: ${specs}`;
-  }).join('\n');
+  const productSummaries = products
+    .map((p) => {
+      const pricing = APPROVED_PRICING[p.id];
+      const priceStr = pricing ? `Approved List Price: ₹${pricing.price.toLocaleString('en-IN')} + 18% GST` : 'Request Quotation';
+      const specs = p.keySpecs.map((s) => `${s.label}: ${s.value}`).join(', ');
+      return `• ${p.name} (Category: ${p.category}) [Link: /products/${p.slug}] | ${priceStr} | Key Specs: ${specs}. Description: ${p.shortDescription}`;
+    })
+    .join('\n');
 
-  return `You are the official AI Technical Sales & Instrumentation Engineer for SRTRONIX Instruments Private Limited.
-Your goal is to assist engineers, researchers, students, and procurement officers with accurate technical information, instrument selection, quotes, and specifications.
+  return `You are the official 24/7 AI Technical Sales & Instrumentation Engineer for SRTRONIX Instruments Private Limited.
+Your role is to assist clients by:
+1. Answering customer questions 24/7 about products, company, warranty, shipping, and service.
+2. Recommending electronic instruments tailored to specific applications (education, R&D, field service, automotive, power electronics).
+3. Explaining product specifications (bandwidth, sampling rate, memory depth, ripple/noise, True RMS, dynamic loading, harmonic distortion).
+4. Collecting customer enquiries and guiding them to our in-chat enquiry form or contact desk.
+5. Generating formal quotations based on approved product pricing (including GST and itemized calculations).
+6. Connecting customers to WhatsApp (+91 70224 29004) for immediate order placement or engineering consultation.
 
-ABOUT SRTRONIX:
-- Legal Name: ${companyDetails.legalName}
-- Headquarters & Facility: ${companyDetails.address}
-- Contact Phone: ${companyDetails.phone}
-- Email: ${companyDetails.email} / Support: ${companyDetails.supportEmail}
-- Working Hours: ${companyDetails.workingHours}
-- Quality Promise: Engineered & assembled in India with high precision, calibrated testing, 1–3 years factory warranty, and prompt domestic service.
-- WhatsApp Direct Support: https://wa.me/917022429004
+ABOUT SRTRONIX INSTRUMENTS:
+- Legal Entity: ${companyDetails.legalName}
+- Factory & HQ: ${companyDetails.address}
+- Official Phone: ${companyDetails.phone}
+- Email: ${companyDetails.email} (Sales) | ${companyDetails.supportEmail} (Support)
+- Operating Hours: 24/7 AI assistance online; Mon–Sat 9:00 AM – 6:30 PM IST domestic sales office.
+- Warranty: 1 to 3 Years comprehensive warranty; 2 years standard on flagship Smart Work Bench Stations.
+- Domestic Dispatch: Ships within 2–4 business days across India via insured logistics. Express air delivery available.
+- Calibration: Factory calibrated; NABL traceable calibration certificate provided upon request.
+- WhatsApp Direct: https://wa.me/917022429004
 
-AVAILABLE PRODUCT CATALOG:
-Categories: ${productCategories.join(', ')}
+APPROVED PRODUCT PRICING LIST:
+${Object.entries(APPROVED_PRICING)
+  .map(([id, info]) => `• ${info.name}: ₹${info.price.toLocaleString('en-IN')} (Ex-factory) + 18% GST (₹${Math.round(info.price * 0.18).toLocaleString('en-IN')}) = Total ₹${Math.round(info.price * 1.18).toLocaleString('en-IN')}`)
+  .join('\n')}
 
+PRODUCT DETAILS & SPECS:
 ${productSummaries}
 
-FLAGSHIP PRODUCT - SMART WORK BENCH STATION:
-- Complete integrated 5-in-1 laboratory workstation with heavy-duty M.S. powder-coated construction (1500 × 1330 × 800 mm).
-- Includes: Digital Oscilloscope, Precision Variable DC Supply, Digital Multimeter, LCR Meter, and Transistor/Component Tester.
-- 25mm industrial wooden work surface with 2mm PVC edge, lockable drawers, caster wheels with foot brakes, emergency stop push button, 2-pole MCB, 4 AC outlets, and active exhaust cooling.
-- Fully customizable to institutional and R&D requirements. Direct link: /products/electronic-smart-work-station
+QUOTATION RULES:
+- When the user asks for a price, quote, or quotation, calculate the exact figures based on the approved prices.
+- Add 18% GST.
+- Offer bulk discount: 5% off on 3+ units, 10% off on 10+ units for academic/institutional orders.
+- Provide a clear breakdown: Unit Price, Quantity, Subtotal, GST 18%, and Final Total in ₹ INR.
+- Include 30-day quote validity and standard warranty.
+- Always include the direct WhatsApp action link: https://wa.me/917022429004
 
-RESPONSE GUIDELINES:
-1. Be technical, helpful, courteous, and authoritative yet approachable.
-2. When users ask for a product recommendation, explain why a specific instrument fits their technical requirement (e.g. bandwidth, sample rate, voltage/current, portable vs benchtop).
-3. Provide relevant page links using markdown: [Product Name](/products/slug) or [Inquire Now](/contact#inquire).
-4. For quotations, institutional bulk orders, and custom workbench builds, invite them to fill the [Inquiry Form](/contact#inquire) or chat directly on [WhatsApp](https://wa.me/917022429004).
-5. Keep responses concise, well-structured with bullet points where appropriate.`;
+RECOMMENDATION RULES:
+- Academic / College Laboratory: Recommend SDS1102 (100MHz 2-CH DSO) + MPS-200 (Linear DC Supply), or the flagship all-in-one Smart Work Bench Station.
+- Field Service / Automotive Diagnostics: Recommend HDS272S Handheld Oscilloscope (built-in battery + 20,000 count DMM) and CM2100B Clamp Meter.
+- High-Speed Digital / Embedded Systems: Recommend TAO3000 (4-channel tablet with touch and protocol decoding) + AG4151 Waveform Generator.
+- Component QC / Incoming Quality: Recommend OWON LCR2000 Series (0.05% basic accuracy, handler interface).
+- Power Supply / Inverter / Battery Stress Testing: Recommend OWON OEL85 DC Electronic Load + OWH9800 Power Meter.
+
+SPECIFICATION EXPLANATION RULES:
+- Explain what specs mean in practical engineering terms (e.g. Bandwidth rule of 5x fundamental frequency for digital square waves, 1GS/s real-time sample rate for capturing transient glitches without aliasing, linear power supply with ≤2mVrms ripple for noise-sensitive RF and analog circuits).`;
+}
+
+// Format an itemized quotation in Markdown
+function formatQuotation(
+  items: Array<{ id: string; name: string; unitPrice: number; qty: number; slug: string }>
+): string {
+  const subtotal = items.reduce((sum, item) => sum + item.unitPrice * item.qty, 0);
+  const totalQty = items.reduce((sum, item) => sum + item.qty, 0);
+
+  // Bulk discount
+  let discountPercent = 0;
+  if (totalQty >= 10) discountPercent = 10;
+  else if (totalQty >= 3) discountPercent = 5;
+
+  const discountAmount = Math.round((subtotal * discountPercent) / 100);
+  const taxableAmount = subtotal - discountAmount;
+  const gstAmount = Math.round(taxableAmount * 0.18);
+  const netTotal = taxableAmount + gstAmount;
+
+  const quoteId = `SRT-QT-${new Date().getFullYear()}${String(new Date().getMonth() + 1).padStart(2, '0')}${String(new Date().getDate()).padStart(2, '0')}-${Math.floor(1000 + Math.random() * 9000)}`;
+
+  const lines = items
+    .map(
+      (it, idx) =>
+        `| ${idx + 1} | [${it.name}](/products/${it.slug}) | ₹${it.unitPrice.toLocaleString('en-IN')} | ${it.qty} | ₹${(it.unitPrice * it.qty).toLocaleString('en-IN')} |`
+    )
+    .join('\n');
+
+  const waText = encodeURIComponent(
+    `Hello SRTRONIX Sales Team,\nI would like to place an order / confirm Quotation Ref: ${quoteId}\nTotal Amount: ₹${netTotal.toLocaleString('en-IN')} (incl. 18% GST).\nPlease provide proforma invoice and dispatch timeline.`
+  );
+
+  return `### 📄 Official Proforma Quotation (${quoteId})
+
+**Customer Entity:** Institutional / Commercial Buyer  
+**Issued By:** SRTRONIX Instruments Private Limited, Bengaluru  
+**Validity:** 30 Days from date of issue  
+**Warranty:** 1 to 3 Years Comprehensive Domestic Warranty  
+
+| # | Item Description | Unit Price (INR) | Qty | Amount (INR) |
+|---|---|---|---|---|
+${lines}
+
+---
+• **Subtotal (Ex-Factory):** ₹${subtotal.toLocaleString('en-IN')}  
+${discountPercent > 0 ? `• **Volume Discount (${discountPercent}%):** -₹${discountAmount.toLocaleString('en-IN')}\n• **Taxable Value:** ₹${taxableAmount.toLocaleString('en-IN')}  \n` : ''}• **GST @ 18% (CGST 9% + SGST 9% / IGST):** ₹${gstAmount.toLocaleString('en-IN')}  
+### **Grand Total: ₹${netTotal.toLocaleString('en-IN')} (INR)**
+
+**Inclusions & Commercial Terms:**
+1. **Calibration:** Factory testing & NABL traceable test report included.
+2. **Accessories:** Standard power cords, oscilloscope probes (10:1 / 1:1), Kelvin clips, and documentation.
+3. **Dispatch:** Insured courier delivery across India within 2–4 business days.
+4. **Payment Terms:** 100% advance against Proforma Invoice / Net-30 for approved institutional POs.
+
+👉 [**Confirm this Quotation on WhatsApp (+91 70224 29004)**](https://wa.me/917022429004?text=${waText})  
+👉 [**Submit Official Institutional Inquiry / RFQ**](/contact#inquire)`;
 }
 
 // Built-in Intelligent Fallback Knowledge Engine (Runs when no external API key is set)
 function generateKnowledgeEngineResponse(userPrompt: string): string {
   const p = userPrompt.toLowerCase().trim();
 
-  // 1. Greetings & General Inquiries
-  if (/^(hi|hello|hey|good morning|good afternoon|good evening|namaste)/i.test(p)) {
-    return `Hello! Welcome to **SRTRONIX Instruments**. 
+  // 1. Quotation Request Detection
+  if (
+    p.includes('quote') ||
+    p.includes('quotation') ||
+    p.includes('price') ||
+    p.includes('cost') ||
+    p.includes('rate') ||
+    p.includes('how much') ||
+    p.includes('proforma')
+  ) {
+    const matchedItems: Array<{ id: string; name: string; unitPrice: number; qty: number; slug: string }> = [];
 
-I am your AI Engineering Assistant. I can help you with:
-• **Instrument Specifications** (Oscilloscopes, DC Supplies, Multimeters, LCR Meters)
-• **Smart Work Bench Station** custom configurations & layouts
-• **Technical Quotations & Inquiries** for academic or industrial labs
-• **Calibration & Warranty details** for Indian manufacturing
+    // Parse specific product matches
+    if (p.includes('bench') || p.includes('workbench') || p.includes('work station') || p.includes('station')) {
+      const pr = APPROVED_PRICING['electronic-smart-work-station'];
+      matchedItems.push({ id: 'electronic-smart-work-station', name: pr.name, unitPrice: pr.price, qty: 1, slug: pr.slug });
+    }
+    if (p.includes('hds272s') || p.includes('handheld') || p.includes('portable scope')) {
+      const pr = APPROVED_PRICING['handheld-oscilloscope-hds272s'];
+      matchedItems.push({ id: 'handheld-oscilloscope-hds272s', name: pr.name, unitPrice: pr.price, qty: 1, slug: pr.slug });
+    }
+    if (p.includes('sds1102') || p.includes('100mhz') || (p.includes('oscilloscope') && !p.includes('handheld') && !p.includes('tablet') && matchedItems.length === 0)) {
+      const pr = APPROVED_PRICING['bench-oscilloscope-sds1102'];
+      matchedItems.push({ id: 'bench-oscilloscope-sds1102', name: pr.name, unitPrice: pr.price, qty: 1, slug: pr.slug });
+    }
+    if (p.includes('tao3000') || p.includes('tablet') || p.includes('touch') || p.includes('4-channel')) {
+      const pr = APPROVED_PRICING['tablet-oscilloscope-tao3000'];
+      matchedItems.push({ id: 'tablet-oscilloscope-tao3000', name: pr.name, unitPrice: pr.price, qty: 1, slug: pr.slug });
+    }
+    if (p.includes('mps-200') || p.includes('mps200') || (p.includes('power supply') && !p.includes('3-in-1') && !p.includes('spm'))) {
+      const pr = APPROVED_PRICING['dc-power-supply-mps-200'];
+      matchedItems.push({ id: 'dc-power-supply-mps-200', name: pr.name, unitPrice: pr.price, qty: 1, slug: pr.slug });
+    }
+    if (p.includes('spm3103') || p.includes('3-in-1') || p.includes('combo')) {
+      const pr = APPROVED_PRICING['3-in-1-power-supply-spm3103'];
+      matchedItems.push({ id: '3-in-1-power-supply-spm3103', name: pr.name, unitPrice: pr.price, qty: 1, slug: pr.slug });
+    }
+    if (p.includes('lcr') || p.includes('lcr2000') || p.includes('inductance')) {
+      const pr = APPROVED_PRICING['owon-lcr2000-series-lcr-meter'];
+      matchedItems.push({ id: 'owon-lcr2000-series-lcr-meter', name: pr.name, unitPrice: pr.price, qty: 1, slug: pr.slug });
+    }
+    if (p.includes('generator') || p.includes('ag4151') || p.includes('waveform') || p.includes('dds')) {
+      const pr = APPROVED_PRICING['waveform-generator-ag4151'];
+      matchedItems.push({ id: 'waveform-generator-ag4151', name: pr.name, unitPrice: pr.price, qty: 1, slug: pr.slug });
+    }
+    if (p.includes('clamp') || p.includes('cm2100b')) {
+      const pr = APPROVED_PRICING['clamp-multimeter-cm2100b'];
+      matchedItems.push({ id: 'clamp-multimeter-cm2100b', name: pr.name, unitPrice: pr.price, qty: 1, slug: pr.slug });
+    }
+    if (p.includes('load') || p.includes('oel85') || p.includes('electronic load')) {
+      const pr = APPROVED_PRICING['owon-oel85-series-dc-electronic-load'];
+      matchedItems.push({ id: 'owon-oel85-series-dc-electronic-load', name: pr.name, unitPrice: pr.price, qty: 1, slug: pr.slug });
+    }
+    if (p.includes('power meter') || p.includes('owh9800') || p.includes('harmonic')) {
+      const pr = APPROVED_PRICING['owon-owh9800-series-power-meter'];
+      matchedItems.push({ id: 'owon-owh9800-series-power-meter', name: pr.name, unitPrice: pr.price, qty: 1, slug: pr.slug });
+    }
 
-What instrument or application are you working on today?`;
+    // Default sample if no specific product was parsed
+    if (matchedItems.length === 0) {
+      return `### 💰 SRTRONIX Approved Product Pricing Overview
+
+Here is our official ex-factory price list for standard test instruments:
+
+| Product Model | Approved Price (INR) | GST @ 18% | Total (INR) |
+|---|---|---|---|
+| **[Smart Work Bench Station](/products/electronic-smart-work-station)** | ₹1,45,000 | ₹26,100 | **₹1,71,100** |
+| **[Handheld Oscilloscope HDS272S](/products/handheld-oscilloscope-hds272s)** | ₹28,500 | ₹5,130 | **₹33,630** |
+| **[Bench Oscilloscope SDS1102](/products/bench-oscilloscope-sds1102)** | ₹24,900 | ₹4,482 | **₹29,382** |
+| **[Tablet Oscilloscope TAO3000](/products/tablet-oscilloscope-tao3000)** | ₹68,000 | ₹12,240 | **₹80,240** |
+| **[DC Power Supply MPS-200](/products/dc-power-supply-mps-200)** | ₹18,500 | ₹3,330 | **₹21,830** |
+| **[3-in-1 Power Supply SPM3103](/products/3-in-1-power-supply-spm3103)** | ₹32,000 | ₹5,760 | **₹37,760** |
+| **[OWON LCR2000 Series LCR Meter](/products/owon-lcr2000-series-lcr-meter)** | ₹54,000 | ₹9,720 | **₹63,720** |
+| **[Waveform Generator AG4151](/products/waveform-generator-ag4151)** | ₹42,500 | ₹7,650 | **₹50,150** |
+| **[Clamp Multimeter CM2100B](/products/clamp-multimeter-cm2100b)** | ₹9,800 | ₹1,764 | **₹11,564** |
+| **[OWON OEL85 DC Electronic Load](/products/owon-oel85-series-dc-electronic-load)** | ₹48,000 | ₹8,640 | **₹56,640** |
+| **[OWON OWH9800 Power Meter](/products/owon-owh9800-series-power-meter)** | ₹62,000 | ₹11,160 | **₹73,160** |
+
+*Tip: You can use our in-chat **Quick Quotation** tool tab or tell me: "Generate quote for 5x SDS1102 and 2x MPS-200" to generate an itemized proforma quote with institutional volume discounts!*
+
+👉 [Chat on WhatsApp (+91 70224 29004)](https://wa.me/917022429004?text=Hello%20SRTRONIX,%20please%20send%20me%20a%20formal%20quotation%20with%20institutional%20pricing.)  
+👉 [Submit Official RFQ Enquiry](/contact#inquire)`;
+    }
+
+    return formatQuotation(matchedItems);
   }
 
-  // 2. Smart Work Bench Station
+  // 2. Recommend Electronic Instruments
+  if (
+    p.includes('recommend') ||
+    p.includes('which instrument') ||
+    p.includes('which one') ||
+    p.includes('suggest') ||
+    p.includes('best for') ||
+    p.includes('advice') ||
+    p.includes('selection')
+  ) {
+    if (p.includes('field') || p.includes('outdoor') || p.includes('service') || p.includes('repair') || p.includes('portable')) {
+      return `### 🎯 Instrument Recommendations for Field Service & On-Site Repair
+
+For engineers working on-site, in industrial plants, or doing field maintenance, we recommend:
+
+1. **[Handheld Oscilloscope HDS272S](/products/handheld-oscilloscope-hds272s)** (⭐ Top Pick)
+   • **Why:** Combines a 70MHz dual-channel oscilloscope, a True RMS 20,000-count DMM, and a DDS generator into a single 0.6kg unit.
+   • **Key Advantage:** Built-in rechargeable Li-ion battery (up to 6 hours continuous operation); charges via standard USB-C from laptops or power banks.
+   • **Price:** ₹28,500 + 18% GST.
+
+2. **[Clamp Multimeter CM2100B](/products/clamp-multimeter-cm2100b)**
+   • **Why:** Non-contact AC/DC current measurement from 0.1A up to 100A with high 1mA resolution, True RMS accuracy, and CAT III safety rating.
+   • **Price:** ₹9,800 + 18% GST.
+
+👉 [Order on WhatsApp (+91 70224 29004)](https://wa.me/917022429004?text=Hello%20SRTRONIX,%20I%20am%20interested%20in%20field%20instruments%20(HDS272S%20/%20CM2100B).)`;
+    }
+
+    if (p.includes('college') || p.includes('university') || p.includes('student') || p.includes('education') || p.includes('academic') || p.includes('teaching')) {
+      return `### 🎓 Instrument Recommendations for Engineering Colleges & Universities
+
+For academic teaching labs, diploma institutes, and student training benches, durability, ease of use, and budget are essential:
+
+1. **[Flagship Smart Work Bench Station](/products/electronic-smart-work-station)** (⭐ Recommended for Modern Labs)
+   • **Why:** A centralized 5-in-1 modular workstation engineered from heavy-duty mild steel (M.S.). Integrates oscilloscope, DC power supply, DMM, LCR meter, and transistor tester into a tamper-resistant console.
+   • **Benefits:** Eliminates cable tangle, prevents theft or damage to discrete units, and includes 2-pole MCB + front Emergency Stop safety.
+   • **Price:** ₹1,45,000 + 18% GST (Customizable).
+
+2. **Discrete Bench Setup:**
+   • **[Bench Oscilloscope SDS1102](/products/bench-oscilloscope-sds1102):** 100MHz 2-CH, 1GS/s, 7" color display, 30 auto measurements (₹24,900 + 18% GST).
+   • **[DC Power Supply MPS-200](/products/dc-power-supply-mps-200):** Regulated linear 0–30V/6A with dual rotary encoders and OVP/OCP protection (₹18,500 + 18% GST).
+
+*We offer institutional discounts (up to 10%) on batch procurement for university labs!*
+
+👉 [Request Institutional Proposal on WhatsApp](https://wa.me/917022429004?text=Hello%20SRTRONIX,%20we%20require%20an%20institutional%20lab%20proposal%20for%20our%20engineering%20college.)  
+👉 [Submit University RFQ](/contact#inquire)`;
+    }
+
+    if (p.includes('embedded') || p.includes('iot') || p.includes('can') || p.includes('serial') || p.includes('automotive') || p.includes('microcontroller')) {
+      return `### ⚡ Recommendations for Embedded Systems & Automotive R&D
+
+For microcontroller firmware debugging, CAN/SPI/I2C packet analysis, and hardware prototyping:
+
+1. **[Tablet Oscilloscope TAO3000](/products/tablet-oscilloscope-tao3000)** (⭐ Top Choice)
+   • **Features:** 4 analog channels, 100MHz bandwidth, 1GS/s sampling, deep 40M memory depth, 8-inch capacitive multi-touch screen, and built-in Wi-Fi.
+   • **Decoding:** Hardware decoding for I2C, SPI, RS232, and automotive CAN buses.
+   • **Price:** ₹68,000 + 18% GST.
+
+2. **[Waveform Generator AG4151](/products/waveform-generator-ag4151)**
+   • **Features:** 150MHz DDS arbitrary waveform generator with 400MS/s, 14-bit vertical resolution, and 45 built-in arb waveforms to simulate sensors.
+   • **Price:** ₹42,500 + 18% GST.
+
+👉 [Consult with an Application Engineer on WhatsApp](https://wa.me/917022429004?text=Hello%20SRTRONIX,%20I%20would%20like%20to%20discuss%20TAO3000%20for%20embedded%20diagnostics.)`;
+    }
+
+    return `### 🎯 SRTRONIX Instrument Selection Guide
+
+Please choose the category that fits your technical requirement:
+
+1. **Field Service & Portable Testing:**
+   • **[HDS272S Handheld Oscilloscope](/products/handheld-oscilloscope-hds272s)** (70MHz 2-CH + DMM + Battery) — ₹28,500
+   • **[CM2100B Clamp Multimeter](/products/clamp-multimeter-cm2100b)** (0.1A–100A AC/DC True RMS) — ₹9,800
+
+2. **Laboratory & Electronics Benchtop:**
+   • **[SDS1102 Bench Oscilloscope](/products/bench-oscilloscope-sds1102)** (100MHz, 1GS/s, 7" LCD) — ₹24,900
+   • **[MPS-200 Linear DC Power Supply](/products/dc-power-supply-mps-200)** (0–30V, 0–6A, 180W) — ₹18,500
+   • **[SPM3103 3-in-1 Power Supply + DMM](/products/3-in-1-power-supply-spm3103)** (30V/10A/300W) — ₹32,000
+
+3. **Advanced R&D & Production QC:**
+   • **[TAO3000 4-CH Touch Tablet Scope](/products/tablet-oscilloscope-tao3000)** (40M Memory, CAN/SPI) — ₹68,000
+   • **[OWON LCR2000 LCR Meter](/products/owon-lcr2000-series-lcr-meter)** (0.05% Accuracy, Handler) — ₹54,000
+   • **[OEL85 DC Electronic Load](/products/owon-oel85-series-dc-electronic-load)** (5kHz Dynamic, CC/CV/CR/CP) — ₹48,000
+
+4. **All-in-One Turnkey Workstation:**
+   • **[Smart Work Bench Station](/products/electronic-smart-work-station)** (Complete 5-in-1 console) — ₹1,45,000
+
+Tell me what you are testing, and I will recommend the exact model! Or chat on [WhatsApp (+91 70224 29004)](https://wa.me/917022429004).`;
+  }
+
+  // 3. Explain Product Specifications
+  if (
+    p.includes('explain') ||
+    p.includes('specification') ||
+    p.includes('specs') ||
+    p.includes('what is') ||
+    p.includes('difference between') ||
+    p.includes('bandwidth') ||
+    p.includes('sample rate') ||
+    p.includes('memory depth') ||
+    p.includes('linear') ||
+    p.includes('true rms') ||
+    p.includes('ripple')
+  ) {
+    if (p.includes('bandwidth')) {
+      return `### 🔍 Specification Deep Dive: Oscilloscope Bandwidth
+
+**What is Bandwidth?**
+Bandwidth is the frequency at which an input sine wave signal is attenuated by **-3 dB** (approx. 70.7% of its actual amplitude).
+
+**Rule of Thumb for Digital Signals:**
+For digital square waves (clocks, serial signals, PWM), always choose an oscilloscope with bandwidth at least **5 times** the fundamental clock frequency.
+• If inspecting a 20 MHz microcontroller clock, you need at least a **100 MHz oscilloscope** like the **[SDS1102](/products/bench-oscilloscope-sds1102)** or **[TAO3000](/products/tablet-oscilloscope-tao3000)** to accurately capture the 5th harmonic and measure signal rise times without waveform distortion.
+
+👉 [Browse SRTRONIX Oscilloscopes](/products?category=Oscilloscopes)`;
+    }
+
+    if (p.includes('sample rate') || p.includes('sampling')) {
+      return `### 🔍 Specification Deep Dive: Real-Time Sampling Rate (GS/s)
+
+**What is Real-Time Sampling Rate?**
+Sampling rate is the number of times per second the internal Analog-to-Digital Converter (ADC) samples the incoming analog waveform. It is measured in **MSa/s (Mega Samples/sec)** or **GSa/s (Giga Samples/sec)**.
+
+**Why 1 GS/s Matters:**
+According to the Nyquist theorem, you need at least 2× the highest frequency component, but for accurate visual reconstruction of transient glitches and edges in test gear, **4× to 10× oversampling** is recommended.
+• On the **[Bench Oscilloscope SDS1102](/products/bench-oscilloscope-sds1102)**, the 1 GS/s real-time engine ensures that single-shot anomalies, ringing, and glitch spikes are captured faithfully without aliasing.`;
+    }
+
+    if (p.includes('linear') || p.includes('ripple')) {
+      return `### 🔍 Specification Deep Dive: Linear DC Supply vs Switching Supply (SMPS)
+
+**Why Choose Linear Power Supplies like the [MPS-200](/products/dc-power-supply-mps-200)?**
+• **Ultra-Low Ripple & Noise:** Linear regulation produces clean DC with ripple voltage **≤ 2 mVrms**. In contrast, standard switching power supplies generate hundreds of millivolts of high-frequency switching hash.
+• **Fast Transient Recovery:** Recovers within microseconds when load current steps suddenly.
+• **No High-Frequency EMI:** Critical when powering sensitive RF modules, pre-amplifiers, audio circuits, and high-resolution ADC/DAC converters.
+
+👉 [View DC Power Supply MPS-200](/products/dc-power-supply-mps-200)`;
+    }
+
+    if (p.includes('true rms') || p.includes('rms')) {
+      return `### 🔍 Specification Deep Dive: True RMS vs Average-Responding Meters
+
+**What is True RMS?**
+True RMS (Root Mean Square) measures the actual heating value of an electrical waveform, accurately calculating the power dissipation in non-sinusoidal AC circuits.
+
+**Why True RMS is Critical:**
+Standard low-cost meters only assume pure sine waves. In modern environments with LED drivers, variable speed motors, inverter ACs, and switched-mode supplies, the current waveform is heavily distorted.
+• The **[Clamp Multimeter CM2100B](/products/clamp-multimeter-cm2100b)** and **[Handheld HDS272S](/products/handheld-oscilloscope-hds272s)** use dedicated True RMS converter chips to give exact, error-free readings on chopped and non-sinusoidal signals up to 20,000 counts.`;
+    }
+
+    return `### 🔍 SRTRONIX Technical Specifications Reference
+
+Here is a summary of key instrument parameters:
+
+1. **Oscilloscope Bandwidth & Sample Rate:**
+   • Handheld HDS272S: 70 MHz, 250 MSa/s, 8K memory, 10,000 wfms/s
+   • Bench SDS1102: 100 MHz, 1 GSa/s, 10K memory, 7-inch color display
+   • Tablet TAO3000: 100 MHz, 4 Channels, 1 GSa/s, 40M points deep memory
+
+2. **Linear DC Power Supply Purity:**
+   • MPS-200: 0–30V, 0–6A, 180W, Ripple ≤ 2mVrms / ≤ 3mArms, 1mV resolution
+
+3. **LCR Component Characterization:**
+   • LCR2000: 0.05% basic accuracy, 100 kHz test frequency, 40 measurements/sec, Handler interface
+
+Have a question about a specific specification? Ask me anytime or chat on [WhatsApp (+91 70224 29004)](https://wa.me/917022429004)!`;
+  }
+
+  // 4. Collect Customer Enquiries
+  if (
+    p.includes('enquiry') ||
+    p.includes('inquiry') ||
+    p.includes('contact me') ||
+    p.includes('call me') ||
+    p.includes('callback') ||
+    p.includes('sales rep') ||
+    p.includes('rfq')
+  ) {
+    return `### 📝 Submit Your Customer Enquiry / Request Callback
+
+Our technical sales team is ready to assist you with formal quotes, institutional orders, and technical consultations.
+
+**How to connect right now:**
+1. **Quick In-Chat Form:** Switch to the **"📝 Send Enquiry"** tab at the top of this chat window to submit your name, phone, institution, and requirement. You will receive an immediate confirmation and reference number.
+2. **Instant WhatsApp Assistance:** Message an SRTRONIX sales engineer directly on [WhatsApp (+91 70224 29004)](https://wa.me/917022429004?text=Hello%20SRTRONIX,%20I%20would%20like%20to%20submit%20an%20instrument%20enquiry.).
+3. **Official Website Form:** Fill the [Official Contact & RFQ Form](/contact#inquire).
+
+*We respond to all institutional enquiries within 2 hours during business hours!*`;
+  }
+
+  // 5. Connect Customers to WhatsApp
+  if (
+    p.includes('whatsapp') ||
+    p.includes('chat') ||
+    p.includes('talk to human') ||
+    p.includes('speak with agent') ||
+    p.includes('phone') ||
+    p.includes('mobile')
+  ) {
+    return `### 💬 Connect Directly to SRTRONIX on WhatsApp
+
+You can connect directly with our Technical Sales & Support Desk in Bengaluru:
+
+• **WhatsApp Number:** **+91 70224 29004**  
+• **Support Availability:** Monday – Saturday, 9:00 AM – 6:30 PM IST  
+• **Direct Link:** 👉 [**Click here to chat on WhatsApp**](https://wa.me/917022429004?text=Hello%20SRTRONIX%20Instruments,%20I%20am%20chatting%20from%20your%20website%20and%20would%20like%20technical%20assistance.)
+
+You can share circuit photos, RFQ documents, or purchase orders directly over WhatsApp for an instant response!`;
+  }
+
+  // 6. Smart Work Bench Station
   if (p.includes('smart work') || p.includes('workbench') || p.includes('work station') || p.includes('smart bench') || p.includes('table')) {
-    const bench = products.find((x) => x.id === 'electronic-smart-work-station');
-    return `### **SRTRONIX Smart Work Bench Station** (Flagship System)
+    const pr = APPROVED_PRICING['electronic-smart-work-station'];
+    return `### **SRTRONIX Smart Work Bench Station** (Flagship Modular Console)
 
 Our **Smart Work Bench Station** is an all-in-one laboratory console engineered and assembled in India, designed to eliminate lab clutter and replace scattered discrete equipment.
+
+**Approved Base Price:** ₹${pr.price.toLocaleString('en-IN')} (Ex-factory) + 18% GST = **₹${Math.round(pr.price * 1.18).toLocaleString('en-IN')} Total**
 
 **Key Highlights:**
 • **Integrated Gear:** Built-in Digital Oscilloscope, Regulated DC Power Supply, Digital Multimeter, LCR Meter, and Transistor Tester.
@@ -76,128 +517,36 @@ Our **Smart Work Bench Station** is an all-in-one laboratory console engineered 
 • **Mobility & Storage:** Fixed smooth-glide drawer unit and lockable heavy-duty caster wheels.
 • **Customization:** 100% customizable front panel and instrument loadout for college labs, defense, R&D, and production.
 
-👉 [View Smart Work Bench Details](/products/electronic-smart-work-station)
-👉 [Request a Custom Quote](/contact#inquire) or chat on [WhatsApp (+91 70224 29004)](https://wa.me/917022429004)`;
+👉 [View Smart Work Bench Details](/products/electronic-smart-work-station)  
+👉 [Generate Official Quote on WhatsApp](https://wa.me/917022429004?text=Hello%20SRTRONIX,%20I%20need%20a%20formal%20quotation%20for%20the%20Smart%20Work%20Bench%20Station.)`;
   }
 
-  // 3. Oscilloscopes
-  if (p.includes('oscilloscope') || p.includes('scope') || p.includes('dso') || p.includes('waveform') || p.includes('hds272s') || p.includes('sds1102')) {
-    return `### **SRTRONIX Digital Oscilloscopes Range**
+  // 7. General Greetings
+  if (/^(hi|hello|hey|good morning|good afternoon|good evening|namaste)/i.test(p)) {
+    return `Hello! Welcome to **SRTRONIX Instruments** 24/7 AI Assistance.
 
-We offer high-fidelity oscilloscopes for both field testing and benchtop precision:
+I can help you right now with:
+• **Answer Customer Questions 24/7:** Company details, warranty, delivery, and service.
+• **Recommend Electronic Instruments:** Tailored for colleges, field maintenance, or R&D.
+• **Explain Product Specifications:** Bandwidth, sample rate, True RMS, ripple/noise.
+• **Generate Instant Quotations:** Based on approved list pricing with 18% GST.
+• **Collect Customer Enquiries:** Send your RFQ directly to our sales team.
+• **Connect to WhatsApp:** Fast 1-click contact with our engineering desk (+91 70224 29004).
 
-1. **[HDS272S Handheld Oscilloscope](/products/handheld-oscilloscope-hds272s)** (Portable Field Lab)
-   • **Bandwidth:** Dual-Channel 70 MHz (expandable to 200 MHz), 250 MSa/s
-   • **3-in-1 Multi-function:** Digital Storage Scope + True RMS Multimeter + DDS Waveform Generator
-   • **Portability:** 3.5" high-contrast outdoor screen, USB-C powered, dual 18650 Li-ion battery backup.
-
-2. **Benchtop Digital Storage Oscilloscopes (DSO)**
-   • **Bandwidth:** 100 MHz – 200 MHz, 1 GSa/s real-time sampling rate
-   • **Display:** 7" – 8" color TFT with deep 10K–10M memory depth and 30+ automated measurements.
-   • **Connectivity:** USB Host/Device, PC remote control, and SCPI/LabVIEW compatibility.
-
-👉 [Browse All Oscilloscopes](/products?category=Oscilloscopes)
-👉 Need advice choosing between Handheld and Benchtop? Feel free to ask or [Submit an Inquiry](/contact#inquire)!`;
+How may I assist you today?`;
   }
 
-  // 4. DC Power Supplies
-  if (p.includes('power supply') || p.includes('dc supply') || p.includes('mps-200') || p.includes('voltage') || p.includes('current') || p.includes('linear dc')) {
-    return `### **SRTRONIX Precision Linear DC Power Supplies**
+  // Default Fallback
+  return `Thank you for contacting **SRTRONIX Instruments**.
 
-Engineered for ultra-low noise, sensitive analog circuit testing, and mission-critical hardware prototyping:
+We are happy to assist you 24/7. Here are quick ways I can help:
+1. **Instrument Recommendations:** Tell me your application (education, field work, R&D) and budget.
+2. **Generate Proforma Quotation:** Ask me for a quotation on any of our 11 catalog instruments.
+3. **Product Specifications:** Ask for clarification on bandwidth, sample rate, or linear supply ripple.
+4. **Collect Enquiry:** Switch to the **"📝 Send Enquiry"** tab above to request a formal call.
+5. **Direct WhatsApp Support:** [Connect on WhatsApp (+91 70224 29004)](https://wa.me/917022429004).
 
-• **Model:** **[MPS-200 Precision Series](/products/dc-power-supply-mps-200)**
-• **Output Range:** Variable 0–30 V DC, 0–5 A continuous current (Multi-channel options available)
-• **Ripple & Noise:** Ultra-low ripple ($\le 1\\text{ mV}_{\text{RMS}}$), ideal for RF and sensitive microcontrollers.
-• **Protection Suite:** Over-Voltage Protection (OVP), Over-Current Protection (OCP), and thermal cut-off.
-• **Display:** Dual high-visibility 4-digit LED displays for concurrent voltage and current monitoring.
-
-👉 [Explore Power Supplies](/products?category=DC%20Power%20Supplies)
-👉 [Inquire for Multi-Channel Configurations](/contact#inquire)`;
-  }
-
-  // 5. LCR Meters & Component Testers
-  if (p.includes('lcr') || p.includes('capacitance') || p.includes('inductance') || p.includes('impedance') || p.includes('esr')) {
-    return `### **SRTRONIX Precision LCR Meters & Component Analyzers**
-
-Designed for passive component inspection, transformer testing, and quality control:
-
-• **Parameters:** L, C, R, Z, D, Q, $\\theta$, ESR, and DCR.
-• **Test Frequencies:** Multi-frequency test ranges from 100 Hz, 120 Hz, 1 kHz up to high-frequency RF standards.
-• **Accuracy:** High basic accuracy down to $\\pm 0.1\\%$.
-• **Fixture Support:** 4-terminal Kelvin test probes, SMD tweezers, and automated component sorting modes.
-
-👉 [Browse LCR Meters](/products?category=LCR%20Meters)
-👉 [Get Technical Datasheet](/contact#inquire)`;
-  }
-
-  // 6. Multimeters & Clamp Meters
-  if (p.includes('multimeter') || p.includes('dmm') || p.includes('clamp') || p.includes('meter')) {
-    return `### **SRTRONIX Digital Multimeters & Clamp Meters**
-
-High-accuracy measurement instruments for industrial maintenance and benchtop design:
-
-• **Benchtop Digital Multimeters:** 4½ to 6½ digit high-resolution DMMs with True RMS, temperature, frequency, and data logging.
-• **Industrial Clamp Meters:** Non-contact AC/DC current measurement up to 1000A with CAT III / CAT IV safety ratings.
-
-👉 [Browse Measurement Tools](/products?category=Multimeters)
-👉 [Contact Us for Bulk Pricing](/contact#inquire)`;
-  }
-
-  // 7. Electronic Loads & Waveform Generators
-  if (p.includes('electronic load') || p.includes('dc load') || p.includes('waveform generator') || p.includes('function generator') || p.includes('signal generator')) {
-    return `### **SRTRONIX Signal & Load Testing Instruments**
-
-• **Programmable DC Electronic Loads:** CC, CV, CR, and CP modes with dynamic transient testing for batteries, solar panels, and power converters.
-• **Arbitrary Waveform Generators:** Dual-channel DDS signal synthesis up to 60 MHz with built-in modulation (AM, FM, PM, FSK, PWM) and arbitrary curve editing.
-
-👉 [Explore Signal Equipment](/products)
-👉 [Request Quotation](/contact#inquire)`;
-  }
-
-  // 8. Quotation, Pricing, Bulk & Institutional Orders
-  if (p.includes('price') || p.includes('cost') || p.includes('quote') || p.includes('quotation') || p.includes('buy') || p.includes('order') || p.includes('discount') || p.includes('college') || p.includes('university') || p.includes('institutional')) {
-    return `### **Requesting a Quotation from SRTRONIX**
-
-We provide official GST invoices, educational discounts for colleges and universities, and custom bulk quotations for labs across India:
-
-1. **Direct Online Inquiry:**
-   Fill out our quick [Official Inquiry Form](/contact#inquire) specifying your required items and quantity. Our sales engineers reply within **2–4 business hours**.
-2. **Instant WhatsApp Assistance:**
-   Chat directly with our instrumentation desk at [WhatsApp: +91 70224 29004](https://wa.me/917022429004).
-3. **Official Email:**
-   Send your RFQ / Tender document to **sales@srtronix.com**.
-
-We support customized specifications, GEM portal compliance, and PAN-India delivery.`;
-  }
-
-  // 9. Location, Address, Warranty & Service
-  if (p.includes('where') || p.includes('location') || p.includes('address') || p.includes('contact') || p.includes('phone') || p.includes('warranty') || p.includes('service') || p.includes('india') || p.includes('bengaluru') || p.includes('lucknow')) {
-    return `### **SRTRONIX Company & Support Information**
-
-• **Facility & Office:** ${companyDetails.address}
-• **Phone:** [${companyDetails.phone}](tel:${companyDetails.phone.replace(/\\s+/g, '')})
-• **Email:** [${companyDetails.email}](mailto:${companyDetails.email}) / [${companyDetails.supportEmail}](mailto:${companyDetails.supportEmail})
-• **Working Hours:** ${companyDetails.workingHours}
-• **Warranty:** 1 to 3 Years comprehensive manufacturer warranty with direct domestic parts and service support.
-• **Domestic Assembly:** Proudly engineered & assembled in India.
-
-👉 [Visit our Contact Page](/contact#inquire)
-👉 [Chat on WhatsApp](https://wa.me/917022429004)`;
-  }
-
-  // 10. Default Contextual Fallback
-  return `Thank you for your question regarding **SRTRONIX Test & Measurement Solutions**.
-
-We manufacture and supply:
-• **[Smart Work Bench Stations](/products/electronic-smart-work-station)** (Modular 5-in-1 integrated consoles)
-• **[Digital Oscilloscopes](/products?category=Oscilloscopes)** (Handheld & Benchtop 70–200MHz)
-• **[Linear DC Power Supplies](/products/dc-power-supply-mps-200)** (Ultra-low ripple, regulated 0–30V/5A)
-• **[LCR Meters & Power Analyzers](/products)**
-
-Could you please clarify your specific testing requirement or parameter (e.g. required bandwidth, voltage range, or bench setup)? 
-
-You can also speak directly with our engineering team via [WhatsApp (+91 70224 29004)](https://wa.me/917022429004) or submit an [Inquiry Form](/contact#inquire).`;
+What product or measurement parameter would you like to explore?`;
 }
 
 export async function POST(req: NextRequest) {
@@ -233,8 +582,8 @@ export async function POST(req: NextRequest) {
           body: JSON.stringify({
             contents,
             generationConfig: {
-              temperature: 0.3,
-              maxOutputTokens: 800,
+              temperature: 0.2,
+              maxOutputTokens: 900,
             },
           }),
         });
@@ -268,8 +617,8 @@ export async function POST(req: NextRequest) {
               { role: 'system', content: systemPrompt },
               ...messages.slice(-6),
             ],
-            temperature: 0.3,
-            max_tokens: 800,
+            temperature: 0.2,
+            max_tokens: 900,
           }),
         });
 
@@ -285,7 +634,7 @@ export async function POST(req: NextRequest) {
       }
     }
 
-    // High-performance built-in SRTRONIX Engineering Knowledge Engine
+    // High-performance built-in SRTRONIX Engineering Knowledge & Quotation Engine
     const smartReply = generateKnowledgeEngineResponse(latestUserMessage);
     return NextResponse.json({ reply: smartReply });
   } catch (error) {
