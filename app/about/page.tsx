@@ -14,6 +14,7 @@ import { Container } from '@/components/ui/Container';
 import { Button } from '@/components/ui/Button';
 import { companyDetails, productCategories } from '@/data/products';
 import { AboutShowcase3D } from '@/components/about/AboutShowcase3D';
+import { MovableHeroBackground } from '@/components/ui/MovableHeroBackground';
 
 export const metadata: Metadata = {
   title: 'About Us | Engineering Precision & Innovation',
@@ -31,21 +32,17 @@ export default function AboutPage() {
     <div className="bg-[#09090b] text-slate-200">
       {/* Hero Section with Laboratory Background - Full Screen Height */}
       <section className="relative min-h-screen min-h-[100dvh] flex items-center pt-24 sm:pt-28 pb-16 sm:pb-20 border-b border-slate-800 overflow-hidden">
-        {/* Full Screen Background Image Container - Vivid & Visible on Mobile and Desktop */}
-        <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
-          <Image
-            src="/assets/about_owon_sds1102_desk_uhd.jpg"
-            alt="SRTRONIX Digital Storage Oscilloscope Laboratory Workbench"
-            fill
-            priority
-            quality={95}
-            sizes="100vw"
-            className="object-cover object-[55%_center] sm:object-center lg:object-[68%_center] brightness-110 contrast-105"
-          />
-          {/* Calibrated gradient overlays: lighter on mobile so the oscilloscope background is clearly visible */}
-          <div className="absolute inset-0 bg-gradient-to-r from-[#09090b]/55 via-[#09090b]/20 sm:from-[#09090b]/80 sm:via-[#09090b]/40 to-transparent pointer-events-none" />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#09090b]/60 via-transparent sm:from-[#09090b]/85 to-transparent pointer-events-none" />
-        </div>
+        {/* Dynamic 3D Movable Background with Framer Motion Parallax */}
+        <MovableHeroBackground
+          src="/assets/about_owon_sds1102_desk_uhd.jpg"
+          alt="SRTRONIX Digital Storage Oscilloscope Laboratory Workbench"
+          objectPosition="object-[55%_center] sm:object-center lg:object-[68%_center]"
+          brightness="brightness-110"
+          contrast="contrast-105"
+          gradientOverlayRight="absolute inset-0 bg-gradient-to-r from-[#09090b]/60 via-[#09090b]/25 sm:from-[#09090b]/80 sm:via-[#09090b]/40 to-transparent pointer-events-none"
+          gradientOverlayBottom="absolute inset-0 bg-gradient-to-t from-[#09090b]/65 via-transparent sm:from-[#09090b]/85 to-transparent pointer-events-none"
+          interactiveBadgeText="3D Laboratory Viewport • Move cursor to pan"
+        />
 
         {/* Hero Content - Left Aligned with high-contrast mobile text protection */}
         <Container className="relative z-10">
