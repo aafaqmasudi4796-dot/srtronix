@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useDragControls } from 'framer-motion';
 import {
   MessageSquare,
   X,
@@ -22,6 +22,9 @@ import {
   ChevronRight,
   ArrowRight,
   Info,
+  GripVertical,
+  RotateCcw,
+  Move,
 } from 'lucide-react';
 import { WhatsAppIcon } from '@/components/ui/WhatsAppButton';
 
@@ -91,6 +94,13 @@ export function AIChatbot() {
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const dragBoundaryRef = useRef<HTMLDivElement>(null);
+  const dragControls = useDragControls();
+  const [dragResetKey, setDragResetKey] = useState(0);
+
+  const handleResetPosition = () => {
+    setDragResetKey((k) => k + 1);
+  };
 
   // Initialize with welcome message
   useEffect(() => {
@@ -431,8 +441,19 @@ Contact: +91 70224 29004 | sales@srtronix.com`;
 
   return (
     <>
-      {/* FLOATING ACTION LAUNCHER (Lower Right) */}
-      <div className="fixed bottom-5 right-5 sm:bottom-6 sm:right-6 z-50 flex flex-col items-end">
+      {/* VIEWPORT BOUNDARY REFERENCE FOR DRAG CONSTRAINTS */}
+      <div ref={dragBoundaryRef} className="fixed inset-3 sm:inset-5 pointer-events-none z-30" aria-hidden="true" />
+
+      {/* FLOATING ACTION LAUNCHER (Movable Anywhere via Drag) */}
+      <motion.div
+        key={`launcher-${dragResetKey}`}
+        drag
+        dragConstraints={dragBoundaryRef}
+        dragElastic={0.12}
+        dragMomentum={false}
+        whileDrag={{ scale: 1.08 }}
+        className="fixed bottom-5 right-5 sm:bottom-6 sm:right-6 z-50 flex flex-col items-end cursor-grab active:cursor-grabbing select-none"
+      >
         {/* Teaser Tooltip Bubble */}
         <AnimatePresence>
           {!isOpen && showTooltip && !hasOpenedBefore && (
@@ -447,7 +468,7 @@ Contact: +91 70224 29004 | sales@srtronix.com`;
               <div className="w-2 h-2 rounded-full bg-[#7bb0ed] animate-ping shrink-0" />
               <div className="flex-1">
                 <span className="font-semibold block text-[11px] text-cyan-300">24/7 AI Technical Assistant</span>
-                <span className="text-[10px] text-slate-300">Instant Quotes, Specs &amp; Recommendations</span>
+                <span className="text-[10px] text-slate-300">Drag to move anywhere • Click to open</span>
               </div>
               <button
                 type="button"
@@ -473,6 +494,12 @@ Contact: +91 70224 29004 | sales@srtronix.com`;
           aria-label={isOpen ? 'Close AI Assistant' : 'Open AI Assistant'}
           className="relative group flex items-center justify-center w-14 h-14 rounded-full bg-gradient-to-br from-[#4A7EB8] via-[#2563eb] to-[#0f2a4a] text-white shadow-2xl shadow-blue-950/70 border-2 border-[#7bb0ed]/60 hover:border-white transition-all cursor-pointer"
         >
+          {/* Drag Indicator Tooltip on Hover */}
+          <div className="absolute -top-7 bg-slate-900/90 text-slate-300 text-[10px] px-2 py-0.5 rounded-full border border-white/10 opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1 pointer-events-none whitespace-nowrap shadow-md">
+            <Move className="w-2.5 h-2.5 text-[#7bb0ed]" />
+            <span>Drag to move</span>
+          </div>
+
           {/* Subtle Outer Radar Ping */}
           <span className="absolute -inset-1 rounded-full bg-[#4A7EB8]/30 blur-xs animate-pulse pointer-events-none" />
 
@@ -502,23 +529,44 @@ Contact: +91 70224 29004 | sales@srtronix.com`;
             )}
           </AnimatePresence>
         </motion.button>
-      </div>
+      </motion.div>
 
-      {/* CHAT WINDOW (Sliding Drawer / Floating Pane) */}
+      {/* CHAT WINDOW (Movable Floating Pane with Header Drag) */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
+            key={`window-${dragResetKey}`}
+            drag
+            dragListener={false}
+            dragControls={dragControls}
+            dragConstraints={dragBoundaryRef}
+            dragElastic={0.08}
+            dragMomentum={false}
+            whileDrag={{ scale: 1.01, boxShadow: '0 30px 60px -12px rgba(0,0,0,0.95), 0 0 25px rgba(74,126,184,0.4)' }}
             initial={{ opacity: 0, y: 25, scale: 0.94 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 25, scale: 0.94 }}
             transition={{ type: 'spring', damping: 25, stiffness: 320 }}
             className="fixed bottom-22 right-4 sm:bottom-24 sm:right-6 z-50 w-[calc(100vw-2rem)] sm:w-[440px] h-[610px] max-h-[85dvh] flex flex-col rounded-2xl overflow-hidden border border-[#4A7EB8]/40 bg-[#090e17]/95 backdrop-blur-2xl shadow-2xl shadow-black/90 text-slate-200"
           >
-            {/* CHAT HEADER */}
-            <div className="px-4 py-3 bg-gradient-to-r from-[#0f2a4a] via-[#16385e] to-[#0f2a4a] border-b border-[#4A7EB8]/40 flex items-center justify-between shrink-0">
-              <div className="flex items-center gap-3">
-                <div className="relative flex items-center justify-center w-9 h-9 rounded-xl bg-gradient-to-br from-[#4A7EB8] to-[#2563eb] border border-white/20 shadow-md">
-                  <Bot className="w-5 h-5 text-white" />
+            {/* CHAT HEADER - DRAGGABLE BAR */}
+            <div
+              onPointerDown={(e) => {
+                // Ignore drag if clicking on buttons or links
+                if ((e.target as HTMLElement).closest('button, a, select, input, textarea')) return;
+                dragControls.start(e);
+              }}
+              className="px-4 py-3 bg-gradient-to-r from-[#0f2a4a] via-[#16385e] to-[#0f2a4a] border-b border-[#4A7EB8]/40 flex items-center justify-between shrink-0 cursor-grab active:cursor-grabbing select-none"
+              title="Click and drag anywhere on this header to reposition the window"
+            >
+              <div className="flex items-center gap-2.5">
+                {/* Grip Handle */}
+                <div className="flex items-center justify-center p-1 rounded-md text-slate-400 hover:text-white transition-colors cursor-grab" title="Drag to move window anywhere">
+                  <GripVertical className="w-4 h-4 text-slate-400/80" />
+                </div>
+
+                <div className="relative flex items-center justify-center w-8 h-8 rounded-xl bg-gradient-to-br from-[#4A7EB8] to-[#2563eb] border border-white/20 shadow-md">
+                  <Bot className="w-4.5 h-4.5 text-white" />
                   <span className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-emerald-400 border border-slate-900" />
                 </div>
                 <div>
@@ -528,15 +576,26 @@ Contact: +91 70224 29004 | sales@srtronix.com`;
                       24/7 Active
                     </span>
                   </div>
-                  <p className="text-[11px] text-slate-300 flex items-center gap-1">
+                  <p className="text-[10px] text-slate-300 flex items-center gap-1">
                     <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                    <span>Technical Sales &amp; Quotations</span>
+                    <span>Movable Window • Drag header</span>
                   </p>
                 </div>
               </div>
 
               {/* Header Action Icons */}
               <div className="flex items-center gap-1.5 text-slate-300">
+                {/* Reset Position Button */}
+                <button
+                  type="button"
+                  onClick={handleResetPosition}
+                  title="Reset window position"
+                  aria-label="Reset window position"
+                  className="p-1.5 rounded-lg hover:bg-white/10 hover:text-white transition-colors cursor-pointer text-slate-300"
+                >
+                  <RotateCcw className="w-4 h-4" />
+                </button>
+
                 <a
                   href="https://wa.me/917022429004?text=Hello%20SRTRONIX%20Team,%20I%20am%20chatting%20from%20your%20website%20and%20would%20like%20to%20connect."
                   target="_blank"
