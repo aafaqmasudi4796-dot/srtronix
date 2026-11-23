@@ -5,6 +5,7 @@ import type { ReactNode } from 'react';
 import './globals.css';
 import Navbar from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
+import { AIChatbot } from '@/components/chat/AIChatbot';
 
 export const viewport: Viewport = {
   width: 'device-width',
@@ -94,6 +95,7 @@ export default function RootLayout({
         </main>
 
         <Footer />
+        <AIChatbot />
       </body>
     </html>
   );
