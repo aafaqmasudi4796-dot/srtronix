@@ -1,0 +1,347 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Interactive 3D Oscilloscope</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#0b111a;color:#eef4fb;font-family:system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;overflow:hidden;user-select:none}
+.top{position:absolute;z-index:2;top:12px;left:14px;right:14px;display:flex;justify-content:space-between;align-items:flex-start;pointer-events:none}
+.top h1{font-size:16px;font-weight:700;margin:0 0 3px;color:#ffffff;letter-spacing:0.02em}
+.top p{font-size:11px;color:#9fb0c3;margin:0}
+.panel{pointer-events:auto;background:rgba(15,26,42,0.85);backdrop-filter:blur(8px);border:1px solid #29405d;border-radius:10px;padding:6px;display:flex;gap:5px;flex-wrap:wrap;max-width:440px;box-shadow:0 10px 25px -5px rgba(0,0,0,0.5)}
+button{background:#1b2a3c;color:#e4efff;border:1px solid #344c6a;border-radius:6px;padding:6px 10px;font-size:11px;font-weight:600;cursor:pointer;transition:all 0.15s ease}
+button:hover{background:#1769a8;border-color:#56b8ff;color:#ffffff}
+button.active{background:#1d70b8;border-color:#68c0ff;color:#ffffff;box-shadow:0 0 10px rgba(41,137,216,0.5)}
+.hint{position:absolute;bottom:12px;left:14px;background:rgba(15,26,42,0.85);backdrop-filter:blur(8px);border:1px solid #29405d;border-radius:8px;padding:7px 11px;color:#9bb2cb;font-size:11px;line-height:1.45;max-width:380px;pointer-events:none}
+.hint b{color:#d5e5f7}
+.label{position:absolute;right:14px;bottom:14px;color:#6b829c;font-size:10px;text-align:right;pointer-events:none;line-height:1.4}
+.loading{position:absolute;inset:0;display:grid;place-items:center;color:#93c5fd;font-size:13px;font-weight:500;z-index:5;background:#0b111a}
+canvas{display:block;outline:none}
+@media (max-width: 640px) {
+  .top{flex-direction:column;gap:8px}
+  .panel{max-width:100%;gap:4px}
+  button{padding:5px 8px;font-size:10px}
+  .hint{display:none}
+}
+</style>
+</head>
+<body>
+<div class="loading" id="loading">Loading 3D oscilloscope…</div>
+<div class="top">
+  <div>
+    <h1>Interactive 3D Oscilloscope</h1>
+    <p>Rotate · Zoom · Pan · Inspect internal PCB &amp; hardware</p>
+  </div>
+  <div class="panel">
+    <button id="outside" class="active">Exterior</button>
+    <button id="front">Front</button>
+    <button id="back">Back</button>
+    <button id="cut">Show internals</button>
+    <button id="screen">Screen: ON</button>
+    <button id="reset">Reset view</button>
+  </div>
+</div>
+<div class="hint">
+  <b>Drag:</b> Rotate 3D &bull; <b>Scroll:</b> Zoom &bull; <b>Right-click drag:</b> Pan<br>
+  Click <b>“Show internals”</b> to see inside the dual-channel chassis.
+</div>
+<div class="label">
+  SRTRONIX Interactive 3D Model<br>WebGL &bull; Three.js
+</div>
+
+<script type="importmap">
+{ "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js" } }
+</script>
+<script type="module">
+import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js';
+import { OrbitControls } from 'https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/controls/OrbitControls.js';
+
+const scene=new THREE.Scene();
+scene.background=new THREE.Color(0x0b111a);
+scene.fog=new THREE.Fog(0x0b111a,16,34);
+
+const camera=new THREE.PerspectiveCamera(43,innerWidth/innerHeight,.1,100);
+camera.position.set(7,5.2,9);
+
+const renderer=new THREE.WebGLRenderer({antialias:true});
+renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+renderer.setSize(innerWidth,innerHeight);
+renderer.shadowMap.enabled=true;
+renderer.shadowMap.type=THREE.PCFSoftShadowMap;
+renderer.outputColorSpace=THREE.SRGBColorSpace;
+document.body.appendChild(renderer.domElement);
+
+const controls=new OrbitControls(camera,renderer.domElement);
+controls.target.set(0,1.25,0);
+controls.enableDamping=true;
+controls.dampingFactor=.06;
+controls.minDistance=3.8;
+controls.maxDistance=17;
+controls.maxPolarAngle=Math.PI*.48;
+
+scene.add(new THREE.HemisphereLight(0xc9e4ff,0x26303b,2));
+const key=new THREE.DirectionalLight(0xffffff,2.6);
+key.position.set(5,9,6);
+key.castShadow=true;
+scene.add(key);
+const fill=new THREE.DirectionalLight(0x66aaff,1.2);
+fill.position.set(-6,4,-4);
+scene.add(fill);
+
+const mat=(c,m=0,r=.45)=>new THREE.MeshStandardMaterial({color:c,metalness:m,roughness:r});
+const dark=mat(0x222b35,.55),edge=mat(0x56616d,.7),black=mat(0x090e14,.25,.3),blue=mat(0x087cbe,.5,.3),green=mat(0x38f28a),gold=mat(0xc49a42,.7,.25),pcb=mat(0x176b50,.2,.6),white=mat(0xdce5ed,.15,.4);
+
+const scope=new THREE.Group();
+scene.add(scope);
+
+function box(parent,w,h,d,x,y,z,material,cast=true){
+  let o=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),material);
+  o.position.set(x,y,z);
+  o.castShadow=cast;
+  o.receiveShadow=true;
+  parent.add(o);
+  return o;
+}
+
+function cyl(parent,r1,r2,depth,x,y,z,material,axis='z'){
+  let o=new THREE.Mesh(new THREE.CylinderGeometry(r1,r2,depth,32),material);
+  o.position.set(x,y,z);
+  if(axis==='z')o.rotation.x=Math.PI/2;
+  if(axis==='x')o.rotation.z=Math.PI/2;
+  o.castShadow=true;
+  parent.add(o);
+  return o;
+}
+
+// Main enclosure and feet
+box(scope,5.7,2.7,3.5,0,1.45,0,dark);
+for(let x of [-2.25,2.25])for(let z of [-1.25,1.25])box(scope,.65,.18,.55,x,.08,z,black);
+
+// Front panel, bezel and display
+box(scope,5.5,2.48,.12,0,1.45,1.78,edge);
+box(scope,5.32,2.3,.08,0,1.45,1.87,dark);
+box(scope,2.65,1.72,.12,-1.15,1.72,1.94,black);
+box(scope,2.43,1.5,.025,-1.15,1.72,2.015,mat(0x071b24));
+
+// Screen grid lines
+const gridMat=new THREE.LineBasicMaterial({color:0x174657,transparent:true,opacity:.9});
+for(let i=0;i<=10;i++){
+  let x=-2.28+i*.226;
+  let g=new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(x,.99,2.035),new THREE.Vector3(x,2.45,2.035)]);
+  scope.add(new THREE.Line(g,gridMat));
+}
+for(let i=0;i<=8;i++){
+  let y=1.0+i*.18;
+  let g=new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(-2.36,y,2.035),new THREE.Vector3(.06,y,2.035)]);
+  scope.add(new THREE.Line(g,gridMat));
+}
+
+// Waveform trace
+let pts=[];
+for(let i=0;i<=160;i++){
+  let x=-2.3+i/160*2.3;
+  let y=1.72+.42*Math.sin(i/160*Math.PI*8)+.06*Math.sin(i/160*Math.PI*24);
+  pts.push(new THREE.Vector3(x,y,2.06));
+}
+let wave=new THREE.Mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts),220,.012,6,false),new THREE.MeshBasicMaterial({color:0x4dff9a}));
+scope.add(wave);
+
+// Screen labels and small indicators
+function textSprite(txt,x,y,z,size=0.12,color='#dcecff'){
+  let c=document.createElement('canvas');
+  c.width=512;
+  c.height=128;
+  let ctx=c.getContext('2d');
+  ctx.fillStyle=color;
+  ctx.font='bold 54px Arial';
+  ctx.fillText(txt,8,82);
+  let tex=new THREE.CanvasTexture(c);
+  let s=new THREE.Sprite(new THREE.SpriteMaterial({map:tex,transparent:true}));
+  s.scale.set(size*3.3,size*.82,1);
+  s.position.set(x,y,z);
+  scope.add(s);
+}
+
+textSprite('100 MHz  ·  1 GS/s',-1.12,2.48,2.06,.12);
+textSprite('CH1',-.15,1.12,2.06,.10);
+
+// Right control area
+for(let i=0;i<3;i++){
+  let x=.85+i*.72;
+  box(scope,.53,.5,.06,x,2.15,1.98,black);
+  cyl(scope,.19,.19,.15,x,1.65,2.04,blue);
+  cyl(scope,.13,.13,.1,x,1.65,2.16,edge);
+  let mark=box(scope,.025,.12,.025,x,1.76,2.23,white,false);
+  mark.rotation.z=.35;
+}
+
+for(let row=0;row<3;row++)for(let col=0;col<3;col++){
+  let x=.78+col*.58,y=1.12-row*.32;
+  box(scope,.22,.16,.08,x,y,1.99,blue);
+}
+
+// BNC connectors on lower right
+for(let i=0;i<2;i++){
+  cyl(scope,.22,.22,.18,1.08+i*.88,.55,2.03,gold);
+  cyl(scope,.12,.12,.19,1.08+i*.88,.55,2.15,black);
+  cyl(scope,.035,.035,.2,1.08+i*.88,.55,2.25,gold);
+}
+
+textSprite('SRTRONIX',.95,2.52,2.06,.11);
+textSprite('CH1',.92,.25,2.06,.08);
+textSprite('CH2',1.8,.25,2.06,.08);
+
+// Side vents on both sides
+for(let side of [-1,1])for(let i=0;i<9;i++){
+  let sl=box(scope,.055,.08,1.6,side*2.86,1.48,-.05+i*.0,black,false);
+  sl.rotation.z=0;
+  sl.position.z=-.72+i*.18;
+}
+
+// Rear panel and ports
+box(scope,5.45,2.35,.1,0,1.45,-1.79,edge);
+for(let i=0;i<5;i++){
+  cyl(scope,.12,.12,.13,-1.9+i*.55,1.8,-1.88,black);
+  cyl(scope,.065,.065,.14,-1.9+i*.55,1.8,-1.98,gold);
+}
+box(scope,.85,.55,.08,1.7,1.85,-1.88,black);
+for(let i=0;i<6;i++)box(scope,.05,.34,.03,1.4+i*.12,1.85,-1.94,edge,false);
+
+// Internals, grouped for reveal
+const internals=new THREE.Group();
+scope.add(internals);
+box(internals,4.8,.12,2.7,0,2.85,0,edge); // top cover normally hides inside
+
+// PCB boards
+box(internals,2.7,.12,1.65,-.8,2.45,-.25,pcb);
+box(internals,1.45,.12,1.25,1.45,2.45,-.35,pcb);
+for(let i=0;i<7;i++)for(let j=0;j<4;j++)box(internals,.13,.1,.13,-1.8+i*.34,2.57,-.85+j*.35,black);
+
+// Capacitors
+for(let i=0;i<5;i++){
+  cyl(internals,.12,.12,.28,-1.65+i*.42,2.67,.55,blue,'y');
+  cyl(internals,.09,.09,.3,-1.65+i*.42,2.84,.55,edge,'y');
+}
+
+// Transformer and fan
+box(internals,.85,.58,.8,.75,2.78,-.75,gold);
+cyl(internals,.42,.42,.18,1.85,2.65,-.65,edge,'y');
+for(let i=0;i<6;i++){
+  let blade=box(internals,.12,.035,.32,1.85,2.76,-.65,black);
+  blade.rotation.y=i*Math.PI/3;
+}
+
+// Wires
+for(let i=0;i<4;i++){
+  let curve=new THREE.CatmullRomCurve3([
+    new THREE.Vector3(-2+i*.15,2.62,.8),
+    new THREE.Vector3(-1.5+i*.25,2.9,.45),
+    new THREE.Vector3(-.7+i*.2,2.65,.2)
+  ]);
+  internals.add(new THREE.Mesh(new THREE.TubeGeometry(curve,24,.025,6,false),new THREE.MeshStandardMaterial({color:[0xe34b4b,0x4b8ee3,0xe6c84b,0xdddddd][i]})));
+}
+internals.visible=false;
+
+// removable top cover (top visible from above)
+const cover=box(scope,5.72,.12,3.52,0,2.84,0,mat(0x303b48,.55,.35));
+
+// ground
+const floor=new THREE.Mesh(new THREE.PlaneGeometry(200,200),mat(0x0e1722,.1,.8));
+floor.rotation.x=-Math.PI/2;
+floor.position.y=-.04;
+floor.receiveShadow=true;
+scene.add(floor);
+
+// soft ground ring
+const ring=new THREE.Mesh(new THREE.RingGeometry(3.5,3.56,80),new THREE.MeshBasicMaterial({color:0x224160,side:THREE.DoubleSide}));
+ring.rotation.x=-Math.PI/2;
+ring.position.y=-.025;
+scene.add(ring);
+
+function setView(pos,target=new THREE.Vector3(0,1.3,0)){
+  camera.position.copy(pos);
+  controls.target.copy(target);
+  controls.update();
+}
+
+function setActiveBtn(btn){
+  document.querySelectorAll('.panel button').forEach(b=>{
+    if(b!==document.getElementById('screen') && b!==document.getElementById('cut')) {
+      b.classList.remove('active');
+    }
+  });
+  if(btn) btn.classList.add('active');
+}
+
+const cutBtn=document.getElementById('cut');
+let opened=false;
+cutBtn.onclick=()=>{
+  opened=!opened;
+  internals.visible=opened;
+  cover.visible=!opened;
+  cutBtn.textContent=opened?'Hide internals':'Show internals';
+  cutBtn.classList.toggle('active',opened);
+  if(opened){
+    setView(new THREE.Vector3(6,7,7),new THREE.Vector3(0,1.7,0));
+  }
+};
+
+document.getElementById('outside').onclick=function(){
+  setActiveBtn(this);
+  setView(new THREE.Vector3(7,5.2,9));
+};
+document.getElementById('front').onclick=function(){
+  setActiveBtn(this);
+  setView(new THREE.Vector3(0,2.8,11),new THREE.Vector3(0,1.4,0));
+};
+document.getElementById('back').onclick=function(){
+  setActiveBtn(this);
+  setView(new THREE.Vector3(0,3,-11),new THREE.Vector3(0,1.4,0));
+};
+document.getElementById('reset').onclick=function(){
+  opened=false;
+  internals.visible=false;
+  cover.visible=true;
+  cutBtn.textContent='Show internals';
+  cutBtn.classList.remove('active');
+  setActiveBtn(document.getElementById('outside'));
+  setView(new THREE.Vector3(7,5.2,9));
+};
+
+let screenOn=true;
+document.getElementById('screen').onclick=e=>{
+  screenOn=!screenOn;
+  wave.visible=screenOn;
+  e.currentTarget.textContent='Screen: '+(screenOn?'ON':'OFF');
+  e.currentTarget.classList.toggle('active',screenOn);
+};
+
+window.addEventListener('resize',()=>{
+  camera.aspect=innerWidth/innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(innerWidth,innerHeight);
+});
+
+const loadEl=document.getElementById('loading');
+if(loadEl) loadEl.remove();
+
+// Gentle idle auto-rotation when user is not dragging
+let lastUserInteraction = Date.now();
+controls.addEventListener('start', () => { lastUserInteraction = Date.now(); });
+controls.addEventListener('change', () => { lastUserInteraction = Date.now(); });
+
+function animate(){
+  requestAnimationFrame(animate);
+  // Slowly rotate if idle for more than 4 seconds
+  if (Date.now() - lastUserInteraction > 4000 && !opened) {
+    scope.rotation.y += 0.003;
+  }
+  controls.update();
+  renderer.render(scene,camera);
+}
+animate();
+</script>
+</body>
+</html>
