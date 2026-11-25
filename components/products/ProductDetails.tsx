@@ -16,7 +16,6 @@ import {
   PhoneCall,
   Check,
 } from 'lucide-react';
-import { ThreeDCard, ThreeDLayer } from '@/components/ui/ThreeDCard';
 import { Product } from '@/types/product';
 import { Container } from '@/components/ui/Container';
 import { Button } from '@/components/ui/Button';
@@ -66,16 +65,11 @@ export function ProductDetails({ product, relatedProducts }: ProductDetailsProps
 
         {/* Top Product Hero Layout */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-10 lg:gap-14 pb-14 border-b border-slate-800">
-          {/* Left Column: 3D Image Showcase / Gallery */}
+          {/* Left Column: Static Clean Image Showcase / Gallery (No 3D Tilt) */}
           <div className="lg:col-span-6 space-y-4">
-            <ThreeDCard
-              maxTilt={14}
-              depth={1.03}
-              glowColor="rgba(74, 126, 184, 0.45)"
-              className="relative aspect-[4/3] rounded-2xl bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 border border-slate-800 p-2 sm:p-4 flex items-center justify-center overflow-hidden shadow-2xl shadow-black/80"
-            >
-              {/* 3D Floating Instrument Image */}
-              <ThreeDLayer depth={50} className="w-full h-full relative flex items-center justify-center">
+            <div className="group relative aspect-[4/3] rounded-2xl bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 border border-slate-800 p-2 sm:p-4 flex items-center justify-center overflow-hidden shadow-2xl shadow-black/80">
+              {/* High-Definition Instrument Image */}
+              <div className="w-full h-full relative flex items-center justify-center">
                 <Image
                   src={product.image}
                   alt={product.name}
@@ -84,30 +78,30 @@ export function ProductDetails({ product, relatedProducts }: ProductDetailsProps
                   quality={100}
                   unoptimized={true}
                   sizes="(max-width: 1024px) 100vw, 50vw"
-                  className="object-contain p-2 sm:p-4 hover:scale-105 transition-transform duration-500 drop-shadow-[0_25px_45px_rgba(0,0,0,0.95)]"
+                  className="object-contain p-2 sm:p-4 group-hover:scale-105 transition-transform duration-500 drop-shadow-[0_25px_45px_rgba(0,0,0,0.95)]"
                 />
-              </ThreeDLayer>
+              </div>
 
-              {/* 3D Elevated Badges */}
+              {/* Elevated Badges */}
               {product.badge && (
-                <ThreeDLayer depth={65} className="absolute top-4 left-4 pointer-events-none">
+                <div className="absolute top-4 left-4 pointer-events-none">
                   <div className="bg-[#0f2a4a]/95 text-[#7bb0ed] text-xs font-semibold px-3 py-1 rounded-full border border-[#4A7EB8]/60 shadow-lg flex items-center gap-1.5 backdrop-blur-md">
                     <Sparkles className="w-3.5 h-3.5 text-[#7bb0ed] animate-pulse" />
                     <span>{product.badge}</span>
                   </div>
-                </ThreeDLayer>
+                </div>
               )}
 
-              <ThreeDLayer depth={65} className="absolute top-4 right-4 pointer-events-none">
+              <div className="absolute top-4 right-4 pointer-events-none">
                 <div className="bg-slate-950/90 text-slate-200 text-[10px] font-semibold tracking-wider uppercase px-2.5 py-1 rounded-full border border-white/20 backdrop-blur-md flex items-center gap-1.5 shadow-lg">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#4A7EB8] animate-pulse" />
-                  <span>3D Ultra HD</span>
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#4A7EB8]" />
+                  <span>Ultra HD</span>
                 </div>
-              </ThreeDLayer>
+              </div>
 
-              {/* 3D Ambient Pedestal Glow */}
-              <div className="absolute inset-x-12 bottom-3 h-8 rounded-full bg-[#4A7EB8]/25 blur-xl pointer-events-none" />
-            </ThreeDCard>
+              {/* Ambient Pedestal Glow */}
+              <div className="absolute inset-x-12 bottom-3 h-8 rounded-full bg-[#4A7EB8]/20 blur-xl pointer-events-none" />
+            </div>
 
             {/* Gallery thumbnails note */}
             <div className="flex items-center justify-between text-xs text-slate-400 px-1">

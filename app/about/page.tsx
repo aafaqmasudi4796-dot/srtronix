@@ -14,7 +14,6 @@ import { Container } from '@/components/ui/Container';
 import { Button } from '@/components/ui/Button';
 import { companyDetails, productCategories } from '@/data/products';
 import { AboutShowcase3D } from '@/components/about/AboutShowcase3D';
-import { MovableHeroBackground } from '@/components/ui/MovableHeroBackground';
 
 export const metadata: Metadata = {
   title: 'About Us | Engineering Precision & Innovation',
@@ -32,17 +31,22 @@ export default function AboutPage() {
     <div className="bg-[#09090b] text-slate-200">
       {/* Hero Section with Laboratory Background - Full Screen Height */}
       <section className="relative min-h-screen min-h-[100dvh] flex items-center pt-24 sm:pt-28 pb-16 sm:pb-20 border-b border-slate-800 overflow-hidden">
-        {/* Dynamic 3D Movable Background with Framer Motion Parallax */}
-        <MovableHeroBackground
-          src="/assets/about_fsv_spectrum_analyzer_hero_uhd.jpg"
-          alt="SRTRONIX FSV Signal and Spectrum Analyzer Precision Laboratory Workbench"
-          objectPosition="object-center"
-          brightness="brightness-105"
-          contrast="contrast-105"
-          gradientOverlayRight="absolute inset-0 bg-gradient-to-r from-[#09090b]/80 via-[#09090b]/40 to-transparent pointer-events-none"
-          gradientOverlayBottom="absolute inset-0 bg-gradient-to-t from-[#09090b]/80 via-transparent to-[#09090b]/20 pointer-events-none"
-          interactiveBadgeText="3D Laboratory Viewport • Move cursor to pan"
-        />
+        {/* Clean Static Hero Background (No 3D Motion) */}
+        <div className="absolute inset-0 z-0 overflow-hidden select-none pointer-events-none" aria-hidden="true">
+          <Image
+            src="/assets/about_fsv_spectrum_analyzer_hero_uhd.jpg"
+            alt="SRTRONIX FSV Signal and Spectrum Analyzer Precision Laboratory Workbench"
+            fill
+            priority
+            quality={95}
+            sizes="100vw"
+            className="object-cover object-center brightness-105 contrast-105"
+          />
+          {/* Ambient Lighting & Contrast Overlays */}
+          <div className="absolute inset-0 bg-gradient-to-r from-[#09090b]/85 via-[#09090b]/45 to-transparent pointer-events-none" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#09090b]/80 via-transparent to-[#09090b]/20 pointer-events-none" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_65%_45%,rgba(74,126,184,0.12)_0%,transparent_60%)] pointer-events-none" />
+        </div>
 
         {/* Hero Content - Left Aligned with high-contrast mobile text protection */}
         <Container className="relative z-10">
@@ -97,8 +101,8 @@ export default function AboutPage() {
               </div>
             </div>
 
-            {/* Laboratory Assembly Showcase - Expanded width by more 5cm (~190px) */}
-            <div className="lg:col-span-7 xl:col-span-8 w-full lg:w-[calc(100%+11rem)] xl:w-[calc(100%+14.5rem)] lg:-mr-24 xl:-mr-36">
+            {/* Laboratory Assembly Showcase - Expanded width by ~6cm, decreased height by ~2cm */}
+            <div className="lg:col-span-7 xl:col-span-8 w-full lg:w-[calc(100%+6rem)] xl:w-[calc(100%+8.5rem)] lg:-mr-14 xl:-mr-22">
               <AboutShowcase3D />
             </div>
           </div>
