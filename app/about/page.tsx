@@ -97,8 +97,8 @@ export default function AboutPage() {
               </div>
             </div>
 
-            {/* Laboratory Assembly Showcase - Expanded width by ~6cm, decreased height by ~2cm */}
-            <div className="lg:col-span-7 xl:col-span-8 w-full lg:w-[calc(100%+6rem)] xl:w-[calc(100%+8.5rem)] lg:-mr-14 xl:-mr-22">
+            {/* Laboratory Assembly Showcase - Expanded width by more 5cm (~190px) */}
+            <div className="lg:col-span-7 xl:col-span-8 w-full lg:w-[calc(100%+11rem)] xl:w-[calc(100%+14.5rem)] lg:-mr-24 xl:-mr-36">
               <AboutShowcase3D />
             </div>
           </div>
