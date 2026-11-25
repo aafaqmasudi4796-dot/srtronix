@@ -14,7 +14,6 @@ import {
 import { Container } from '@/components/ui/Container';
 import { ContactForm } from '@/components/contact/ContactForm';
 import { companyDetails } from '@/data/products';
-import { MovableHeroBackground } from '@/components/ui/MovableHeroBackground';
 
 export const metadata: Metadata = {
   title: 'Contact Us | Precision Instrumentation Inquiries',
@@ -36,17 +35,22 @@ export default function ContactPage() {
     <div className="bg-[#09090b] text-slate-200">
       {/* Contact Hero with Oscilloscope Background - Full Screen Height */}
       <section className="relative min-h-screen min-h-[100dvh] flex items-center pt-24 sm:pt-28 pb-16 sm:pb-20 border-b border-slate-800 overflow-hidden">
-        {/* Dynamic 3D Movable Background with Framer Motion Parallax */}
-        <MovableHeroBackground
-          src="/assets/contact_owon_spectrum_oscilloscope_uhd.jpg"
-          alt="SRTRONIX OWON XDS3000 Oscilloscope & XSA1000 Spectrum Analyzer Testing Laboratory"
-          objectPosition="object-center"
-          brightness="brightness-105"
-          contrast="contrast-105"
-          gradientOverlayRight="absolute inset-0 bg-gradient-to-r from-[#09090b]/80 via-[#09090b]/40 to-transparent pointer-events-none"
-          gradientOverlayBottom="absolute inset-0 bg-gradient-to-t from-[#09090b]/80 via-transparent to-[#09090b]/20 pointer-events-none"
-          interactiveBadgeText="3D Laboratory Viewport • Move cursor to pan"
-        />
+        {/* Clean Static Hero Background (No 3D Motion) */}
+        <div className="absolute inset-0 z-0 overflow-hidden select-none pointer-events-none" aria-hidden="true">
+          <Image
+            src="/assets/contact_owon_spectrum_oscilloscope_uhd.jpg"
+            alt="SRTRONIX OWON XDS3000 Oscilloscope & XSA1000 Spectrum Analyzer Testing Laboratory"
+            fill
+            priority
+            quality={95}
+            sizes="100vw"
+            className="object-cover object-center brightness-105 contrast-105"
+          />
+          {/* Ambient Lighting & Contrast Overlays */}
+          <div className="absolute inset-0 bg-gradient-to-r from-[#09090b]/80 via-[#09090b]/40 to-transparent pointer-events-none" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#09090b]/80 via-transparent to-[#09090b]/20 pointer-events-none" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_65%_45%,rgba(74,126,184,0.12)_0%,transparent_60%)] pointer-events-none" />
+        </div>
 
         {/* Contact Hero Content - Shifted to Left Side */}
         <Container className="relative z-10">
