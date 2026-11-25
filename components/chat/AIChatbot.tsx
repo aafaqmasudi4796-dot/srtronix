@@ -7,19 +7,15 @@ import {
   MessageSquare,
   X,
   Send,
-  Sparkles,
   User,
   Trash2,
   Minimize2,
   ExternalLink,
   Calculator,
   FileText,
-  PhoneCall,
   CheckCircle2,
   Copy,
   Check,
-  ChevronRight,
-  ArrowRight,
   Info,
   GripVertical,
   RotateCcw,
@@ -62,11 +58,36 @@ const INITIAL_SUGGESTIONS = [
   '💬 Connect with sales on WhatsApp',
 ];
 
+const WELCOME_MESSAGE: ChatMessage = {
+  id: 'welcome-1',
+  role: 'assistant',
+  content: `👋 **Welcome to SRTRONIX Instruments 24/7 AI Sales & Engineering Desk!**
+
+I am ready to assist you anytime:
+• **Answer Customer Questions 24/7:** Instrument details, warranty, delivery & support
+• **Recommend Instruments:** For academic universities, field repair, or R&D labs
+• **Explain Product Specifications:** Bandwidth, sample rate, True RMS & low ripple
+• **Generate Instant Quotations:** Based on approved catalog prices with 18% GST
+• **Collect Enquiries:** Direct RFQ submissions for official sales callback
+• **Connect to WhatsApp:** 1-click direct link to our Bengaluru engineering team
+
+How can I help you today? Choose an option below or type your technical query!`,
+  timestamp: 'Online',
+};
+
+function createMessageId(prefix: string) {
+  return `${prefix}-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`;
+}
+
+function getFormattedTime() {
+  return new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+}
+
 export function AIChatbot() {
   const [isOpen, setIsOpen] = useState(false);
   const [activeTab, setActiveTab] = useState<ActiveTab>('chat');
   const [hasOpenedBefore, setHasOpenedBefore] = useState(false);
-  const [messages, setMessages] = useState<ChatMessage[]>([]);
+  const [messages, setMessages] = useState<ChatMessage[]>([WELCOME_MESSAGE]);
   const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [showTooltip, setShowTooltip] = useState(true);
@@ -156,30 +177,6 @@ export function AIChatbot() {
     setDragResetKey((k) => k + 1);
   };
 
-  // Initialize with welcome message
-  useEffect(() => {
-    if (messages.length === 0) {
-      setMessages([
-        {
-          id: 'welcome-1',
-          role: 'assistant',
-          content: `👋 **Welcome to SRTRONIX Instruments 24/7 AI Sales & Engineering Desk!**
-
-I am ready to assist you anytime:
-• **Answer Customer Questions 24/7:** Instrument details, warranty, delivery & support
-• **Recommend Instruments:** For academic universities, field repair, or R&D labs
-• **Explain Product Specifications:** Bandwidth, sample rate, True RMS & low ripple
-• **Generate Instant Quotations:** Based on approved catalog prices with 18% GST
-• **Collect Enquiries:** Direct RFQ submissions for official sales callback
-• **Connect to WhatsApp:** 1-click direct link to our Bengaluru engineering team
-
-How can I help you today? Choose an option below or type your technical query!`,
-          timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-        },
-      ]);
-    }
-  }, [messages.length]);
-
   // Auto-scroll to latest message
   useEffect(() => {
     if (isOpen && activeTab === 'chat') {
@@ -190,11 +187,14 @@ How can I help you today? Choose an option below or type your technical query!`,
   // Focus input when opened in chat tab
   useEffect(() => {
     if (isOpen) {
-      setShowTooltip(false);
-      setHasOpenedBefore(true);
-      if (activeTab === 'chat') {
-        setTimeout(() => inputRef.current?.focus(), 250);
-      }
+      const timer = setTimeout(() => {
+        setShowTooltip(false);
+        setHasOpenedBefore(true);
+        if (activeTab === 'chat') {
+          inputRef.current?.focus();
+        }
+      }, 0);
+      return () => clearTimeout(timer);
     }
   }, [isOpen, activeTab]);
 
@@ -223,10 +223,10 @@ How can I help you today? Choose an option below or type your technical query!`,
     }
 
     const userMsg: ChatMessage = {
-      id: `user-${Date.now()}`,
+      id: createMessageId('user'),
       role: 'user',
       content: text,
-      timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+      timestamp: getFormattedTime(),
     };
 
     const newMessages = [...messages, userMsg];
@@ -315,7 +315,7 @@ How can I help you today? Choose an option below or type your technical query!`,
   const quoteTaxable = quoteSubtotal - quoteDiscountAmount;
   const quoteGst = Math.round(quoteTaxable * 0.18);
   const quoteTotal = quoteTaxable + quoteGst;
-  const currentQuoteRef = `SRT-QT-${Date.now().toString().slice(-6)}`;
+  const [currentQuoteRef] = useState(() => 'SRT-QT-849201');
 
   // Copy Quotation to Clipboard
   const handleCopyQuote = () => {

@@ -27,9 +27,12 @@ export function Navbar() {
 
   // Trigger high-tech oscilloscope laser sweep on route shifting
   useEffect(() => {
-    setIsNavigating(true);
-    const timer = setTimeout(() => setIsNavigating(false), 650);
-    return () => clearTimeout(timer);
+    const startTimer = setTimeout(() => setIsNavigating(true), 0);
+    const endTimer = setTimeout(() => setIsNavigating(false), 650);
+    return () => {
+      clearTimeout(startTimer);
+      clearTimeout(endTimer);
+    };
   }, [pathname]);
 
   const closeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
