@@ -36,11 +36,11 @@ export default function AboutPage() {
         <MovableHeroBackground
           src="/assets/about_owon_sds1102_hero_uhd.jpg"
           alt="SRTRONIX OWON SDS1102 Digital Storage Oscilloscope Laboratory Workbench"
-          objectPosition="object-[58%_center] sm:object-center lg:object-[66%_center]"
+          objectPosition="object-center"
           brightness="brightness-105"
           contrast="contrast-105"
-          gradientOverlayRight="absolute inset-0 bg-gradient-to-r from-[#09090b]/75 via-[#09090b]/35 to-transparent pointer-events-none"
-          gradientOverlayBottom="absolute inset-0 bg-gradient-to-t from-[#09090b]/75 via-transparent to-[#09090b]/25 pointer-events-none"
+          gradientOverlayRight="absolute inset-0 bg-gradient-to-r from-[#09090b]/80 via-[#09090b]/40 to-transparent pointer-events-none"
+          gradientOverlayBottom="absolute inset-0 bg-gradient-to-t from-[#09090b]/80 via-transparent to-[#09090b]/20 pointer-events-none"
           interactiveBadgeText="3D Laboratory Viewport • Move cursor to pan"
         />
 

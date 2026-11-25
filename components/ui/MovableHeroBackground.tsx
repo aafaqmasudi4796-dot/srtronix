@@ -44,8 +44,8 @@ export function MovableHeroBackground({
     offset: ['start start', 'end start'],
   });
 
-  const scrollTranslateY = useTransform(scrollYProgress, [0, 1], [0, 140]);
-  const scrollScale = useTransform(scrollYProgress, [0, 1], [1.08, 1.25]);
+  const scrollTranslateY = useTransform(scrollYProgress, [0, 1], [0, 100]);
+  const scrollScale = useTransform(scrollYProgress, [0, 1], [1.02, 1.08]);
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
@@ -76,15 +76,15 @@ export function MovableHeroBackground({
           scale: scrollScale,
           transformStyle: 'preserve-3d',
         }}
-        className="absolute -inset-10 sm:-inset-16 w-[calc(100%+5rem)] sm:w-[calc(100%+8rem)] h-[calc(100%+5rem)] sm:h-[calc(100%+8rem)] [transform-style:preserve-3d]"
+        className="absolute -inset-4 sm:-inset-8 w-[calc(100%+2rem)] sm:w-[calc(100%+4rem)] h-[calc(100%+2rem)] sm:h-[calc(100%+4rem)] [transform-style:preserve-3d]"
       >
         {/* AMBIENT CINEMATIC BREATHING & FLOATING MOTION */}
         <motion.div
           animate={{
-            scale: [1.02, 1.06, 1.02],
-            x: [-8, 8, -8],
-            y: [-6, 6, -6],
-            rotate: [-0.4, 0.4, -0.4],
+            scale: [1.0, 1.025, 1.0],
+            x: [-6, 6, -6],
+            y: [-4, 4, -4],
+            rotate: [-0.3, 0.3, -0.3],
           }}
           transition={{
             duration: 18,
