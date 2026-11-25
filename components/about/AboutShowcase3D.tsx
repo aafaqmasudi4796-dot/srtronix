@@ -1,79 +1,81 @@
 'use client';
 
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
+import Image from 'next/image';
+import { motion, AnimatePresence } from 'framer-motion';
+import { ThreeDCard, ThreeDLayer } from '@/components/ui/ThreeDCard';
 import {
   Sparkles,
-  Maximize2,
-  Minimize2,
-  RotateCcw,
+  Activity,
   Box,
   Layers,
   Cpu,
+  RotateCcw,
+  Maximize2,
+  Minimize2,
+  Waves,
 } from 'lucide-react';
 
 export function AboutShowcase3D() {
+  const [viewMode, setViewMode] = useState<'photo' | 'simulation'>('photo');
   const [isFullscreen, setIsFullscreen] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
   const [iframeKey, setIframeKey] = useState(0);
-  const containerRef = useRef<HTMLDivElement>(null);
-
-  const handleReset = () => {
-    setIsLoading(true);
-    setIframeKey((prev) => prev + 1);
-  };
-
-  const toggleFullscreen = () => {
-    setIsFullscreen((prev) => !prev);
-  };
 
   return (
-    <div
-      ref={containerRef}
-      className={`relative transition-all duration-300 ${
-        isFullscreen
-          ? 'fixed inset-4 sm:inset-10 z-50 flex flex-col bg-[#0b111a] rounded-2xl shadow-2xl border border-[#4A7EB8]/60 overflow-hidden'
-          : 'w-full rounded-2xl overflow-hidden border border-[#4A7EB8]/30 shadow-2xl bg-gradient-to-b from-[#0f172a] to-[#090d16]'
-      }`}
-    >
-      {/* 3D VIEWER HEADER TOOLBAR */}
-      <div className="px-4 py-3 bg-[#0d1522] border-b border-slate-800 flex items-center justify-between text-xs select-none">
-        <div className="flex items-center gap-2.5">
-          <div className="w-7 h-7 rounded-lg bg-[#0f2a4a] border border-[#4A7EB8]/40 flex items-center justify-center text-[#7bb0ed]">
-            <Box className="w-4 h-4 animate-pulse" />
-          </div>
-          <div>
-            <div className="flex items-center gap-2">
-              <span className="font-bold text-white tracking-wide uppercase text-[12px]">
-                Interactive 3D Oscilloscope
-              </span>
-              <span className="px-1.5 py-0.5 rounded text-[10px] font-mono font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 flex items-center gap-1">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                WebGL Active
-              </span>
-            </div>
-            <p className="text-[10px] text-slate-400 hidden sm:block">
-              Click &amp; drag to rotate · Scroll to zoom · Inspect internal circuits
-            </p>
-          </div>
-        </div>
-
-        {/* Toolbar Buttons */}
-        <div className="flex items-center gap-1.5">
+    <div className={`relative transition-all duration-300 ${
+      isFullscreen
+        ? 'fixed inset-4 sm:inset-10 z-50 flex flex-col bg-[#0b111a] rounded-2xl shadow-2xl border border-[#4A7EB8]/60 overflow-hidden'
+        : 'w-full'
+    }`}>
+      {/* HIGH-TECH VIEW MODE SWITCHER */}
+      <div className="mb-3 flex items-center justify-between select-none">
+        <div className="flex items-center gap-1.5 p-1 bg-slate-900/90 rounded-xl border border-slate-800 shadow-md">
           <button
             type="button"
-            onClick={handleReset}
-            title="Reset 3D Scene"
-            className="p-1.5 rounded-lg bg-slate-800/80 hover:bg-slate-700 text-slate-300 hover:text-white transition-colors cursor-pointer border border-slate-700/60 flex items-center gap-1"
+            onClick={() => setViewMode('photo')}
+            className={`px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-all cursor-pointer ${
+              viewMode === 'photo'
+                ? 'bg-[#4A7EB8] text-white shadow-xs'
+                : 'text-slate-400 hover:text-white hover:bg-slate-800/60'
+            }`}
           >
-            <RotateCcw className="w-3.5 h-3.5" />
-            <span className="hidden sm:inline text-[11px]">Reset</span>
+            <Activity className="w-3.5 h-3.5 text-cyan-300" />
+            <span>Oscilloscope Showcase</span>
           </button>
 
           <button
             type="button"
-            onClick={toggleFullscreen}
-            title={isFullscreen ? 'Exit Expand Mode' : 'Expand 3D Viewport'}
-            className="p-1.5 rounded-lg bg-slate-800/80 hover:bg-slate-700 text-slate-300 hover:text-white transition-colors cursor-pointer border border-slate-700/60"
+            onClick={() => setViewMode('simulation')}
+            className={`px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-all cursor-pointer ${
+              viewMode === 'simulation'
+                ? 'bg-[#4A7EB8] text-white shadow-xs'
+                : 'text-slate-400 hover:text-white hover:bg-slate-800/60'
+            }`}
+          >
+            <Box className="w-3.5 h-3.5 text-emerald-400" />
+            <span>Interactive 3D Simulator</span>
+          </button>
+        </div>
+
+        {/* Viewport Control Buttons */}
+        <div className="flex items-center gap-1.5">
+          {viewMode === 'simulation' && (
+            <button
+              type="button"
+              onClick={() => setIframeKey((k) => k + 1)}
+              title="Reset 3D Scene"
+              className="p-1.5 rounded-lg bg-slate-900 border border-slate-800 text-slate-400 hover:text-white hover:bg-slate-800 transition-colors cursor-pointer text-xs flex items-center gap-1"
+            >
+              <RotateCcw className="w-3.5 h-3.5" />
+              <span className="hidden sm:inline">Reset</span>
+            </button>
+          )}
+
+          <button
+            type="button"
+            onClick={() => setIsFullscreen((prev) => !prev)}
+            title={isFullscreen ? 'Exit Expand Mode' : 'Expand View'}
+            className="p-1.5 rounded-lg bg-slate-900 border border-slate-800 text-slate-400 hover:text-white hover:bg-slate-800 transition-colors cursor-pointer"
           >
             {isFullscreen ? (
               <Minimize2 className="w-3.5 h-3.5 text-cyan-300" />
@@ -84,64 +86,116 @@ export function AboutShowcase3D() {
         </div>
       </div>
 
-      {/* 3D CANVAS VIEWPORT (IFRAME EMBED) */}
-      <div
-        className={`relative w-full ${
-          isFullscreen ? 'flex-1 min-h-[500px]' : 'h-[440px] sm:h-[480px] lg:h-[500px]'
-        } bg-[#0b111a] overflow-hidden`}
-      >
-        {/* Loading Overlay */}
-        {isLoading && (
-          <div className="absolute inset-0 z-10 flex flex-col items-center justify-center bg-[#0b111a] text-slate-400 gap-3">
-            <div className="w-9 h-9 rounded-full border-2 border-[#4A7EB8]/30 border-t-[#4A7EB8] animate-spin" />
-            <span className="text-xs font-mono text-slate-300 tracking-wider">
-              Initializing 3D Oscilloscope Geometry...
-            </span>
-          </div>
+      {/* VIEWPORT CONTAINER */}
+      <AnimatePresence mode="wait">
+        {viewMode === 'photo' ? (
+          /* 3D TILT CARD SHOWCASE WITH UPLOADED OSCILLOSCOPE IMAGE */
+          <motion.div
+            key="photo-card"
+            initial={{ opacity: 0, scale: 0.98 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.98 }}
+            transition={{ duration: 0.25 }}
+            className="w-full"
+          >
+            <ThreeDCard
+              maxTilt={12}
+              depth={1.03}
+              glowColor="rgba(74, 126, 184, 0.45)"
+              className="rounded-2xl border border-slate-800 shadow-2xl bg-gradient-to-b from-slate-900/95 via-[#0b121e] to-slate-950 overflow-hidden"
+            >
+              <ThreeDLayer depth={45}>
+                <div className="relative aspect-[16/10] sm:aspect-[4/3] bg-gradient-to-b from-[#0e1726] via-[#090d16] to-[#05080f] overflow-hidden flex items-center justify-center p-4 sm:p-8">
+                  {/* High-tech oscilloscope grid background */}
+                  <div
+                    className="absolute inset-0 opacity-20 pointer-events-none"
+                    style={{
+                      backgroundImage: `
+                        linear-gradient(to right, rgba(74, 126, 184, 0.3) 1px, transparent 1px),
+                        linear-gradient(to bottom, rgba(74, 126, 184, 0.3) 1px, transparent 1px)
+                      `,
+                      backgroundSize: '24px 24px',
+                    }}
+                  />
+
+                  {/* Radial center instrument backlight glow */}
+                  <div className="absolute inset-0 bg-radial from-[#4A7EB8]/20 via-transparent to-transparent pointer-events-none blur-xl" />
+
+                  {/* 3D Levitating Oscilloscope Image */}
+                  <div className="relative w-full h-full max-w-[480px] max-h-[300px] flex items-center justify-center drop-shadow-[0_20px_35px_rgba(0,0,0,0.85)] group-hover:scale-105 transition-transform duration-500">
+                    <Image
+                      src="/assets/about_oscilloscope_dso2d15_clean.png"
+                      alt="Hantek DSO2D15 Digital Storage Oscilloscope with Waveform Generator"
+                      fill
+                      priority
+                      quality={95}
+                      sizes="(max-width: 1024px) 100vw, 50vw"
+                      className="object-contain"
+                    />
+                  </div>
+
+                  {/* Top-Left Floating Badge */}
+                  <div className="absolute top-3.5 left-3.5 z-20 pointer-events-none">
+                    <span className="inline-flex items-center gap-1.5 px-3 py-1 text-xs font-semibold rounded-full bg-slate-950/85 text-[#7bb0ed] border border-[#4A7EB8]/60 shadow-lg backdrop-blur-md">
+                      <Sparkles className="w-3.5 h-3.5 text-[#7bb0ed] animate-pulse" />
+                      <span>150 MHz · 1 GSa/s Dual-Channel</span>
+                    </span>
+                  </div>
+
+                  {/* Top-Right Floating Feature Pill */}
+                  <div className="absolute top-3.5 right-3.5 z-20 pointer-events-none hidden sm:inline-flex">
+                    <span className="inline-flex items-center gap-1.5 px-2.5 py-1 text-[11px] font-semibold rounded-full bg-emerald-950/80 text-emerald-300 border border-emerald-500/40 shadow-lg backdrop-blur-md">
+                      <Waves className="w-3 h-3 text-emerald-400" />
+                      <span>Built-in AWG Generator</span>
+                    </span>
+                  </div>
+
+                  {/* Specular Light Sweep Overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/5 to-transparent pointer-events-none" />
+                </div>
+              </ThreeDLayer>
+
+              {/* Bottom Specifications Ribbon */}
+              <ThreeDLayer
+                depth={25}
+                className="p-4 bg-slate-900/90 border-t border-slate-800 text-xs text-slate-300 flex flex-wrap items-center justify-between gap-2"
+              >
+                <div className="flex items-center gap-2">
+                  <span className="font-semibold text-white">Hantek DSO2D15 Digital Storage Oscilloscope</span>
+                  <span className="text-slate-500 hidden sm:inline">•</span>
+                  <span className="text-slate-400 hidden sm:inline">2CH + Signal Generator</span>
+                </div>
+
+                <div className="flex items-center gap-2">
+                  <span className="font-mono text-[#7bb0ed] font-semibold bg-[#0f2a4a] px-2.5 py-0.5 rounded border border-[#4A7EB8]/40">
+                    DSO2D15 / 150MHz
+                  </span>
+                </div>
+              </ThreeDLayer>
+            </ThreeDCard>
+          </motion.div>
+        ) : (
+          /* INTERACTIVE 3D WEBGL OSCILLOSCOPE SIMULATOR */
+          <motion.div
+            key="simulation-view"
+            initial={{ opacity: 0, scale: 0.98 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.98 }}
+            transition={{ duration: 0.25 }}
+            className={`w-full rounded-2xl overflow-hidden border border-[#4A7EB8]/40 shadow-2xl bg-[#0b111a] ${
+              isFullscreen ? 'flex-1 min-h-[500px]' : 'h-[440px] sm:h-[480px] lg:h-[500px]'
+            }`}
+          >
+            <iframe
+              key={iframeKey}
+              src="/oscilloscope-3d.html"
+              title="SRTRONIX Interactive 3D Oscilloscope Simulator"
+              className="w-full h-full border-0 block"
+              allow="accelerometer; gyroscope"
+            />
+          </motion.div>
         )}
-
-        {/* 3D WebGL Three.js Oscilloscope Simulation */}
-        <iframe
-          key={iframeKey}
-          src="/oscilloscope-3d.html"
-          title="SRTRONIX Interactive 3D Oscilloscope Viewer"
-          onLoad={() => setIsLoading(false)}
-          className="w-full h-full border-0 block"
-          allow="accelerometer; gyroscope"
-        />
-
-        {/* Floating Feature Pills */}
-        <div className="absolute top-3 left-3 pointer-events-none hidden sm:flex items-center gap-2 z-10">
-          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 text-[10px] font-semibold rounded-full bg-slate-900/80 text-[#7bb0ed] border border-[#4A7EB8]/50 shadow-md backdrop-blur-md">
-            <Sparkles className="w-3 h-3 text-[#7bb0ed]" />
-            <span>Dual-Channel Benchtop</span>
-          </span>
-          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 text-[10px] font-semibold rounded-full bg-slate-900/80 text-cyan-300 border border-cyan-500/30 shadow-md backdrop-blur-md">
-            <Cpu className="w-3 h-3 text-cyan-400" />
-            <span>X-Ray PCB Mode</span>
-          </span>
-        </div>
-      </div>
-
-      {/* FOOTER SPECS BAR */}
-      <div className="p-3 sm:p-4 bg-[#0d1522] border-t border-slate-800 text-xs text-slate-400 flex flex-wrap items-center justify-between gap-2 select-none">
-        <div className="flex items-center gap-3">
-          <div className="flex items-center gap-1.5 text-slate-300 font-medium">
-            <Layers className="w-3.5 h-3.5 text-[#4A7EB8]" />
-            <span>100 MHz Bandwidth</span>
-          </div>
-          <span className="text-slate-600">•</span>
-          <span className="text-slate-300">1 GS/s Real-Time Sampling</span>
-          <span className="text-slate-600 hidden sm:inline">•</span>
-          <span className="text-slate-400 hidden sm:inline">2 Channels + Trigger</span>
-        </div>
-
-        <div className="flex items-center gap-2">
-          <span className="font-mono text-[#7bb0ed] font-semibold bg-[#0f2a4a] px-2.5 py-0.5 rounded border border-[#4A7EB8]/40 text-[11px]">
-            SR-DSO-1100
-          </span>
-        </div>
-      </div>
+      </AnimatePresence>
     </div>
   );
 }
