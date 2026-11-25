@@ -18,14 +18,14 @@ export function AboutShowcase3D() {
         className="w-full rounded-2xl overflow-hidden border border-slate-800 bg-slate-900/90 shadow-2xl shadow-black/90"
       >
         <ThreeDLayer depth={35}>
-          <div className="relative w-full h-[380px] sm:h-[480px] lg:h-[540px] xl:h-[600px] bg-slate-950 overflow-hidden">
+          <div className="relative w-full h-[360px] sm:h-[440px] lg:h-[480px] xl:h-[520px] bg-slate-950 overflow-hidden">
             <Image
               src="/assets/about_laboratory_assembly_showcase.jpg"
               alt="SRTRONIX R&D Engineering Assembly and Electronic Testing Facility"
               fill
               priority
               quality={95}
-              sizes="(max-width: 1024px) 100vw, 65vw"
+              sizes="(max-width: 1024px) 100vw, 70vw"
               className="object-cover group-hover:scale-105 transition-transform duration-700"
             />
 

@@ -67,7 +67,7 @@ export default function AboutPage() {
       </section>
 
       {/* Company Overview Section */}
-      <section className="py-12 sm:py-16 border-b border-slate-800">
+      <section className="py-12 sm:py-16 border-b border-slate-800 overflow-hidden">
         <Container>
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-10 lg:gap-12 items-center">
             {/* Company Overview Text - On the Left Side */}
@@ -97,8 +97,8 @@ export default function AboutPage() {
               </div>
             </div>
 
-            {/* Laboratory Assembly Showcase - On the Right Side */}
-            <div className="lg:col-span-7 xl:col-span-7">
+            {/* Laboratory Assembly Showcase - Expanded width by ~4-6cm on desktop */}
+            <div className="lg:col-span-7 xl:col-span-7 w-full lg:w-[calc(100%+4rem)] xl:w-[calc(100%+6rem)] lg:-mr-10 xl:-mr-16">
               <AboutShowcase3D />
             </div>
           </div>
