@@ -38,14 +38,14 @@ export default function ContactPage() {
       <section className="relative min-h-screen min-h-[100dvh] flex items-center pt-24 sm:pt-28 pb-16 sm:pb-20 border-b border-slate-800 overflow-hidden">
         {/* Dynamic 3D Movable Background with Framer Motion Parallax */}
         <MovableHeroBackground
-          src="/assets/contact_probe_waveform_uhd.jpg"
-          alt="SRTRONIX Multi-Channel Oscilloscope Signal Testing & Probe Measurement"
-          objectPosition="object-[62%_center] lg:object-[72%_center]"
+          src="/assets/contact_owon_spectrum_oscilloscope_uhd.jpg"
+          alt="SRTRONIX OWON XDS3000 Oscilloscope & XSA1000 Spectrum Analyzer Testing Laboratory"
+          objectPosition="object-[60%_center] sm:object-[66%_center] lg:object-[72%_center]"
           brightness="brightness-105"
           contrast="contrast-105"
-          gradientOverlayRight="absolute inset-0 bg-gradient-to-r from-[#09090b]/75 via-[#09090b]/30 to-transparent pointer-events-none"
-          gradientOverlayBottom="absolute inset-0 bg-gradient-to-t from-[#09090b]/80 via-transparent to-[#09090b]/25 pointer-events-none"
-          interactiveBadgeText="3D Waveform Viewport • Move cursor to pan"
+          gradientOverlayRight="absolute inset-0 bg-gradient-to-r from-[#09090b]/80 via-[#09090b]/40 to-transparent pointer-events-none"
+          gradientOverlayBottom="absolute inset-0 bg-gradient-to-t from-[#09090b]/85 via-transparent to-[#09090b]/20 pointer-events-none"
+          interactiveBadgeText="3D Laboratory Viewport • Move cursor to pan"
         />
 
         {/* Contact Hero Content - Shifted to Left Side */}
