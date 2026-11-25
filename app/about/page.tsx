@@ -34,8 +34,8 @@ export default function AboutPage() {
       <section className="relative min-h-screen min-h-[100dvh] flex items-center pt-24 sm:pt-28 pb-16 sm:pb-20 border-b border-slate-800 overflow-hidden">
         {/* Dynamic 3D Movable Background with Framer Motion Parallax */}
         <MovableHeroBackground
-          src="/assets/about_fsv_spectrum_analyzer_hero_uhd.jpg"
-          alt="SRTRONIX FSV Signal and Spectrum Analyzer Precision Laboratory Workbench"
+          src="/assets/about_owon_sds1102_hero_uhd.jpg"
+          alt="SRTRONIX OWON SDS1102 Digital Storage Oscilloscope Laboratory Workbench"
           objectPosition="object-center"
           brightness="brightness-105"
           contrast="contrast-105"

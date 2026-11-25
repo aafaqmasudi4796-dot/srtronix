@@ -8,7 +8,7 @@ import { Sparkles } from 'lucide-react';
 export function AboutShowcase3D() {
   return (
     <div className="relative w-full flex items-center justify-center select-none">
-      {/* 3D FLOATING OSCILLOSCOPE - COMPLETELY BORDERLESS & SEAMLESS WITH PAGE BACKGROUND */}
+      {/* 3D FLOATING SPECTRUM ANALYZER - COMPLETELY BORDERLESS & SEAMLESS WITH PAGE BACKGROUND */}
       <ThreeDCard
         maxTilt={12}
         depth={1.03}
@@ -18,15 +18,15 @@ export function AboutShowcase3D() {
         className="w-full flex items-center justify-center bg-transparent border-0 shadow-none"
       >
         <ThreeDLayer depth={45}>
-          <div className="relative w-full h-[400px] sm:h-[480px] lg:h-[540px] flex items-center justify-center p-2 sm:p-4 bg-transparent">
+          <div className="relative w-full h-[360px] sm:h-[440px] lg:h-[480px] flex items-center justify-center p-2 sm:p-4 bg-transparent">
             {/* Atmospheric Ambient Glow (No Lines, No Borders) */}
             <div className="absolute inset-0 bg-radial from-[#4A7EB8]/15 via-transparent to-transparent pointer-events-none blur-3xl" />
 
-            {/* Enlarged Oscilloscope Image (Borderless, Seamless Dark Background) */}
-            <div className="relative w-full h-full max-w-[700px] flex items-center justify-center transition-transform duration-500 hover:scale-105">
+            {/* Enlarged FSV Spectrum Analyzer Image (Borderless, Seamless Dark Background) */}
+            <div className="relative w-full h-full max-w-[720px] flex items-center justify-center transition-transform duration-500 hover:scale-105">
               <Image
-                src="/assets/about_oscilloscope_dso2d15_clean.png"
-                alt="SRTRONIX Digital Storage Oscilloscope"
+                src="/assets/about_fsv_spectrum_analyzer_showcase.png"
+                alt="SRTRONIX FSV Signal and Spectrum Analyzer Precision Laboratory Workbench"
                 fill
                 priority
                 quality={100}
@@ -39,7 +39,7 @@ export function AboutShowcase3D() {
             <div className="absolute top-4 left-4 z-20 pointer-events-none">
               <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-semibold rounded-full bg-[#121216]/90 text-[#7bb0ed] shadow-lg backdrop-blur-md">
                 <Sparkles className="w-3.5 h-3.5 text-[#7bb0ed] animate-pulse" />
-                <span>Dual-Channel Benchtop Oscilloscope</span>
+                <span>FSV Signal &amp; Spectrum Analyzer</span>
               </span>
             </div>
           </div>
