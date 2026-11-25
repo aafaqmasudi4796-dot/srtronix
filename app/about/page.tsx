@@ -34,13 +34,13 @@ export default function AboutPage() {
       <section className="relative min-h-screen min-h-[100dvh] flex items-center pt-24 sm:pt-28 pb-16 sm:pb-20 border-b border-slate-800 overflow-hidden">
         {/* Dynamic 3D Movable Background with Framer Motion Parallax */}
         <MovableHeroBackground
-          src="/assets/about_owon_sds1102_desk_uhd.jpg"
-          alt="SRTRONIX Digital Storage Oscilloscope Laboratory Workbench"
-          objectPosition="object-[55%_center] sm:object-center lg:object-[68%_center]"
-          brightness="brightness-110"
+          src="/assets/about_owon_sds1102_hero_uhd.jpg"
+          alt="SRTRONIX OWON SDS1102 Digital Storage Oscilloscope Laboratory Workbench"
+          objectPosition="object-[58%_center] sm:object-center lg:object-[66%_center]"
+          brightness="brightness-105"
           contrast="contrast-105"
-          gradientOverlayRight="absolute inset-0 bg-gradient-to-r from-[#09090b]/60 via-[#09090b]/25 sm:from-[#09090b]/80 sm:via-[#09090b]/40 to-transparent pointer-events-none"
-          gradientOverlayBottom="absolute inset-0 bg-gradient-to-t from-[#09090b]/65 via-transparent sm:from-[#09090b]/85 to-transparent pointer-events-none"
+          gradientOverlayRight="absolute inset-0 bg-gradient-to-r from-[#09090b]/75 via-[#09090b]/35 to-transparent pointer-events-none"
+          gradientOverlayBottom="absolute inset-0 bg-gradient-to-t from-[#09090b]/75 via-transparent to-[#09090b]/25 pointer-events-none"
           interactiveBadgeText="3D Laboratory Viewport • Move cursor to pan"
         />
 
@@ -67,7 +67,7 @@ export default function AboutPage() {
       </section>
 
       {/* Company Overview Section */}
-      <section className="py-12 sm:py-16">
+      <section className="py-12 sm:py-16 border-b border-slate-800">
         <Container>
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-12 items-center">
             <div className="lg:col-span-6 space-y-5">
@@ -85,11 +85,11 @@ export default function AboutPage() {
               </p>
 
               <div className="pt-2 grid grid-cols-2 gap-4 text-xs">
-                <div className="p-3.5 rounded-xl bg-slate-900/60 shadow-md">
+                <div className="p-3.5 rounded-xl bg-slate-900/80 border border-slate-800">
                   <div className="font-bold text-white text-sm">Domestic Assembly</div>
                   <div className="text-slate-400 mt-0.5">Lucknow, Uttar Pradesh, India</div>
                 </div>
-                <div className="p-3.5 rounded-xl bg-slate-900/60 shadow-md">
+                <div className="p-3.5 rounded-xl bg-slate-900/80 border border-slate-800">
                   <div className="font-bold text-white text-sm">Direct Support</div>
                   <div className="text-slate-400 mt-0.5">Prompt technical &amp; warranty care</div>
                 </div>
