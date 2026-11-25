@@ -67,7 +67,7 @@ export default function AboutPage() {
       </section>
 
       {/* Company Overview Section */}
-      <section className="py-12 sm:py-16 border-b border-slate-800">
+      <section className="py-12 sm:py-16">
         <Container>
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-12 items-center">
             <div className="lg:col-span-6 space-y-5">
@@ -85,11 +85,11 @@ export default function AboutPage() {
               </p>
 
               <div className="pt-2 grid grid-cols-2 gap-4 text-xs">
-                <div className="p-3.5 rounded-xl bg-slate-900/80 border border-slate-800">
+                <div className="p-3.5 rounded-xl bg-slate-900/60 shadow-md">
                   <div className="font-bold text-white text-sm">Domestic Assembly</div>
                   <div className="text-slate-400 mt-0.5">Lucknow, Uttar Pradesh, India</div>
                 </div>
-                <div className="p-3.5 rounded-xl bg-slate-900/80 border border-slate-800">
+                <div className="p-3.5 rounded-xl bg-slate-900/60 shadow-md">
                   <div className="font-bold text-white text-sm">Direct Support</div>
                   <div className="text-slate-400 mt-0.5">Prompt technical &amp; warranty care</div>
                 </div>
