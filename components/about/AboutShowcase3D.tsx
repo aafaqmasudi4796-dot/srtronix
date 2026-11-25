@@ -8,9 +8,9 @@ import { Sparkles, ShieldCheck, Cpu } from 'lucide-react';
 export function AboutShowcase3D() {
   return (
     <div className="relative w-full flex items-center justify-center select-none">
-      {/* 3D FLOATING LABORATORY FACILITY SHOWCASE */}
+      {/* 3D FLOATING ENLARGED LABORATORY FACILITY SHOWCASE */}
       <ThreeDCard
-        maxTilt={10}
+        maxTilt={8}
         depth={1.03}
         glowColor="rgba(74, 126, 184, 0.45)"
         rimBorder={true}
@@ -18,14 +18,14 @@ export function AboutShowcase3D() {
         className="w-full rounded-2xl overflow-hidden border border-slate-800 bg-slate-900/90 shadow-2xl shadow-black/90"
       >
         <ThreeDLayer depth={35}>
-          <div className="relative w-full h-[360px] sm:h-[440px] lg:h-[490px] xl:h-[530px] bg-slate-950 overflow-hidden">
+          <div className="relative w-full h-[380px] sm:h-[480px] lg:h-[540px] xl:h-[600px] bg-slate-950 overflow-hidden">
             <Image
               src="/assets/about_laboratory_assembly_showcase.jpg"
               alt="SRTRONIX R&D Engineering Assembly and Electronic Testing Facility"
               fill
               priority
               quality={95}
-              sizes="(max-width: 1024px) 100vw, 60vw"
+              sizes="(max-width: 1024px) 100vw, 65vw"
               className="object-cover group-hover:scale-105 transition-transform duration-700"
             />
 
@@ -39,7 +39,7 @@ export function AboutShowcase3D() {
 
             {/* Top Right Calibration Badge */}
             <div className="absolute top-4 right-4 z-20 pointer-events-none hidden sm:inline-flex">
-              <span className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-full bg-slate-950/85 text-emerald-400 border border-emerald-500/30 shadow-lg backdrop-blur-md">
+              <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-semibold rounded-full bg-slate-950/85 text-emerald-400 border border-emerald-500/30 shadow-lg backdrop-blur-md">
                 <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
                 <span>Precision Calibrated</span>
               </span>
