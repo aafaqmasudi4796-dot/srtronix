@@ -15,35 +15,30 @@ interface ProductCardProps {
 export function ProductCard({ product, featured = false }: ProductCardProps) {
   return (
     <div
-      className={`group relative flex flex-col bg-slate-900/80 rounded-2xl border border-slate-800/90 hover:border-[#4A7EB8]/70 shadow-xl shadow-black/60 hover:shadow-2xl hover:shadow-[#4A7EB8]/10 hover:-translate-y-1 transition-all duration-300 overflow-hidden ${
-        featured ? 'ring-1 ring-[#4A7EB8]/50 shadow-[#4A7EB8]/10' : ''
-      }`}
+      className={`group relative flex flex-col bg-slate-900/60 rounded-xl border border-slate-800/90 hover:border-[#4A7EB8]/60 hover:shadow-xl hover:shadow-[#4A7EB8]/20 transition-all duration-300 overflow-hidden ${featured ? 'ring-1 ring-[#4A7EB8]/40' : ''
+        }`}
     >
-      {/* FLOATING TOP BADGES */}
-      <div className="absolute top-3.5 left-3.5 right-3.5 z-20 flex items-center justify-between pointer-events-none">
+      {/* Top badges */}
+      <div className="absolute top-3.5 left-3.5 right-3.5 z-10 flex items-center justify-between pointer-events-none">
         {product.badge ? (
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 text-[11px] font-semibold tracking-wide uppercase rounded-full bg-slate-950/95 text-[#7bb0ed] border border-[#4A7EB8]/60 shadow-lg shadow-black/80 backdrop-blur-md">
-            <Sparkles className="w-3 h-3 text-[#7bb0ed] animate-pulse" />
-            <span>{product.badge}</span>
+          <span className="inline-flex items-center gap-1 px-2.5 py-1 text-[11px] font-semibold tracking-wide uppercase rounded-full bg-slate-950/90 text-[#7bb0ed] border border-[#4A7EB8]/50 shadow-xs backdrop-blur-xs">
+            <Sparkles className="w-3 h-3 text-[#4A7EB8]" />
+            {product.badge}
           </span>
         ) : (
           <span />
         )}
-        <span className="text-[11px] font-medium px-2.5 py-1 rounded-full bg-slate-900/90 text-slate-300 border border-slate-700/60 shadow-md backdrop-blur-md">
+        <span className="text-[11px] font-medium px-2.5 py-1 rounded-full bg-slate-800/90 text-slate-300 border border-slate-700/50 backdrop-blur-xs">
           {product.category}
         </span>
       </div>
 
-      {/* FULL-SIZE PRODUCT IMAGE AREA */}
+      {/* Product Image Area - Full Ultra HD */}
       <Link
         href={`/products/${product.slug}`}
-        className="relative w-full aspect-[4/3] bg-gradient-to-b from-slate-950 via-slate-900/90 to-slate-950/95 border-b border-slate-800/80 overflow-hidden block"
+        className="relative w-full aspect-[4/3] bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950/80 border-b border-slate-800/80 overflow-hidden block"
       >
-        {/* Ambient Light Pedestal */}
-        <div className="absolute inset-x-8 bottom-3 h-8 rounded-full bg-[#4A7EB8]/20 blur-xl group-hover:bg-[#4A7EB8]/45 transition-colors duration-500 pointer-events-none" />
-
-        {/* Product Instrument Image */}
-        <div className="absolute inset-0 flex items-center justify-center p-3 sm:p-5">
+        <div className="absolute inset-0 flex items-center justify-center p-2.5 sm:p-3">
           <Image
             src={product.image}
             alt={product.name}
@@ -51,15 +46,12 @@ export function ProductCard({ product, featured = false }: ProductCardProps) {
             quality={100}
             unoptimized={true}
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-            className="object-contain p-2 group-hover:scale-108 transition-transform duration-500 ease-out drop-shadow-[0_20px_35px_rgba(0,0,0,0.9)]"
+            className="object-contain p-1 group-hover:scale-105 transition-transform duration-500 ease-out drop-shadow-[0_12px_24px_rgba(0,0,0,0.7)]"
           />
         </div>
-
-        {/* Subtle Scanline Sweep on Hover */}
-        <div className="absolute inset-x-0 h-10 bg-gradient-to-b from-transparent via-[#7bb0ed]/15 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
       </Link>
 
-      {/* CARD CONTENT */}
+      {/* Card Content */}
       <div className="flex-1 flex flex-col p-5 sm:p-6 bg-slate-900/40">
         <div className="mb-2">
           <Link href={`/products/${product.slug}`}>
@@ -77,7 +69,7 @@ export function ProductCard({ product, featured = false }: ProductCardProps) {
           {product.keySpecs.slice(0, 4).map((spec, i) => (
             <div
               key={i}
-              className="bg-slate-950/70 rounded-lg p-2.5 border border-slate-800/80 shadow-inner group-hover:border-[#4A7EB8]/30 transition-colors"
+              className="bg-slate-800/60 rounded-md p-2 border border-slate-700/50"
             >
               <div className="text-[10px] uppercase font-semibold text-[#7bb0ed] tracking-wide">
                 {spec.label}
@@ -95,22 +87,20 @@ export function ProductCard({ product, featured = false }: ProductCardProps) {
             href={`/contact?product=${encodeURIComponent(product.name)}`}
             variant="secondary"
             size="sm"
-            className="text-xs font-semibold shadow-md"
+            className="text-xs font-semibold"
           >
             Inquire Now
           </Button>
 
           <Link
             href={`/products/${product.slug}`}
-            className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-300 hover:text-[#7bb0ed] transition-colors py-1.5 px-2.5 rounded-lg hover:bg-slate-800/80"
+            className="inline-flex items-center gap-1 text-xs font-semibold text-slate-300 hover:text-[#7bb0ed] transition-colors py-1.5 px-2 rounded-md hover:bg-slate-800"
           >
             <span>View Details</span>
-            <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+            <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
           </Link>
         </div>
       </div>
     </div>
   );
 }
-
-export default ProductCard;
