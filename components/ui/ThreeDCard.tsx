@@ -12,6 +12,7 @@ interface ThreeDCardProps {
   glare?: boolean; // enable specular glare highlight, default true
   pedestal?: boolean; // enable 3D floating shadow underneath, default true
   glowColor?: string; // e.g. 'rgba(74, 126, 184, 0.4)'
+  rimBorder?: boolean; // enable rim highlight border, default true
 }
 
 export function ThreeDCard({
@@ -23,6 +24,7 @@ export function ThreeDCard({
   glare = true,
   pedestal = true,
   glowColor = 'rgba(74, 126, 184, 0.35)',
+  rimBorder = true,
 }: ThreeDCardProps) {
   const cardRef = useRef<HTMLDivElement>(null);
   const [isHovered, setIsHovered] = useState(false);
@@ -124,12 +126,14 @@ export function ThreeDCard({
         )}
 
         {/* HOLOGRAPHIC RIM HIGHLIGHT */}
-        <div
-          className={`pointer-events-none absolute inset-0 rounded-[inherit] border transition-opacity duration-300 [transform:translateZ(2px)] ${
-            isHovered ? 'border-[#7bb0ed]/40 shadow-[inset_0_0_20px_rgba(74,126,184,0.15)]' : 'border-transparent'
-          }`}
-          aria-hidden="true"
-        />
+        {rimBorder && (
+          <div
+            className={`pointer-events-none absolute inset-0 rounded-[inherit] border transition-opacity duration-300 [transform:translateZ(2px)] ${
+              isHovered ? 'border-[#7bb0ed]/40 shadow-[inset_0_0_20px_rgba(74,126,184,0.15)]' : 'border-transparent'
+            }`}
+            aria-hidden="true"
+          />
+        )}
       </motion.div>
     </div>
   );
