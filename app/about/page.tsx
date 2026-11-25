@@ -69,8 +69,8 @@ export default function AboutPage() {
       {/* Company Overview Section */}
       <section className="py-12 sm:py-16 border-b border-slate-800">
         <Container>
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-12 items-center">
-            <div className="lg:col-span-6 space-y-5">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-10 lg:gap-12 items-center">
+            <div className="lg:col-span-5 xl:col-span-5 space-y-5">
               <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#7bb0ed]">
                 <span>WHO WE ARE</span>
               </div>
@@ -96,7 +96,7 @@ export default function AboutPage() {
               </div>
             </div>
 
-            <div className="lg:col-span-6">
+            <div className="lg:col-span-7 xl:col-span-7">
               <AboutShowcase3D />
             </div>
           </div>
