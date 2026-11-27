@@ -15,7 +15,7 @@ export function AboutShowcase3D() {
         <div className="relative w-full h-[320px] sm:h-[380px] lg:h-[420px] xl:h-[450px] bg-slate-950 overflow-hidden">
           <Image
             src="/assets/about_laboratory_assembly_showcase.jpg"
-            alt="SRTRONIX R&D Engineering Assembly and Electronic Testing Facility"
+            alt="SRTRONIX R&D Engineering Assembly and Electronic Testing Facility - Bengaluru, India"
             fill
             priority
             quality={95}

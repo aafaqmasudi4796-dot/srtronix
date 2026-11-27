@@ -376,7 +376,7 @@ export function Hero() {
                       <div className="relative w-full h-full">
                         <Image
                           src={currentSlide.image}
-                          alt={currentSlide.badge}
+                          alt={`${currentSlide.badge} - ${currentSlide.categoryTag} by SRTRONIX Instruments`}
                           fill
                           priority
                           quality={100}

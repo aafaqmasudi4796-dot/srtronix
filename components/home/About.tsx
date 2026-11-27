@@ -334,7 +334,7 @@ export function About() {
                       <div className="relative w-full h-[62%] bg-slate-950 overflow-hidden">
                         <Image
                           src={card.image}
-                          alt={card.title}
+                          alt={`${card.title} - ${card.category} by SRTRONIX Instruments`}
                           fill
                           sizes="(max-width: 768px) 240px, 290px"
                           className="object-cover object-center transition-transform duration-700 group-hover:scale-108"

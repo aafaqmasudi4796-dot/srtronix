@@ -75,7 +75,7 @@ export function FeaturedProducts() {
 
                   <Image
                     src={product.image}
-                    alt={product.name}
+                    alt={`${product.name} - ${product.category} by SRTRONIX Instruments`}
                     fill
                     quality={100}
                     unoptimized={true}

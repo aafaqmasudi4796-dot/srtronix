@@ -72,7 +72,7 @@ export function ProductDetails({ product, relatedProducts }: ProductDetailsProps
               <div className="w-full h-full relative flex items-center justify-center">
                 <Image
                   src={product.image}
-                  alt={product.name}
+                  alt={`${product.name} - ${product.category} Precision Test Instrument by SRTRONIX`}
                   fill
                   priority
                   quality={100}

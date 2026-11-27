@@ -63,7 +63,7 @@ export function Footer() {
             <Link href="/" className="inline-flex items-center">
               <Image
                 src="/assets/logo.jpeg"
-                alt="SRTRONIX Logo"
+                alt="SRTRONIX Instruments Private Limited - Precision Test & Measurement Equipment"
                 width={290}
                 height={90}
                 priority

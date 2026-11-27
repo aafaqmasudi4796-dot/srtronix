@@ -110,11 +110,10 @@ export function Navbar() {
       {/* SCROLL-DYNAMIC NAVBAR: Transparent at initial stage, solid black with thin white lower border on scroll */}
 
       <header
-        className={`fixed inset-x-0 top-0 z-50 w-full transition-all duration-300 ${
-          isScrolled || isMobileMenuOpen
-            ? 'bg-black border-b border-white shadow-lg shadow-black/60'
-            : 'bg-transparent border-b border-transparent shadow-none'
-        }`}
+        className={`fixed inset-x-0 top-0 z-50 w-full transition-all duration-300 ${isScrolled || isMobileMenuOpen
+          ? 'bg-black border-b border-white shadow-lg shadow-black/60'
+          : 'bg-transparent border-b border-transparent shadow-none'
+          }`}
       >
         {/* Oscilloscope Route Shifting Laser Sweep */}
         <AnimatePresence>
@@ -141,7 +140,7 @@ export function Navbar() {
           >
             <Image
               src={logo.src}
-              alt="SR-TRONIX - Test and Measurement"
+              alt="SRTRONIX Instruments - Smart Work Bench Stations & Lab Equipment"
               width={440}
               height={110}
               priority
@@ -203,11 +202,10 @@ export function Navbar() {
                     )}
 
                     <span
-                      className={`relative z-10 transition-colors duration-200 ${
-                        isActive
-                          ? 'font-semibold text-white drop-shadow-[0_0_8px_rgba(123,176,237,0.5)]'
-                          : 'text-neutral-300 hover:text-white'
-                      }`}
+                      className={`relative z-10 transition-colors duration-200 ${isActive
+                        ? 'font-semibold text-white drop-shadow-[0_0_8px_rgba(123,176,237,0.5)]'
+                        : 'text-neutral-300 hover:text-white'
+                        }`}
                     >
                       {link.name}
                     </span>
@@ -259,23 +257,21 @@ export function Navbar() {
                     )}
 
                     <span
-                      className={`relative z-10 transition-colors duration-200 ${
-                        isActive || isCurrentOpen
-                          ? 'font-semibold text-white drop-shadow-[0_0_8px_rgba(123,176,237,0.5)]'
-                          : 'text-neutral-300 group-hover:text-white'
-                      }`}
+                      className={`relative z-10 transition-colors duration-200 ${isActive || isCurrentOpen
+                        ? 'font-semibold text-white drop-shadow-[0_0_8px_rgba(123,176,237,0.5)]'
+                        : 'text-neutral-300 group-hover:text-white'
+                        }`}
                     >
                       {link.name}
                     </span>
 
                     <ChevronDown
-                      className={`relative z-10 h-3.5 w-3.5 transition-transform duration-200 ${
-                        isCurrentOpen
-                          ? 'rotate-180 text-amber-400'
-                          : isActive
+                      className={`relative z-10 h-3.5 w-3.5 transition-transform duration-200 ${isCurrentOpen
+                        ? 'rotate-180 text-amber-400'
+                        : isActive
                           ? 'text-[#7bb0ed]'
                           : 'text-neutral-300 group-hover:text-white'
-                      }`}
+                        }`}
                     />
                   </Link>
 

@@ -16,21 +16,57 @@ import { Container } from '@/components/ui/Container';
 import { Button } from '@/components/ui/Button';
 import { companyDetails, productCategories } from '@/data/products';
 import { AboutShowcase3D } from '@/components/about/AboutShowcase3D';
+import { BreadcrumbJsonLd } from '@/components/seo/JsonLd';
+import { SITE_URL } from '@/lib/site';
 
 export const metadata: Metadata = {
-  title: 'About Us | Engineering Precision & Innovation',
+  title: 'About SRTRONIX | Precision Laboratory Test Instruments & Smart Workbenches',
   description:
-    'Learn about SRTRONIX Instruments Private Limited. Designed, engineered, and assembled in India with meticulous attention to detail for engineers, universities, and industrial laboratories.',
+    'Learn about SRTRONIX Instruments Private Limited in Bengaluru, India. We engineer and assemble customizable Smart Work Bench Stations, digital oscilloscopes, and precision electronic laboratory instruments.',
+  keywords: [
+    'about SRTRONIX',
+    'SRTRONIX Instruments Private Limited',
+    'test equipment manufacturer India',
+    'smart work bench factory Bengaluru',
+    'laboratory instruments assembly India',
+    'electronic measurement instruments company',
+  ],
+  alternates: {
+    canonical: '/about',
+  },
   openGraph: {
-    title: 'About SRTRONIX | Precision Lab Instruments',
+    title: 'About SRTRONIX | Precision Lab Instruments & Smart Workbenches',
     description:
-      'Engineering precision, empowering innovation. Designed, engineered, and assembled in India.',
+      'Engineering precision, empowering innovation. Designed, engineered, and assembled in Bengaluru, India.',
+    url: `${SITE_URL}/about`,
+    type: 'website',
+    images: [
+      {
+        url: '/assets/about_laboratory_assembly_showcase.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'SRTRONIX R&D Engineering Assembly and Electronic Testing Facility in Bengaluru',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'About SRTRONIX | Precision Lab Instruments & Smart Workbenches',
+    description:
+      'Engineering precision, empowering innovation. Designed, engineered, and assembled in Bengaluru, India.',
+    images: ['/assets/about_laboratory_assembly_showcase.jpg'],
   },
 };
 
 export default function AboutPage() {
   return (
     <div className="bg-[#09090b] text-slate-200">
+      <BreadcrumbJsonLd
+        items={[
+          { name: 'Home', path: '/' },
+          { name: 'About Us', path: '/about' },
+        ]}
+      />
       {/* Hero Section with Laboratory Background - Full Screen Height */}
       <section className="relative min-h-screen min-h-[100dvh] flex items-center pt-24 sm:pt-28 pb-16 sm:pb-20 border-b border-slate-800 overflow-hidden">
         {/* Clean Static Hero Background (No 3D Motion) */}

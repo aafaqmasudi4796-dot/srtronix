@@ -14,15 +14,45 @@ import {
 import { Container } from '@/components/ui/Container';
 import { ContactForm } from '@/components/contact/ContactForm';
 import { companyDetails } from '@/data/products';
+import { BreadcrumbJsonLd } from '@/components/seo/JsonLd';
+import { SITE_URL } from '@/lib/site';
 
 export const metadata: Metadata = {
-  title: 'Contact Us | Precision Instrumentation Inquiries',
+  title: 'Contact SRTRONIX | Quotes, Technical Inquiries & Lab Workbench Orders',
   description:
-    'Contact SRTRONIX for test and measurement instrument quotations, custom Smart Work Bench design, technical specifications, and bulk institutional requirements.',
+    'Contact SRTRONIX Instruments in Bengaluru, Karnataka. Request official quotations, custom Smart Work Bench Station specifications, university lab packages, and prompt technical support.',
+  keywords: [
+    'contact SRTRONIX',
+    'test equipment quote India',
+    'smart workbench price inquiry',
+    'laboratory instruments supplier Bengaluru',
+    'SRTRONIX address phone email',
+    'electronic lab equipment quotation',
+  ],
+  alternates: {
+    canonical: '/contact',
+  },
   openGraph: {
-    title: 'Contact SRTRONIX Instruments',
+    title: 'Contact SRTRONIX Instruments | Lab Test Equipment & Workbenches',
     description:
-      'Connect with our instrumentation team in Bengaluru, Karnataka for test equipment and smart workbench stations.',
+      'Connect with our instrumentation team in Bengaluru, Karnataka for test equipment quotations and custom Smart Work Bench Stations.',
+    url: `${SITE_URL}/contact`,
+    type: 'website',
+    images: [
+      {
+        url: '/assets/contact_owon_spectrum_oscilloscope_uhd.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'Contact SRTRONIX Instruments - Bengaluru Facility',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Contact SRTRONIX Instruments | Lab Test Equipment & Workbenches',
+    description:
+      'Connect with our instrumentation team in Bengaluru, Karnataka for test equipment quotations and custom Smart Work Bench Stations.',
+    images: ['/assets/contact_owon_spectrum_oscilloscope_uhd.jpg'],
   },
 };
 
@@ -33,6 +63,12 @@ export default function ContactPage() {
 
   return (
     <div className="bg-[#09090b] text-slate-200">
+      <BreadcrumbJsonLd
+        items={[
+          { name: 'Home', path: '/' },
+          { name: 'Contact Us', path: '/contact' },
+        ]}
+      />
       {/* Contact Hero with Oscilloscope Background - Full Screen Height */}
       <section className="relative min-h-screen min-h-[100dvh] flex items-center pt-24 sm:pt-28 pb-16 sm:pb-20 border-b border-slate-800 overflow-hidden">
         {/* Clean Static Hero Background (No 3D Motion) */}

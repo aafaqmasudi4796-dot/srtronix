@@ -41,7 +41,7 @@ export function ProductCard({ product, featured = false }: ProductCardProps) {
         <div className="absolute inset-0 flex items-center justify-center p-2.5 sm:p-3">
           <Image
             src={product.image}
-            alt={product.name}
+            alt={`${product.name} - ${product.category} by SRTRONIX Instruments`}
             fill
             quality={100}
             unoptimized={true}
