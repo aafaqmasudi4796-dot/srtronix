@@ -172,21 +172,70 @@ export function Hero() {
   return (
     <section
       id="home"
-      className="relative isolate w-full overflow-hidden bg-[#09090b] text-white flex items-center"
+      className="relative isolate w-full min-h-screen min-h-[100dvh] overflow-hidden bg-[#09090b] text-white flex flex-col justify-between"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
     >
-      {/* Clean Dark Atmosphere (No bleeding outside shade) */}
-      <div className="absolute inset-0 bg-[#09090b] pointer-events-none" />
+      {/* 1. FULL-SCREEN BACKGROUND SLIDE IMAGE WITH CINEMATIC CROSSFADE */}
+      <div className="absolute inset-0 z-0 overflow-hidden select-none pointer-events-none">
+        <AnimatePresence mode="wait" custom={direction}>
+          <motion.div
+            key={currentSlide.id + '-bg'}
+            custom={direction}
+            initial={{ opacity: 0, scale: 1.05 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.98 }}
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            className="absolute inset-0 w-full h-full"
+          >
+            <Image
+              src={currentSlide.image}
+              alt={currentSlide.badge}
+              fill
+              priority
+              quality={100}
+              unoptimized={true}
+              sizes="100vw"
+              className="object-cover object-center brightness-100 contrast-105"
+            />
+          </motion.div>
+        </AnimatePresence>
 
-      {/* 2. MAIN WRAPPER WITH VERTICAL STEPPER + CONTENT + ROTATING APERTURE */}
-      <div className="relative z-10 w-full max-w-[1440px] mx-auto px-4 sm:px-8 lg:px-16 pt-16 sm:pt-20 pb-2 sm:pb-5">
-        <div className="flex items-center gap-6 sm:gap-10 lg:gap-14">
+        {/* Cinematic Multi-Stop Contrast Overlays for Perfect Readability */}
+        <div className="absolute inset-0 bg-gradient-to-r from-[#09090b]/95 via-[#09090b]/75 md:via-[#09090b]/55 to-[#09090b]/25 lg:to-transparent pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#09090b] via-[#09090b]/35 to-transparent pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#09090b]/80 via-transparent to-transparent pointer-events-none" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_45%,rgba(74,126,184,0.18)_0%,transparent_65%)] pointer-events-none" />
+      </div>
 
-          {/* LEFT VERTICAL STEPPER BAR (From Pinterest Reference Image) */}
+      {/* PREV SLIDE BUTTON (LEFT EDGE) */}
+      <button
+        type="button"
+        onClick={prevSlide}
+        aria-label="Previous slide"
+        className="absolute left-3 sm:left-6 lg:left-8 top-1/2 -translate-y-1/2 z-30 flex h-11 w-11 sm:h-13 sm:w-13 items-center justify-center rounded-full border border-white/25 bg-black/60 text-white backdrop-blur-md shadow-2xl transition-all duration-200 hover:bg-[#4A7EB8] hover:border-[#4A7EB8] hover:scale-110 active:scale-95 cursor-pointer"
+      >
+        <ChevronLeft size={24} />
+      </button>
+
+      {/* NEXT SLIDE BUTTON (RIGHT EDGE) */}
+      <button
+        type="button"
+        onClick={nextSlide}
+        aria-label="Next slide"
+        className="absolute right-3 sm:right-6 lg:right-8 top-1/2 -translate-y-1/2 z-30 flex h-11 w-11 sm:h-13 sm:w-13 items-center justify-center rounded-full border border-white/25 bg-black/60 text-white backdrop-blur-md shadow-2xl transition-all duration-200 hover:bg-[#4A7EB8] hover:border-[#4A7EB8] hover:scale-110 active:scale-95 cursor-pointer"
+      >
+        <ChevronRight size={24} />
+      </button>
+
+      {/* 2. MAIN CONTENT WRAPPER: STEPPER + HERO TEXT + RIGHT FLOATING SPEC CAPSULE */}
+      <div className="relative z-10 w-full max-w-[1440px] mx-auto px-6 sm:px-12 lg:px-20 pt-28 sm:pt-36 pb-8 sm:pb-12 flex-1 flex items-center">
+        <div className="flex items-center gap-6 sm:gap-10 lg:gap-14 w-full">
+
+          {/* LEFT VERTICAL STEPPER BAR */}
           <div className="hidden md:flex flex-col items-center justify-center shrink-0 relative py-4">
             {/* Vertical connecting line */}
-            <div className="absolute top-4 bottom-4 w-[2px] bg-gradient-to-b from-white/10 via-white/20 to-white/10" />
+            <div className="absolute top-4 bottom-4 w-[2px] bg-gradient-to-b from-white/10 via-white/25 to-white/10" />
 
             {/* Stepper Nodes */}
             <div className="relative z-10 flex flex-col items-center gap-7">
@@ -207,13 +256,13 @@ export function Hero() {
                         className="relative flex items-center justify-center"
                       >
                         {/* Outer Glow Ring */}
-                        <span className="absolute -inset-2 rounded-full bg-[#4A7EB8]/25 blur-sm animate-pulse" />
-                        <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#5a93d3] to-[#4A7EB8] border-2 border-white text-white font-mono font-bold text-xs flex items-center justify-center shadow-lg shadow-[#4A7EB8]/40">
+                        <span className="absolute -inset-2 rounded-full bg-[#4A7EB8]/35 blur-sm animate-pulse" />
+                        <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#5a93d3] to-[#4A7EB8] border-2 border-white text-white font-mono font-bold text-xs flex items-center justify-center shadow-lg shadow-[#4A7EB8]/50">
                           0{index + 1}
                         </div>
                       </motion.div>
                     ) : (
-                      <div className="w-8 h-8 rounded-full bg-slate-900/90 border border-white/25 text-slate-400 group-hover:text-white group-hover:border-white/60 font-mono text-[11px] flex items-center justify-center transition-all duration-300 backdrop-blur-md">
+                      <div className="w-8 h-8 rounded-full bg-black/60 border border-white/25 text-slate-300 group-hover:text-white group-hover:border-white/60 font-mono text-[11px] flex items-center justify-center transition-all duration-300 backdrop-blur-md">
                         0{index + 1}
                       </div>
                     )}
@@ -223,18 +272,18 @@ export function Hero() {
             </div>
           </div>
 
-          {/* MAIN GRID: TEXT CONTENT (LEFT) + ROTATING CIRCULAR APERTURE (RIGHT) */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center flex-1">
+          {/* MAIN GRID: TEXT CONTENT (LEFT) + RIGHT FLOATING GLASS CAPSULE */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center flex-1">
 
             {/* SLIDE TEXT CONTENT (LEFT-CENTER) */}
-            <div className="lg:col-span-6 relative z-20 space-y-6">
+            <div className="lg:col-span-8 relative z-20 space-y-6">
 
               {/* Collaborative Cursor Badge */}
               <CursorBadge
                 name="Instrumentation Desk"
                 color="#4A7EB8"
-                bgClass="bg-[#0f2a4a]/85"
-                borderClass="border-[#4A7EB8]/50"
+                bgClass="bg-[#0f2a4a]/90"
+                borderClass="border-[#4A7EB8]/60"
                 textClass="text-[#7bb0ed]"
                 initial={{ x: 10, y: -10 }}
                 animate={{ x: [10, 24, -4, 10], y: [-10, -25, 0, -10] }}
@@ -252,57 +301,57 @@ export function Hero() {
                   className="space-y-6"
                 >
                   {/* EYEBROW PILL */}
-                  <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#4A7EB8]/20 border border-[#4A7EB8]/60 text-white font-bold text-xs sm:text-xs tracking-wide uppercase shadow-lg shadow-[#4A7EB8]/20">
+                  <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#0f2a4a]/90 border border-[#4A7EB8]/70 text-[#7bb0ed] font-bold text-xs tracking-wider uppercase shadow-xl backdrop-blur-md">
                     <Sparkles className="w-3.5 h-3.5 text-[#5B96DC] fill-[#5B96DC]" />
                     <span>{currentSlide.categoryTag}</span>
                   </div>
 
-                  {/* HIGH-IMPACT HEADLINE (Bold text in official logo blue #4A7EB8) */}
-                  <h1 className="text-2xl xs:text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold leading-[1.14] tracking-tight">
-                    <span className="text-[#4A7EB8]">
+                  {/* HIGH-IMPACT HEADLINE */}
+                  <h1 className="text-3xl xs:text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-extrabold leading-[1.1] tracking-tight text-white drop-shadow-[0_4px_24px_rgba(0,0,0,0.9)]">
+                    <span className="text-white">
                       {currentSlide.titleBefore}
                     </span>
-                    <span className="font-serif italic font-normal tracking-normal text-white">
+                    <span className="font-serif italic font-normal tracking-normal text-[#7bb0ed] drop-shadow-[0_4px_20px_rgba(74,126,184,0.5)]">
                       {currentSlide.highlight}
                     </span>
-                    <span className="text-[#4A7EB8]">
+                    <span className="text-white">
                       {currentSlide.titleAfter}
                     </span>
                   </h1>
 
                   {/* DESCRIPTION */}
-                  <p className="text-slate-300 text-sm sm:text-base leading-relaxed max-w-xl font-normal">
+                  <p className="text-slate-200 text-sm sm:text-base lg:text-lg leading-relaxed max-w-2xl font-normal drop-shadow-[0_2px_12px_rgba(0,0,0,0.9)]">
                     {currentSlide.description}
                   </p>
 
-                  {/* ACTION BUTTONS (Responsive stacked on mobile, inline on desktop) */}
+                  {/* ACTION BUTTONS */}
                   <div className="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4 w-full sm:w-auto">
                     <Link
                       href={currentSlide.href}
-                      className="group inline-flex items-center justify-center gap-3 rounded-full bg-[#4A7EB8] px-6 sm:px-8 py-3 sm:py-3.5 text-xs sm:text-sm font-bold text-white transition-all duration-300 hover:bg-[#3d6ea4] hover:shadow-xl hover:shadow-[#4A7EB8]/30 hover:-translate-y-0.5 text-center"
+                      className="group inline-flex items-center justify-center gap-3 rounded-full bg-[#4A7EB8] px-7 sm:px-9 py-3.5 sm:py-4 text-xs sm:text-sm font-bold text-white transition-all duration-300 hover:bg-[#3d6ea4] hover:shadow-2xl hover:shadow-[#4A7EB8]/50 hover:-translate-y-0.5 text-center"
                     >
                       <span>Explore Instrument</span>
                       <ArrowUpRight
-                        size={17}
+                        size={18}
                         className="transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1"
                       />
                     </Link>
 
                     <Link
                       href="/contact"
-                      className="group inline-flex items-center justify-center gap-2.5 rounded-full border border-white/30 bg-white/5 px-6 sm:px-7 py-3 sm:py-3.5 text-xs sm:text-sm font-semibold text-white backdrop-blur-md transition-all duration-300 hover:border-white hover:bg-white hover:text-black text-center"
+                      className="group inline-flex items-center justify-center gap-2.5 rounded-full border border-white/30 bg-black/40 px-7 sm:px-8 py-3.5 sm:py-4 text-xs sm:text-sm font-semibold text-white backdrop-blur-md transition-all duration-300 hover:border-white hover:bg-white hover:text-black text-center"
                     >
                       <span>Talk to Our Team</span>
                       <MoveRight
-                        size={16}
+                        size={17}
                         className="transition-transform duration-300 group-hover:translate-x-1"
                       />
                     </Link>
                   </div>
 
                   {/* TRUST LINE */}
-                  <div className="pt-2 sm:pt-4 flex flex-wrap items-center gap-3 sm:gap-5 text-[11px] font-medium tracking-wider text-slate-400">
-                    <span className="text-[#4A7EB8] font-semibold">• Traceable Calibration</span>
+                  <div className="pt-2 sm:pt-4 flex flex-wrap items-center gap-3 sm:gap-5 text-xs font-semibold tracking-wider text-slate-300 drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]">
+                    <span className="text-[#7bb0ed] font-bold">• Traceable Calibration</span>
                     <span>• Heavy-Duty Steel Construction</span>
                     <span>• Direct Factory Warranty</span>
                   </div>
@@ -310,173 +359,54 @@ export function Hero() {
               </AnimatePresence>
             </div>
 
-            {/* ROTATING CIRCULAR APERTURE SHOWCASE (RIGHT - Exact from Pin Reference) */}
-            <div className="lg:col-span-6 relative flex items-center justify-center py-4 sm:py-6">
-
-              {/* SLIDE PREV BUTTON (LEFT SIDE OF THE SLIDE) */}
-              <button
-                type="button"
-                onClick={prevSlide}
-                aria-label="Previous slide"
-                className="absolute left-0 sm:left-2 lg:-left-5 top-1/2 -translate-y-1/2 z-30 flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-full border border-white/20 bg-slate-950/80 text-white backdrop-blur-md shadow-2xl transition-all duration-200 hover:bg-[#4A7EB8] hover:border-[#4A7EB8] hover:text-white hover:scale-110 active:scale-95 cursor-pointer"
-              >
-                <ChevronLeft size={22} />
-              </button>
-
-              {/* Collaborative Cursor Badge near lens */}
-              <CursorBadge
-                name="Rotating Slide System"
-                color="#f97316"
-                bgClass="bg-orange-950/85"
-                borderClass="border-orange-500/50"
-                textClass="text-orange-200"
-                initial={{ x: -10, y: 15 }}
-                animate={{ x: [-10, 10, -25, -10], y: [15, 30, 5, 15] }}
-                duration={4.8}
-                className="hidden sm:flex -bottom-4 right-10"
-              />
-
-              {/* ROTATING DIAL BASE (3D Perspective Viewport) */}
-              <div className="relative w-[260px] h-[260px] xs:w-[300px] xs:h-[300px] sm:w-[420px] sm:h-[420px] lg:w-[480px] lg:h-[480px] flex items-center justify-center [perspective:1400px] [transform-style:preserve-3d]">
-
-                {/* 3D HOLOGRAPHIC AMBIENT GLOW & PEDESTAL */}
-                <div className="pointer-events-none absolute -inset-8 sm:-inset-12 rounded-full bg-gradient-to-tr from-[#4A7EB8]/25 via-blue-600/15 to-purple-600/10 blur-2xl animate-pulse" />
-                <div className="pointer-events-none absolute -inset-10 sm:-inset-16 rounded-full border border-cyan-400/20 animate-gyro-spin" />
-
-                {/* OUTER ROTATING DIAL WHEEL (Turns with Slide Transitions) */}
+            {/* RIGHT SIDE FLOATING FEATURE CAPSULE */}
+            <div className="hidden lg:flex lg:col-span-4 justify-end">
+              <AnimatePresence mode="wait">
                 <motion.div
-                  animate={{ rotate: activeSlide * 90 }}
-                  transition={{
-                    type: 'spring',
-                    stiffness: 110,
-                    damping: 20,
-                  }}
-                  className="absolute -inset-4 sm:-inset-6 rounded-full border border-dashed border-white/20 pointer-events-none"
+                  key={currentSlide.id + '-feature-card'}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ duration: 0.5, ease: 'easeOut' }}
+                  className="rounded-2xl border border-white/20 bg-slate-950/70 backdrop-blur-xl p-6 space-y-4 max-w-sm shadow-2xl shadow-black/80"
                 >
-                  {/* Dial notches */}
-                  <span className="absolute top-0 left-1/2 -translate-x-1/2 w-2 h-2 rounded-full bg-orange-400 shadow-md shadow-orange-400" />
-                  <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-2 h-2 rounded-full bg-[#4A7EB8] shadow-md shadow-[#4A7EB8]" />
-                  <span className="absolute left-0 top-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-amber-400 shadow-md shadow-amber-400" />
-                  <span className="absolute right-0 top-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-purple-400 shadow-md shadow-purple-400" />
-                </motion.div>
-
-                {/* CIRCULAR APERTURE MASK (The Rotating Slide Portal with Framer Motion) */}
-                <motion.div
-                  whileHover={{ scale: 1.025 }}
-                  transition={{ type: 'spring', stiffness: 280, damping: 22 }}
-                  className="relative w-full h-full rounded-full overflow-hidden border-2 sm:border-4 border-white/20 bg-slate-950 shadow-2xl shadow-black/90 [transform-style:preserve-3d]"
-                >
-
-                  <AnimatePresence mode="wait" custom={direction}>
-                    <motion.div
-                      key={currentSlide.id + '-lens'}
-                      custom={direction}
-                      initial={{
-                        rotate: direction > 0 ? 28 : -28,
-                        scale: 0.88,
-                        opacity: 0,
-                        filter: 'blur(6px)',
-                      }}
-                      animate={{
-                        rotate: 0,
-                        scale: 1,
-                        opacity: 1,
-                        filter: 'blur(0px)',
-                      }}
-                      exit={{
-                        rotate: direction > 0 ? -28 : 28,
-                        scale: 0.88,
-                        opacity: 0,
-                        filter: 'blur(6px)',
-                      }}
-                      transition={{
-                        duration: 0.75,
-                        ease: [0.16, 1, 0.3, 1],
-                      }}
-                      className="absolute inset-0 w-full h-full"
+                  <div className="flex items-center justify-between border-b border-white/10 pb-3">
+                    <span className="font-mono text-xs font-bold text-[#7bb0ed] tracking-wider uppercase">
+                      ACTIVE SYSTEM
+                    </span>
+                    <span className="text-[11px] font-mono text-emerald-400 bg-emerald-950/60 border border-emerald-500/30 px-2.5 py-0.5 rounded-full">
+                      CALIBRATED
+                    </span>
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-bold text-white">
+                      {currentSlide.badge}
+                    </h3>
+                    <p className="text-xs text-slate-300 mt-1 leading-relaxed">
+                      Precision engineered for industrial research labs, universities, and electronics manufacturing.
+                    </p>
+                  </div>
+                  <div className="pt-2 border-t border-white/10 flex items-center justify-between text-xs text-slate-400">
+                    <span className="font-mono">Slide 0{activeSlide + 1} / 0{workbenchSlides.length}</span>
+                    <Link
+                      href={currentSlide.href}
+                      className="text-[#7bb0ed] font-semibold hover:underline inline-flex items-center gap-1"
                     >
-                      {/* AMBIENT FLOATING & BREATHING MOTION FOR SLIDE IMAGE */}
-                      <motion.div
-                        animate={{
-                          y: [-5, 6, -5],
-                          rotate: [-0.6, 0.6, -0.6],
-                          scale: [1, 1.025, 1],
-                        }}
-                        transition={{
-                          duration: 5.5,
-                          repeat: Infinity,
-                          repeatType: 'reverse',
-                          ease: 'easeInOut',
-                        }}
-                        className="relative w-full h-full"
-                      >
-                        <Image
-                          src={currentSlide.image}
-                          alt={currentSlide.badge}
-                          fill
-                          priority
-                          quality={100}
-                          unoptimized={true}
-                          sizes="(max-width: 640px) 320px, (max-width: 1024px) 420px, 480px"
-                          className="object-cover object-center drop-shadow-[0_20px_40px_rgba(0,0,0,0.95)]"
-                        />
-                      </motion.div>
-
-                      {/* Optical Aperture Lens Glare Sweep on Slide Shift */}
-                      <motion.div
-                        key={currentSlide.id + '-glare'}
-                        initial={{ x: '-120%', y: '-120%', opacity: 0 }}
-                        animate={{ x: '120%', y: '120%', opacity: [0, 0.45, 0.65, 0] }}
-                        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.05 }}
-                        className="pointer-events-none absolute -inset-full bg-gradient-to-br from-transparent via-white/20 to-transparent rotate-45 z-10"
-                      />
-
-                      {/* Aperture Inner Radial Vignette & Gloss - Clearer for Ultra HD */}
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-transparent to-black/15 pointer-events-none" />
-                      <div className="absolute inset-0 rounded-full border border-white/30 pointer-events-none" />
-                    </motion.div>
-                  </AnimatePresence>
-
-                  {/* FLOATING PRODUCT BADGE ON LENS WITH FRAMER MOTION ENTRANCE */}
-                  <AnimatePresence mode="wait">
-                    <motion.div
-                      key={currentSlide.id + '-badge'}
-                      initial={{ y: 16, opacity: 0, scale: 0.92 }}
-                      animate={{ y: 0, opacity: 1, scale: 1 }}
-                      exit={{ y: 12, opacity: 0, scale: 0.92 }}
-                      transition={{ duration: 0.45, delay: 0.18, ease: 'easeOut' }}
-                      className="absolute bottom-6 inset-x-6 z-20 flex justify-center pointer-events-none"
-                    >
-                      <div className="px-4 py-2 rounded-full bg-slate-950/85 border border-white/20 backdrop-blur-md text-xs font-semibold text-white shadow-xl flex items-center gap-2">
-                        <span className="w-2 h-2 rounded-full bg-[#4A7EB8] animate-ping" />
-                        <span>{currentSlide.badge}</span>
-                      </div>
-                    </motion.div>
-                  </AnimatePresence>
+                      View Specs <ArrowUpRight size={14} />
+                    </Link>
+                  </div>
                 </motion.div>
-
-                {/* ROTATING CRESCENT ACCENT RING */}
-                <div className="absolute -inset-1 rounded-full border-t-2 border-r-2 border-[#4A7EB8]/70 pointer-events-none animate-spin [animation-duration:14s]" />
-              </div>
-
-              {/* SLIDE NEXT BUTTON (RIGHT SIDE OF THE SLIDE) */}
-              <button
-                type="button"
-                onClick={nextSlide}
-                aria-label="Next slide"
-                className="absolute right-0 sm:right-2 lg:-right-5 top-1/2 -translate-y-1/2 z-30 flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-full border border-white/20 bg-slate-950/80 text-white backdrop-blur-md shadow-2xl transition-all duration-200 hover:bg-[#4A7EB8] hover:border-[#4A7EB8] hover:text-white hover:scale-110 active:scale-95 cursor-pointer"
-              >
-                <ChevronRight size={22} />
-              </button>
-
+              </AnimatePresence>
             </div>
 
           </div>
 
         </div>
+      </div>
 
-        {/* BOTTOM CONTROLS & PROGRESS (Hidden on mobile, preserved on desktop view) */}
-        <div className="hidden sm:flex mt-4 sm:mt-5 pt-3 sm:pt-4 border-t border-white/10 items-center justify-between">
+      {/* 3. BOTTOM CONTROLS & PROGRESS */}
+      <div className="relative z-20 w-full max-w-[1440px] mx-auto px-6 sm:px-12 lg:px-20 pb-6 sm:pb-8">
+        <div className="pt-4 border-t border-white/15 flex items-center justify-between backdrop-blur-xs">
 
           {/* Slide Indicator, Progress Bar & Counter */}
           <div className="flex items-center gap-3">
@@ -489,19 +419,38 @@ export function Hero() {
             </span>
 
             {/* 3-Second Cycle Progress Bar in Logo Blue */}
-            <div className="w-28 sm:w-36 h-1 bg-white/15 rounded-full overflow-hidden ml-3">
+            <div className="w-28 sm:w-36 h-1 bg-white/20 rounded-full overflow-hidden ml-3">
               <motion.div
                 key={activeSlide}
                 initial={{ width: '0%' }}
                 animate={{ width: '100%' }}
                 transition={{ duration: 3, ease: 'linear' }}
-                className="h-full bg-gradient-to-r from-[#4A7EB8] via-[#75a8e4] to-[#4A7EB8] rounded-full"
+                className="h-full bg-gradient-to-r from-[#4A7EB8] via-[#7bb0ed] to-[#4A7EB8] rounded-full"
               />
             </div>
           </div>
 
-          <div className="text-xs font-mono text-slate-400">
-            {currentSlide.badge}
+          {/* Active slide badge & pagination pills */}
+          <div className="flex items-center gap-4">
+            <div className="hidden sm:flex items-center gap-2">
+              {workbenchSlides.map((_, idx) => (
+                <button
+                  key={idx}
+                  type="button"
+                  onClick={() => goToSlide(idx)}
+                  aria-label={`Jump to slide ${idx + 1}`}
+                  className={`h-2 rounded-full transition-all duration-300 ${
+                    activeSlide === idx
+                      ? 'w-8 bg-[#4A7EB8]'
+                      : 'w-2 bg-white/30 hover:bg-white/60'
+                  }`}
+                />
+              ))}
+            </div>
+
+            <div className="text-xs font-mono text-slate-300 bg-black/50 px-3 py-1 rounded-full border border-white/15 backdrop-blur-md">
+              {currentSlide.badge}
+            </div>
           </div>
 
         </div>
