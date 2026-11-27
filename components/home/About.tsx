@@ -184,7 +184,7 @@ export function About() {
             {/* HIGH-IMPACT STAT TILES */}
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-3.5 pt-1">
               <div className="p-4 rounded-2xl bg-gradient-to-b from-slate-900/90 to-slate-950/90 border border-slate-800 shadow-lg hover:border-slate-700 transition-all duration-300">
-                <div className="text-2xl sm:text-3xl font-extrabold text-white font-mono tracking-tight">12,000+</div>
+                <div className="text-2xl sm:text-3xl font-extrabold text-white font-mono tracking-tight">1,200+</div>
                 <div className="text-xs text-slate-400 mt-1 flex items-center gap-1.5">
                   <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
                   <span>Labs Served</span>

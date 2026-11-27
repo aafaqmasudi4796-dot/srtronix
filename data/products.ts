@@ -622,6 +622,6 @@ export const companyDetails = {
   supportEmail: 'support@srtronix.com',
   workingHours: 'Monday – Saturday: 9:00 AM – 6:30 PM IST',
   country: 'India',
-  trustBadge: 'Trusted by 12,000+ Engineers & Labs Worldwide • Rated 4.9/5',
+  trustBadge: 'Trusted by 1,200+ Engineers & Labs Worldwide • Rated 4.5/5',
 };
 

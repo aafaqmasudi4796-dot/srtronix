@@ -21,12 +21,12 @@ export function TrustSection() {
 
             {/* Main Headline */}
             <h3 className="text-base sm:text-lg font-bold text-white tracking-tight">
-              Trusted by 12,000+ Engineers &amp; Labs Worldwide
+              Trusted by 1,200+ Engineers &amp; Labs Worldwide
             </h3>
 
             {/* Subtitle / Details */}
             <p className="text-xs sm:text-sm text-slate-400 font-normal">
-              Rated 4.9/5 · Quality Assured · Expert Support
+              Rated 4.5/5 · Quality Assured · Expert Support
             </p>
           </div>
 
