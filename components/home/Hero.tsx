@@ -26,52 +26,52 @@ interface WorkbenchSlide {
 
 const workbenchSlides: WorkbenchSlide[] = [
   {
-    id: 'oscilloscope',
-    image: '/assets/hero_slide_1_oscilloscope_uhd.png',
-    categoryTag: 'DIGITAL OSCILLOSCOPES • 70MHZ – 200MHZ',
+    id: 'facility-cleanroom',
+    image: '/assets/hero_slide_1_facility_uhd.jpg',
+    categoryTag: 'ADVANCED R&D & ASSEMBLY • TEST CLEANROOM',
     titleBefore: 'Precision That ',
     highlight: 'Powers',
     titleAfter: ' Innovation.',
     description:
-      'Discover reliable digital oscilloscopes designed for accurate waveform analysis, electronic testing, and professional laboratory verification.',
-    badge: 'HDS272S Handheld Series',
+      'High-precision test infrastructure and automated cleanroom environments built for dependable electronic verification and manufacturing quality.',
+    badge: 'R&D Assembly & Test Floor',
+    href: '/about',
+  },
+  {
+    id: 'rf-spectrum-analyzer',
+    image: '/assets/hero_slide_2_spectrum_analyzer_uhd.jpg',
+    categoryTag: 'RF SPECTRUM ANALYZERS • WIRELESS & IOT',
+    titleBefore: 'Capture Every ',
+    highlight: 'Signal',
+    titleAfter: ' in Real Time.',
+    description:
+      'Real-time multi-band spectrum analysis, RF signal tracking, and wideband wireless testing for modern IoT and communications engineering.',
+    badge: 'RF Explorer Spectrum Analyzer',
+    href: '/products',
+  },
+  {
+    id: 'oscilloscope-lab',
+    image: '/assets/hero_slide_3_oscilloscope_lab_uhd.jpg',
+    categoryTag: 'DIGITAL OSCILLOSCOPES • 70MHZ – 200MHZ',
+    titleBefore: 'Engineered for ',
+    highlight: 'Accuracy',
+    titleAfter: ' & Reliability.',
+    description:
+      'Discover reliable benchtop and handheld digital oscilloscopes designed for accurate waveform analysis and traceable verification.',
+    badge: 'Precision Calibration Lab',
     href: '/products?category=Oscilloscopes',
   },
   {
     id: 'smart-workbench',
-    image: '/assets/hero_slide_2_smart_workbench_uhd.png',
+    image: '/assets/hero_slide_4_smart_workbench_uhd.jpg',
     categoryTag: 'SMART WORKBENCH SYSTEMS • 5-IN-1',
     titleBefore: 'A ',
     highlight: 'Smarter',
     titleAfter: ' Way to Engineer.',
     description:
       'Transform your workspace with unified equipment integration, precision engineering, and dependable ESD-safe workbench technology.',
-    badge: 'Flagship Modular Station',
+    badge: 'Smart Work Bench Station',
     href: '/products/electronic-smart-work-station',
-  },
-  {
-    id: 'modular-workspace',
-    image: '/assets/hero_slide_3_modular_workspace_uhd.png',
-    categoryTag: 'MODULAR WORKSPACES • HEAVY DUTY',
-    titleBefore: 'Built for the ',
-    highlight: 'Next',
-    titleAfter: ' Generation.',
-    description:
-      'Integrated instruments, intelligent storage, and ergonomic workspace solutions built for modern engineering laboratories and research facilities.',
-    badge: 'Industrial Bench Systems',
-    href: '/products',
-  },
-  {
-    id: 'power-supply',
-    image: '/assets/hero_slide_4_power_supply_uhd.png',
-    categoryTag: 'PRECISION POWER • 0–30V / 5A',
-    titleBefore: 'Engineering Excellence. ',
-    highlight: 'Redefined.',
-    titleAfter: '',
-    description:
-      'Explore ultra-low ripple DC power supplies and multi-channel laboratory power systems engineered for mission-critical reliability.',
-    badge: 'MPS-200 Precision Series',
-    href: '/products/dc-power-supply-mps-200',
   },
 ];
 
