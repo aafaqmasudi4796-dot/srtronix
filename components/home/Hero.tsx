@@ -75,7 +75,7 @@ const workbenchSlides: WorkbenchSlide[] = [
   },
 ];
 
-const SLIDE_INTERVAL = 3000;
+const SLIDE_INTERVAL = 5000;
 
 interface CursorBadgeProps {
   name: string;
@@ -176,16 +176,15 @@ export function Hero() {
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
     >
-      {/* 1. FULL-SCREEN BACKGROUND SLIDE IMAGE WITH CINEMATIC CROSSFADE */}
+      {/* 1. CLEAN STATIC FULL-SCREEN BACKGROUND SLIDE IMAGE (NO MOTION / NO ZOOM) */}
       <div className="absolute inset-0 z-0 overflow-hidden select-none pointer-events-none">
-        <AnimatePresence mode="wait" custom={direction}>
+        <AnimatePresence mode="wait">
           <motion.div
             key={currentSlide.id + '-bg'}
-            custom={direction}
-            initial={{ opacity: 0, scale: 1.05 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.98 }}
-            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.35, ease: 'linear' }}
             className="absolute inset-0 w-full h-full"
           >
             <Image
@@ -201,7 +200,7 @@ export function Hero() {
           </motion.div>
         </AnimatePresence>
 
-        {/* Cinematic Multi-Stop Contrast Overlays for Perfect Readability */}
+        {/* Clean Static Multi-Stop Contrast Overlays */}
         <div className="absolute inset-0 bg-gradient-to-r from-[#09090b]/95 via-[#09090b]/75 md:via-[#09090b]/55 to-[#09090b]/25 lg:to-transparent pointer-events-none" />
         <div className="absolute inset-0 bg-gradient-to-t from-[#09090b] via-[#09090b]/35 to-transparent pointer-events-none" />
         <div className="absolute inset-0 bg-gradient-to-b from-[#09090b]/80 via-transparent to-transparent pointer-events-none" />
@@ -418,13 +417,13 @@ export function Hero() {
               0{workbenchSlides.length}
             </span>
 
-            {/* 3-Second Cycle Progress Bar in Logo Blue */}
+            {/* 5-Second Cycle Progress Bar in Logo Blue */}
             <div className="w-28 sm:w-36 h-1 bg-white/20 rounded-full overflow-hidden ml-3">
               <motion.div
                 key={activeSlide}
                 initial={{ width: '0%' }}
                 animate={{ width: '100%' }}
-                transition={{ duration: 3, ease: 'linear' }}
+                transition={{ duration: 5, ease: 'linear' }}
                 className="h-full bg-gradient-to-r from-[#4A7EB8] via-[#7bb0ed] to-[#4A7EB8] rounded-full"
               />
             </div>
