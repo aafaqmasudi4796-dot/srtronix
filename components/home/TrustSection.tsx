@@ -9,14 +9,24 @@ export function TrustSection() {
         <div className="max-w-4xl mx-auto">
           {/* Trust Banner - Exact layout from reference image */}
           <div className="flex flex-col items-center justify-center p-5 sm:p-7 rounded-2xl bg-gradient-to-r from-[#0f2a4a]/40 via-slate-900/80 to-[#0f2a4a]/40 border border-[#4A7EB8]/30 shadow-md text-center space-y-2">
-            {/* 5 Stars Centered */}
+            {/* 5 Stars Centered: 4 Full + 1 Partial (Half-Filled for 4.5 Rating) */}
             <div className="flex items-center justify-center gap-1.5 text-amber-400">
-              {[...Array(5)].map((_, i) => (
+              {[...Array(4)].map((_, i) => (
                 <Star
                   key={i}
                   className="w-4 h-4 sm:w-5 sm:h-5 fill-amber-400 text-amber-400"
                 />
               ))}
+
+              {/* 5th Star: 50% Partially Filled */}
+              <div className="relative inline-flex items-center justify-center w-4 h-4 sm:w-5 sm:h-5">
+                {/* Empty / Muted Star Base */}
+                <Star className="w-4 h-4 sm:w-5 sm:h-5 text-amber-400/30 fill-amber-400/20" />
+                {/* 50% Clipped Filled Overlay */}
+                <div className="absolute inset-y-0 left-0 overflow-hidden w-[50%]">
+                  <Star className="w-4 h-4 sm:w-5 sm:h-5 fill-amber-400 text-amber-400 max-w-none" />
+                </div>
+              </div>
             </div>
 
             {/* Main Headline */}
