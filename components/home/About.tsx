@@ -229,36 +229,6 @@ export function About() {
                 <ArrowRight size={15} className="text-[#7bb0ed] transition-transform duration-300 group-hover:translate-x-1" />
               </Link>
             </div>
-
-            {/* QUALITY PROOF BADGES - ALL 3 IN A SINGLE LINE */}
-            <div className="flex flex-row items-center justify-between sm:justify-start gap-3 sm:gap-5 lg:gap-6 border-t border-slate-800/90 pt-5 flex-nowrap">
-              <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
-                <div className="flex h-6 w-6 sm:h-7 sm:w-7 items-center justify-center rounded-lg bg-orange-500/10 border border-orange-500/20 text-orange-400 shrink-0">
-                  <ShieldCheck size={15} />
-                </div>
-                <span className="text-[11px] sm:text-xs font-semibold text-slate-300 whitespace-nowrap">
-                  Heavy-Duty Build
-                </span>
-              </div>
-
-              <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
-                <div className="flex h-6 w-6 sm:h-7 sm:w-7 items-center justify-center rounded-lg bg-[#4A7EB8]/10 border border-[#4A7EB8]/20 text-[#7bb0ed] shrink-0">
-                  <Microscope size={15} />
-                </div>
-                <span className="text-[11px] sm:text-xs font-semibold text-slate-300 whitespace-nowrap">
-                  100% Traceable Cal.
-                </span>
-              </div>
-
-              <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
-                <div className="flex h-6 w-6 sm:h-7 sm:w-7 items-center justify-center rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 shrink-0">
-                  <CheckCircle2 size={15} />
-                </div>
-                <span className="text-[11px] sm:text-xs font-semibold text-slate-300 whitespace-nowrap">
-                  Direct Warranty
-                </span>
-              </div>
-            </div>
           </motion.div>
 
           {/* RIGHT: 3D FANNED / STACKED CARDS WITH SLIDING CONTROLS */}
@@ -446,6 +416,36 @@ export function About() {
               >
                 <ChevronRight className="h-5 w-5 sm:h-6 sm:w-6 transition-transform group-hover:translate-x-0.5 text-slate-200 group-hover:text-[#7bb0ed]" />
               </button>
+            </div>
+
+            {/* QUALITY PROOF BADGES - SHIFTED TO THE RIGHT SIDE */}
+            <div className="mt-6 sm:mt-8 flex flex-row items-center justify-center lg:justify-end gap-3.5 sm:gap-6 border-t border-slate-800/80 pt-5 w-full max-w-[560px] flex-wrap sm:flex-nowrap">
+              <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
+                <div className="flex h-6 w-6 sm:h-7 sm:w-7 items-center justify-center rounded-lg bg-orange-500/10 border border-orange-500/20 text-orange-400 shrink-0">
+                  <ShieldCheck size={15} />
+                </div>
+                <span className="text-[11px] sm:text-xs font-semibold text-slate-300 whitespace-nowrap">
+                  Heavy-Duty Build
+                </span>
+              </div>
+
+              <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
+                <div className="flex h-6 w-6 sm:h-7 sm:w-7 items-center justify-center rounded-lg bg-[#4A7EB8]/10 border border-[#4A7EB8]/20 text-[#7bb0ed] shrink-0">
+                  <Microscope size={15} />
+                </div>
+                <span className="text-[11px] sm:text-xs font-semibold text-slate-300 whitespace-nowrap">
+                  100% Traceable Cal.
+                </span>
+              </div>
+
+              <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
+                <div className="flex h-6 w-6 sm:h-7 sm:w-7 items-center justify-center rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 shrink-0">
+                  <CheckCircle2 size={15} />
+                </div>
+                <span className="text-[11px] sm:text-xs font-semibold text-slate-300 whitespace-nowrap">
+                  Direct Warranty
+                </span>
+              </div>
             </div>
           </motion.div>
 
