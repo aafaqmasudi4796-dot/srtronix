@@ -114,7 +114,7 @@ export function About() {
   return (
     <section
       id="about"
-      className="relative overflow-hidden bg-[#09090b] border-t border-b border-slate-800/80 py-20 sm:py-28 lg:py-36"
+      className="relative overflow-hidden bg-[#09090b] border-t border-b border-slate-800/80 pt-14 sm:pt-20 lg:pt-24 pb-8 sm:pb-10 lg:pb-12"
     >
       {/* Background Blueprint Dot Grid & Ambient Lighting */}
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(#ffffff0a_1px,transparent_1px)] [background-size:28px_28px] opacity-70" />
@@ -208,53 +208,53 @@ export function About() {
               </div>
             </div>
 
-            {/* DUAL CTA BUTTONS */}
-            <div className="flex flex-wrap items-center gap-3.5 pt-2">
+            {/* DUAL CTA BUTTONS - SINGLE LINE */}
+            <div className="flex flex-row items-center gap-3 sm:gap-4 pt-2 flex-nowrap">
               <Link
                 href="/about"
-                className="group relative inline-flex items-center gap-3 rounded-full bg-white px-7 py-3.5 text-sm font-semibold text-slate-950 shadow-xl shadow-white/10 transition-all duration-300 hover:bg-slate-200 hover:-translate-y-0.5 hover:shadow-2xl"
+                className="group relative inline-flex items-center justify-center gap-2 sm:gap-2.5 rounded-full bg-white px-5 sm:px-6 py-3 sm:py-3.5 text-xs sm:text-sm font-semibold text-slate-950 shadow-xl shadow-white/10 transition-all duration-300 hover:bg-slate-200 hover:-translate-y-0.5 hover:shadow-2xl whitespace-nowrap shrink-0"
               >
                 <span>Discover Our Company</span>
                 <ArrowUpRight
-                  size={18}
+                  size={16}
                   className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
                 />
               </Link>
 
               <Link
                 href="/products/electronic-smart-work-station"
-                className="group inline-flex items-center gap-2.5 rounded-full border border-white/15 bg-white/5 px-6 py-3.5 text-sm font-semibold text-slate-200 backdrop-blur-md transition-all duration-300 hover:border-[#4A7EB8]/60 hover:bg-[#0f2a4a]/40 hover:text-white"
+                className="group inline-flex items-center justify-center gap-2 sm:gap-2.5 rounded-full border border-white/15 bg-white/5 px-4.5 sm:px-5 py-3 sm:py-3.5 text-xs sm:text-sm font-semibold text-slate-200 backdrop-blur-md transition-all duration-300 hover:border-[#4A7EB8]/60 hover:bg-[#0f2a4a]/40 hover:text-white whitespace-nowrap shrink-0"
               >
                 <span>View Smart Station</span>
-                <ArrowRight size={16} className="text-[#7bb0ed] transition-transform duration-300 group-hover:translate-x-1" />
+                <ArrowRight size={15} className="text-[#7bb0ed] transition-transform duration-300 group-hover:translate-x-1" />
               </Link>
             </div>
 
-            {/* QUALITY PROOF BADGES */}
-            <div className="flex flex-wrap items-center gap-y-3 gap-x-6 border-t border-slate-800/90 pt-6">
-              <div className="flex items-center gap-2">
-                <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-orange-500/10 border border-orange-500/20 text-orange-400">
-                  <ShieldCheck size={16} />
+            {/* QUALITY PROOF BADGES - ALL 3 IN A SINGLE LINE */}
+            <div className="flex flex-row items-center justify-between sm:justify-start gap-3 sm:gap-5 lg:gap-6 border-t border-slate-800/90 pt-5 flex-nowrap">
+              <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
+                <div className="flex h-6 w-6 sm:h-7 sm:w-7 items-center justify-center rounded-lg bg-orange-500/10 border border-orange-500/20 text-orange-400 shrink-0">
+                  <ShieldCheck size={15} />
                 </div>
-                <span className="text-xs font-semibold text-slate-300">
+                <span className="text-[11px] sm:text-xs font-semibold text-slate-300 whitespace-nowrap">
                   Heavy-Duty Build
                 </span>
               </div>
 
-              <div className="flex items-center gap-2">
-                <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#4A7EB8]/10 border border-[#4A7EB8]/20 text-[#7bb0ed]">
-                  <Microscope size={16} />
+              <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
+                <div className="flex h-6 w-6 sm:h-7 sm:w-7 items-center justify-center rounded-lg bg-[#4A7EB8]/10 border border-[#4A7EB8]/20 text-[#7bb0ed] shrink-0">
+                  <Microscope size={15} />
                 </div>
-                <span className="text-xs font-semibold text-slate-300">
+                <span className="text-[11px] sm:text-xs font-semibold text-slate-300 whitespace-nowrap">
                   100% Traceable Cal.
                 </span>
               </div>
 
-              <div className="flex items-center gap-2">
-                <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-400">
-                  <CheckCircle2 size={16} />
+              <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
+                <div className="flex h-6 w-6 sm:h-7 sm:w-7 items-center justify-center rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 shrink-0">
+                  <CheckCircle2 size={15} />
                 </div>
-                <span className="text-xs font-semibold text-slate-300">
+                <span className="text-[11px] sm:text-xs font-semibold text-slate-300 whitespace-nowrap">
                   Direct Warranty
                 </span>
               </div>

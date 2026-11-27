@@ -6,7 +6,7 @@ import { companyDetails } from '@/data/products';
 
 export function CTASection() {
   return (
-    <section className="py-12 sm:py-16 md:py-20 bg-[#09090b] relative overflow-hidden">
+    <section className="pt-2 sm:pt-4 md:pt-6 pb-12 sm:pb-16 md:pb-20 bg-[#09090b] relative overflow-hidden">
       <Container>
         <div className="relative rounded-3xl bg-gradient-to-br from-[#0f2a4a]/70 via-slate-900/90 to-black text-white p-5 sm:p-8 md:p-12 lg:p-16 overflow-hidden border border-[#4A7EB8]/30 shadow-2xl shadow-black">
           {/* Subtle decorative glow accents */}
