@@ -9,6 +9,8 @@ import {
   Microscope,
   ArrowRight,
   Factory,
+  MapPin,
+  Headphones,
 } from 'lucide-react';
 import { Container } from '@/components/ui/Container';
 import { Button } from '@/components/ui/Button';
@@ -71,38 +73,49 @@ export default function AboutPage() {
       </section>
 
       {/* Company Overview Section */}
-      <section className="py-12 sm:py-16 border-b border-slate-800 overflow-hidden">
-        <Container>
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-10 lg:gap-8 items-center">
+      <section className="py-8 sm:py-10 border-b border-slate-800 overflow-hidden">
+        <Container size="wide">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 xl:gap-12 items-center">
             {/* Company Overview Text - On the Left Side */}
-            <div className="lg:col-span-5 xl:col-span-4 space-y-5">
-              <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#7bb0ed]">
+            <div className="lg:col-span-6 space-y-5">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#0f2a4a] text-[#7bb0ed] text-xs font-semibold tracking-wider uppercase border border-[#4A7EB8]/40">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#4A7EB8] animate-pulse" />
                 <span>WHO WE ARE</span>
               </div>
-              <h2 className="text-2xl sm:text-3xl font-bold text-white tracking-tight">
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white tracking-tight leading-tight">
                 Dedicated to Advancing Laboratory Testing Across India &amp; Worldwide
               </h2>
-              <p className="text-sm sm:text-base text-slate-400 leading-relaxed">
+              <p className="text-sm sm:text-base text-slate-300 leading-relaxed">
                 Operating under <strong className="text-white font-semibold">{companyDetails.legalName}</strong>, SRTRONIX delivers reliable, high-precision test instrumentation designed to solve the everyday challenges faced by hardware engineers, educators, researchers, and manufacturing test technicians.
               </p>
-              <p className="text-sm sm:text-base text-slate-400 leading-relaxed">
+              <p className="text-sm sm:text-base text-slate-300 leading-relaxed">
                 From our flagship fully integrated Smart Work Bench Stations that condense multiple discrete instruments into a clean, unified M.S. workspace, to our portable handheld oscilloscopes and high-accuracy linear DC power supplies, every instrument is calibrated for dependable real-world performance.
               </p>
 
-              <div className="pt-2 grid grid-cols-2 gap-4 text-xs">
-                <div className="p-3.5 rounded-xl bg-slate-900/80 border border-slate-800">
-                  <div className="font-bold text-white text-sm">Domestic Assembly</div>
-                  <div className="text-slate-400 mt-0.5">Bengaluru, India</div>
+              <div className="pt-2 grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                <div className="p-4 rounded-xl bg-slate-900/90 border border-slate-800/80 shadow-md flex items-start gap-3">
+                  <div className="w-9 h-9 rounded-lg bg-[#0f2a4a] text-[#7bb0ed] border border-[#4A7EB8]/40 flex items-center justify-center shrink-0 mt-0.5">
+                    <MapPin className="w-4 h-4 text-[#7bb0ed]" />
+                  </div>
+                  <div>
+                    <div className="font-bold text-white text-sm">Domestic Assembly</div>
+                    <div className="text-slate-400 text-xs mt-0.5">Bengaluru, India</div>
+                  </div>
                 </div>
-                <div className="p-3.5 rounded-xl bg-slate-900/80 border border-slate-800">
-                  <div className="font-bold text-white text-sm">Direct Support</div>
-                  <div className="text-slate-400 mt-0.5">Prompt technical &amp; warranty care</div>
+                <div className="p-4 rounded-xl bg-slate-900/90 border border-slate-800/80 shadow-md flex items-start gap-3">
+                  <div className="w-9 h-9 rounded-lg bg-[#0f2a4a] text-[#7bb0ed] border border-[#4A7EB8]/40 flex items-center justify-center shrink-0 mt-0.5">
+                    <Headphones className="w-4 h-4 text-[#7bb0ed]" />
+                  </div>
+                  <div>
+                    <div className="font-bold text-white text-sm">Direct Support</div>
+                    <div className="text-slate-400 text-xs mt-0.5">Prompt technical &amp; warranty care</div>
+                  </div>
                 </div>
               </div>
             </div>
 
-            {/* Laboratory Assembly Showcase - Expanded width by ~6cm, decreased height by ~2cm */}
-            <div className="lg:col-span-7 xl:col-span-8 w-full lg:w-[calc(100%+6rem)] xl:w-[calc(100%+8.5rem)] lg:-mr-14 xl:-mr-22">
+            {/* Laboratory Assembly Showcase - Perfectly fills right 6 columns without dead gap */}
+            <div className="lg:col-span-6 w-full">
               <AboutShowcase3D />
             </div>
           </div>
