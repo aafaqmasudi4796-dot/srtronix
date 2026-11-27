@@ -70,7 +70,7 @@ const homeSections: HomeSectionItem[] = [
     id: 'engineered-india',
     name: 'Engineered & Assembled in India',
     category: 'Domestic Assembly',
-    spec: 'Direct from Lucknow, Uttar Pradesh',
+    spec: 'Direct from Bengaluru, India',
     description:
       'Every SRTRONIX instrument is crafted from durable mild steel, quality components, and NABL-traceable calibration standards.',
     image: '/assets/images/electronic_smart_work_station.jpg',

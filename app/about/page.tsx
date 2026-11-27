@@ -92,7 +92,7 @@ export default function AboutPage() {
               <div className="pt-2 grid grid-cols-2 gap-4 text-xs">
                 <div className="p-3.5 rounded-xl bg-slate-900/80 border border-slate-800">
                   <div className="font-bold text-white text-sm">Domestic Assembly</div>
-                  <div className="text-slate-400 mt-0.5">Lucknow, Uttar Pradesh, India</div>
+                  <div className="text-slate-400 mt-0.5">Bengaluru, India</div>
                 </div>
                 <div className="p-3.5 rounded-xl bg-slate-900/80 border border-slate-800">
                   <div className="font-bold text-white text-sm">Direct Support</div>

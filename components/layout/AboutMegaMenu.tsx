@@ -64,7 +64,7 @@ const aboutSections: AboutSectionItem[] = [
     id: 'made-in-india',
     name: 'Made in India',
     category: 'Manufacturing',
-    highlight: 'Facility in Lucknow, Uttar Pradesh',
+    highlight: 'Facility in Bengaluru, Karnataka',
     description:
       'Explore our domestic engineering and assembly capabilities, supporting laboratories, industries and educational institutions.',
     image: '/assets/images/electronic_smart_work_station.jpg',
@@ -476,7 +476,7 @@ export function AboutMegaMenu({
 
             <div className="flex items-center gap-2 text-[10px] text-neutral-400">
               <Factory className="w-3.5 h-3.5 text-[#c69a54]" />
-              <span>Lucknow, Uttar Pradesh</span>
+              <span>Bengaluru, Karnataka, India</span>
             </div>
 
             <div className="flex items-center gap-2 text-[10px] text-neutral-400">
