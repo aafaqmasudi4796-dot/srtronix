@@ -28,22 +28,6 @@ interface FannedCardItem {
   tagColor: string;
 }
 
-interface FanPosition {
-  defaultRotate: number;
-  hoverRotate: number;
-  defaultX: number;
-  hoverX: number;
-  defaultY: number;
-  baseZ: number;
-  isCenter?: boolean;
-}
-
-const FAN_POSITIONS: FanPosition[] = [
-  { defaultRotate: -12, hoverRotate: -18, defaultX: -70, hoverX: -115, defaultY: 16, baseZ: 12 },
-  { defaultRotate: 0, hoverRotate: 0, defaultX: 0, hoverX: 0, defaultY: -10, baseZ: 35, isCenter: true },
-  { defaultRotate: 12, hoverRotate: 18, defaultX: 70, hoverX: 115, defaultY: 16, baseZ: 18 },
-];
-
 const fannedCards: FannedCardItem[] = [
   {
     id: 'oscilloscope',
@@ -78,10 +62,11 @@ const fannedCards: FannedCardItem[] = [
 ];
 
 export function About() {
-  const [activeCardIndex, setActiveCardIndex] = useState(1); // starts with flagship workbench (center card)
+  const [activeCardIndex, setActiveCardIndex] = useState(1); // starts with flagship workbench (index 1)
   const [isHoveredAll, setIsHoveredAll] = useState(false);
   const [hoveredCardId, setHoveredCardId] = useState<string | null>(null);
   const [isMobile, setIsMobile] = useState(false);
+  const [touchStartX, setTouchStartX] = useState<number | null>(null);
 
   useEffect(() => {
     const handleResize = () => {
@@ -93,11 +78,28 @@ export function About() {
   }, []);
 
   const handlePrev = () => {
+    setHoveredCardId(null);
     setActiveCardIndex((prev) => (prev === 0 ? fannedCards.length - 1 : prev - 1));
   };
 
   const handleNext = () => {
+    setHoveredCardId(null);
     setActiveCardIndex((prev) => (prev + 1) % fannedCards.length);
+  };
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setTouchStartX(e.touches[0].clientX);
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    if (touchStartX === null) return;
+    const deltaX = e.changedTouches[0].clientX - touchStartX;
+    if (deltaX > 45) {
+      handlePrev();
+    } else if (deltaX < -45) {
+      handleNext();
+    }
+    setTouchStartX(null);
   };
 
   return (
@@ -261,59 +263,78 @@ export function About() {
               </span>
             </motion.div>
 
-            {/* FANNED CARDS DISPLAY */}
-            <div className="relative w-full max-w-[540px] h-[360px] xs:h-[380px] sm:h-[440px] flex items-center justify-center">
+            {/* FANNED CARDS DISPLAY WITH SWIPE SUPPORT */}
+            <div
+              onTouchStart={handleTouchStart}
+              onTouchEnd={handleTouchEnd}
+              className="relative w-full max-w-[540px] h-[360px] xs:h-[380px] sm:h-[440px] flex items-center justify-center select-none touch-pan-y"
+            >
               {fannedCards.map((card, index) => {
-                const posIndex = (index - activeCardIndex + 1 + fannedCards.length) % fannedCards.length;
-                const pos = FAN_POSITIONS[posIndex];
-                const isCenter = !!pos.isCenter;
-                const isThisHovered = hoveredCardId === card.id;
+                // Determine card slot relative to active: 0 = Center, 1 = Right, -1 = Left
+                let offset = index - activeCardIndex;
+                if (offset === 2) offset = -1;
+                if (offset === -2) offset = 1;
 
-                const currentRotate = isThisHovered
-                  ? 0
-                  : isHoveredAll
-                    ? pos.hoverRotate
-                    : pos.defaultRotate;
+                const isCenter = offset === 0;
+                const isLeft = offset === -1;
+                const isRight = offset === 1;
 
-                const xFactor = isMobile ? 0.45 : 1;
+                let x = 0;
+                let rotate = 0;
+                let y = isCenter ? -10 : 14;
+                let scale = isCenter ? (isMobile ? 1.02 : 1.04) : (isMobile ? 0.88 : 0.92);
+                let opacity = isCenter ? 1 : (isMobile ? 0.7 : 0.85);
+                let zIndex = isCenter ? 40 : 10;
 
-                const currentX = (isThisHovered
-                  ? pos.defaultX * 0.5
-                  : isHoveredAll
-                    ? pos.hoverX
-                    : pos.defaultX) * xFactor;
+                if (isLeft) {
+                  x = isMobile ? -50 : (isHoveredAll ? -120 : -78);
+                  rotate = isMobile ? -6 : (isHoveredAll ? -16 : -12);
+                } else if (isRight) {
+                  x = isMobile ? 50 : (isHoveredAll ? 120 : 78);
+                  rotate = isMobile ? 6 : (isHoveredAll ? 16 : 12);
+                }
 
-                const currentY = isThisHovered
-                  ? -35
-                  : isHoveredAll
-                    ? pos.defaultY - 10
-                    : pos.defaultY;
-
-                const currentScale = isThisHovered ? 1.06 : isCenter ? 1.02 : 0.96;
-                const zIndex = isThisHovered ? 40 : pos.baseZ;
+                if (!isMobile && hoveredCardId === card.id) {
+                  y = -26;
+                  scale = isCenter ? 1.07 : 0.98;
+                  zIndex = 50;
+                  opacity = 1;
+                  rotate = 0;
+                }
 
                 return (
                   <motion.div
                     key={card.id}
                     animate={{
-                      rotate: isMobile ? pos.defaultRotate * 0.6 : currentRotate,
-                      x: currentX,
-                      y: currentY,
-                      scale: currentScale,
+                      x,
+                      y,
+                      rotate,
+                      scale,
+                      opacity,
+                      zIndex,
                     }}
                     transition={{
                       type: 'spring',
-                      stiffness: 280,
-                      damping: 24,
+                      stiffness: 300,
+                      damping: 26,
+                      mass: 0.8,
                     }}
                     style={{ zIndex }}
-                    onMouseEnter={() => setHoveredCardId(card.id)}
-                    onClick={() => {
+                    onMouseEnter={() => {
+                      if (!isMobile) setHoveredCardId(card.id);
+                    }}
+                    onMouseLeave={() => {
+                      if (!isMobile) setHoveredCardId(null);
+                    }}
+                    onClick={(e) => {
                       if (!isCenter) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        setHoveredCardId(null);
                         setActiveCardIndex(index);
                       }
                     }}
-                    className={`absolute w-[210px] xs:w-[245px] sm:w-[290px] h-[300px] xs:h-[340px] sm:h-[390px] rounded-3xl overflow-hidden border bg-gradient-to-b from-slate-900 to-slate-950 shadow-2xl shadow-black/90 cursor-pointer transition-all duration-300 ${isCenter
+                    className={`absolute w-[215px] xs:w-[245px] sm:w-[290px] h-[305px] xs:h-[340px] sm:h-[390px] rounded-3xl overflow-hidden border bg-gradient-to-b from-slate-900 to-slate-950 shadow-2xl shadow-black/90 cursor-pointer transition-colors duration-300 ${isCenter
                       ? 'border-white/30 shadow-[#4A7EB8]/20 ring-1 ring-white/10'
                       : 'border-slate-800 hover:border-slate-700'
                       }`}
@@ -323,6 +344,8 @@ export function About() {
                       onClick={(e) => {
                         if (!isCenter) {
                           e.preventDefault();
+                          e.stopPropagation();
+                          setHoveredCardId(null);
                           setActiveCardIndex(index);
                         }
                       }}
@@ -380,12 +403,21 @@ export function About() {
             </div>
 
             {/* SLIDING NAVIGATION CONTROLS & PAGINATION */}
-            <div className="mt-7 sm:mt-9 flex items-center justify-center gap-5 relative z-30 select-none">
+            <div
+              className="mt-7 sm:mt-9 flex items-center justify-center gap-5 relative z-40 select-none"
+              onMouseEnter={() => {
+                setHoveredCardId(null);
+                setIsHoveredAll(false);
+              }}
+            >
               <button
                 type="button"
-                onClick={handlePrev}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handlePrev();
+                }}
                 aria-label="Previous card"
-                className="group flex h-11 w-11 sm:h-12 sm:w-12 items-center justify-center rounded-full border border-slate-700/80 bg-slate-900/95 text-white shadow-xl shadow-black/80 transition-all duration-200 hover:border-[#4A7EB8] hover:bg-[#0f2a4a] hover:text-[#7bb0ed] hover:scale-105 active:scale-95 cursor-pointer"
+                className="group flex h-11 w-11 sm:h-12 sm:w-12 items-center justify-center rounded-full border border-slate-700/80 bg-slate-900/95 text-white shadow-xl shadow-black/80 transition-all duration-200 hover:border-[#4A7EB8] hover:bg-[#0f2a4a] hover:text-[#7bb0ed] hover:scale-105 active:scale-95 cursor-pointer touch-manipulation z-40"
               >
                 <ChevronLeft className="h-5 w-5 sm:h-6 sm:w-6 transition-transform group-hover:-translate-x-0.5 text-slate-200 group-hover:text-[#7bb0ed]" />
               </button>
@@ -396,9 +428,13 @@ export function About() {
                   <button
                     key={c.id}
                     type="button"
-                    onClick={() => setActiveCardIndex(i)}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setHoveredCardId(null);
+                      setActiveCardIndex(i);
+                    }}
                     aria-label={`Switch to ${c.title}`}
-                    className={`h-2 rounded-full transition-all duration-300 cursor-pointer ${activeCardIndex === i
+                    className={`h-2.5 rounded-full transition-all duration-300 cursor-pointer touch-manipulation ${activeCardIndex === i
                       ? 'w-7 bg-[#4A7EB8] shadow-sm shadow-[#4A7EB8]/50'
                       : 'w-2 bg-slate-700 hover:bg-slate-500'
                       }`}
@@ -408,9 +444,12 @@ export function About() {
 
               <button
                 type="button"
-                onClick={handleNext}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleNext();
+                }}
                 aria-label="Next card"
-                className="group flex h-11 w-11 sm:h-12 sm:w-12 items-center justify-center rounded-full border border-slate-700/80 bg-slate-900/95 text-white shadow-xl shadow-black/80 transition-all duration-200 hover:border-[#4A7EB8] hover:bg-[#0f2a4a] hover:text-[#7bb0ed] hover:scale-105 active:scale-95 cursor-pointer"
+                className="group flex h-11 w-11 sm:h-12 sm:w-12 items-center justify-center rounded-full border border-slate-700/80 bg-slate-900/95 text-white shadow-xl shadow-black/80 transition-all duration-200 hover:border-[#4A7EB8] hover:bg-[#0f2a4a] hover:text-[#7bb0ed] hover:scale-105 active:scale-95 cursor-pointer touch-manipulation z-40"
               >
                 <ChevronRight className="h-5 w-5 sm:h-6 sm:w-6 transition-transform group-hover:translate-x-0.5 text-slate-200 group-hover:text-[#7bb0ed]" />
               </button>
