@@ -39,23 +39,12 @@ interface FanPosition {
 }
 
 const FAN_POSITIONS: FanPosition[] = [
-  { defaultRotate: -14, hoverRotate: -20, defaultX: -75, hoverX: -120, defaultY: 22, baseZ: 10 },
-  { defaultRotate: -6, hoverRotate: -8, defaultX: -26, hoverX: -42, defaultY: 8, baseZ: 22 },
-  { defaultRotate: 2, hoverRotate: 4, defaultX: 24, hoverX: 38, defaultY: -12, baseZ: 35, isCenter: true },
-  { defaultRotate: 12, hoverRotate: 18, defaultX: 74, hoverX: 118, defaultY: 20, baseZ: 18 },
+  { defaultRotate: -12, hoverRotate: -18, defaultX: -70, hoverX: -115, defaultY: 16, baseZ: 12 },
+  { defaultRotate: 0, hoverRotate: 0, defaultX: 0, hoverX: 0, defaultY: -10, baseZ: 35, isCenter: true },
+  { defaultRotate: 12, hoverRotate: 18, defaultX: 70, hoverX: 115, defaultY: 16, baseZ: 18 },
 ];
 
 const fannedCards: FannedCardItem[] = [
-  {
-    id: 'scope-rider',
-    category: 'PORTABLE FIELD LAB',
-    title: 'HDS272S Handheld Scope',
-    spec: '2CH • 70MHz–200MHz • 3.5" Color LCD',
-    image: '/assets/about_pin_ultra_hd.jpg',
-    href: '/products?category=Oscilloscopes',
-    accentColor: '#4A7EB8',
-    tagColor: 'bg-[#0f2a4a]/90 text-[#7bb0ed] border-[#4A7EB8]/60',
-  },
   {
     id: 'oscilloscope',
     category: 'BENCHTOP ANALYSIS',
@@ -89,7 +78,7 @@ const fannedCards: FannedCardItem[] = [
 ];
 
 export function About() {
-  const [activeCardIndex, setActiveCardIndex] = useState(2); // starts with flagship workbench (index 2)
+  const [activeCardIndex, setActiveCardIndex] = useState(1); // starts with flagship workbench (center card)
   const [isHoveredAll, setIsHoveredAll] = useState(false);
   const [hoveredCardId, setHoveredCardId] = useState<string | null>(null);
   const [isMobile, setIsMobile] = useState(false);
@@ -275,7 +264,7 @@ export function About() {
             {/* FANNED CARDS DISPLAY */}
             <div className="relative w-full max-w-[540px] h-[360px] xs:h-[380px] sm:h-[440px] flex items-center justify-center">
               {fannedCards.map((card, index) => {
-                const posIndex = (index - activeCardIndex + 2 + fannedCards.length) % fannedCards.length;
+                const posIndex = (index - activeCardIndex + 1 + fannedCards.length) % fannedCards.length;
                 const pos = FAN_POSITIONS[posIndex];
                 const isCenter = !!pos.isCenter;
                 const isThisHovered = hoveredCardId === card.id;
@@ -329,7 +318,16 @@ export function About() {
                       : 'border-slate-800 hover:border-slate-700'
                       }`}
                   >
-                    <Link href={card.href} className="block w-full h-full relative group">
+                    <Link
+                      href={card.href}
+                      onClick={(e) => {
+                        if (!isCenter) {
+                          e.preventDefault();
+                          setActiveCardIndex(index);
+                        }
+                      }}
+                      className="block w-full h-full relative group"
+                    >
                       {/* Product Image */}
                       <div className="relative w-full h-[62%] bg-slate-950 overflow-hidden">
                         <Image
@@ -382,7 +380,7 @@ export function About() {
             </div>
 
             {/* SLIDING NAVIGATION CONTROLS & PAGINATION */}
-            <div className="mt-7 sm:mt-9 flex items-center justify-center gap-5 z-30">
+            <div className="mt-7 sm:mt-9 flex items-center justify-center gap-5 relative z-30 select-none">
               <button
                 type="button"
                 onClick={handlePrev}
@@ -400,7 +398,7 @@ export function About() {
                     type="button"
                     onClick={() => setActiveCardIndex(i)}
                     aria-label={`Switch to ${c.title}`}
-                    className={`h-2 rounded-full transition-all duration-300 ${activeCardIndex === i
+                    className={`h-2 rounded-full transition-all duration-300 cursor-pointer ${activeCardIndex === i
                       ? 'w-7 bg-[#4A7EB8] shadow-sm shadow-[#4A7EB8]/50'
                       : 'w-2 bg-slate-700 hover:bg-slate-500'
                       }`}

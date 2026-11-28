@@ -69,21 +69,25 @@ export default function AboutPage() {
       />
       {/* Hero Section with Laboratory Background - Full Screen Height */}
       <section className="relative min-h-screen min-h-[100dvh] flex items-center pt-24 sm:pt-28 pb-16 sm:pb-20 border-b border-slate-800 overflow-hidden">
-        {/* Clean Static Hero Background (No 3D Motion) */}
+        {/* Clean Static Hero Background (Ultra HD 4K Clarity) */}
         <div className="absolute inset-0 z-0 overflow-hidden select-none pointer-events-none" aria-hidden="true">
           <Image
             src="/assets/about_fsv_spectrum_analyzer_hero_uhd.jpg"
             alt="SRTRONIX FSV Signal and Spectrum Analyzer Precision Laboratory Workbench"
             fill
             priority
-            quality={95}
+            quality={100}
             sizes="100vw"
-            className="object-cover object-center brightness-105 contrast-105"
+            className="object-cover object-center sm:object-[62%_center] brightness-[0.93] contrast-[1.02] transition-transform duration-1000"
           />
-          {/* Ambient Lighting & Contrast Overlays */}
-          <div className="absolute inset-0 bg-gradient-to-r from-[#09090b]/85 via-[#09090b]/45 to-transparent pointer-events-none" />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#09090b]/80 via-transparent to-[#09090b]/20 pointer-events-none" />
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_65%_45%,rgba(74,126,184,0.12)_0%,transparent_60%)] pointer-events-none" />
+          {/* Subtle balanced illumination & contrast overlays */}
+          <div className="absolute inset-0 bg-black/10 pointer-events-none" />
+          {/* Left-edge gradient protects text readability while leaving the instrument and workbench crystal clear */}
+          <div className="absolute inset-0 bg-gradient-to-r from-[#09090b]/85 via-[#09090b]/30 via-35% sm:via-30% to-transparent pointer-events-none" />
+          {/* Soft bottom edge blend to transition into the next section seamlessly */}
+          <div className="absolute inset-x-0 bottom-0 h-24 sm:h-32 bg-gradient-to-t from-[#09090b] via-[#09090b]/40 to-transparent pointer-events-none" />
+          {/* Subtle laboratory ambient highlight */}
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_45%,rgba(74,126,184,0.08)_0%,transparent_65%)] pointer-events-none" />
         </div>
 
         {/* Hero Content - Left Aligned with high-contrast mobile text protection */}

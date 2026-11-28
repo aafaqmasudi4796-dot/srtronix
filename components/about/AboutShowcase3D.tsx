@@ -18,7 +18,7 @@ export function AboutShowcase3D() {
             alt="SRTRONIX R&D Engineering Assembly and Electronic Testing Facility - Bengaluru, India"
             fill
             priority
-            quality={95}
+            quality={100}
             sizes="(max-width: 1024px) 100vw, 50vw"
             className="object-cover object-center group-hover:scale-102 transition-transform duration-700"
           />
