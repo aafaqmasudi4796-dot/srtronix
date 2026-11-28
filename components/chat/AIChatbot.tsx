@@ -508,8 +508,8 @@ Contact: +91 70224 29004 | sales@srtronix.com`;
         onDragEnd={handleLauncherDragEnd}
         style={{ y: launcherY }}
         whileDrag={{ scale: 1.08 }}
-        className={`fixed bottom-5 ${
-          dockSide === 'right' ? 'right-5 sm:right-6 items-end' : 'left-5 sm:left-6 items-start'
+        className={`fixed bottom-4 sm:bottom-5 ${
+          dockSide === 'right' ? 'right-4 sm:right-5 items-end' : 'left-4 sm:left-5 items-start'
         } z-50 flex flex-col cursor-grab active:cursor-grabbing select-none`}
       >
         {/* Teaser Tooltip Bubble */}
@@ -520,15 +520,15 @@ Contact: +91 70224 29004 | sales@srtronix.com`;
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: 5, scale: 0.9 }}
               transition={{ duration: 0.3 }}
-              className={`mb-3 ${
+              className={`mb-2.5 ${
                 dockSide === 'right' ? 'mr-1' : 'ml-1'
-              } bg-gradient-to-r from-slate-900 via-[#0f2a4a] to-slate-900 text-white text-xs px-3.5 py-2.5 rounded-xl shadow-2xl border border-[#4A7EB8]/50 backdrop-blur-md flex items-center gap-2 cursor-pointer max-w-[270px]`}
+              } bg-gradient-to-r from-slate-900 via-[#0f2a4a] to-slate-900 text-white text-xs px-3 py-2 rounded-xl shadow-2xl border border-[#4A7EB8]/50 backdrop-blur-md flex items-center gap-2 cursor-pointer max-w-[240px]`}
               onClick={() => setIsOpen(true)}
             >
-              <div className="w-2 h-2 rounded-full bg-[#7bb0ed] animate-ping shrink-0" />
+              <div className="w-1.5 h-1.5 rounded-full bg-[#7bb0ed] animate-ping shrink-0" />
               <div className="flex-1">
-                <span className="font-semibold block text-[11px] text-cyan-300">24/7 AI Technical Assistant</span>
-                <span className="text-[10px] text-slate-300">Side-Docked ({dockSide === 'right' ? 'Right' : 'Left'}) • Drag along edge</span>
+                <span className="font-semibold block text-[10px] text-cyan-300">24/7 AI Technical Assistant</span>
+                <span className="text-[9px] text-slate-300">Side-Docked • Drag along edge</span>
               </div>
               <button
                 type="button"
@@ -536,28 +536,28 @@ Contact: +91 70224 29004 | sales@srtronix.com`;
                   e.stopPropagation();
                   setShowTooltip(false);
                 }}
-                className="text-slate-400 hover:text-white p-0.5 ml-1"
+                className="text-slate-400 hover:text-white p-0.5 ml-0.5"
                 aria-label="Dismiss tooltip"
               >
-                <X className="w-3.5 h-3.5" />
+                <X className="w-3 h-3" />
               </button>
             </motion.div>
           )}
         </AnimatePresence>
 
-        {/* Circular Launch Toggle Button */}
+        {/* Circular Launch Toggle Button - Compact Sleek 48px */}
         <motion.button
           type="button"
           onClick={() => setIsOpen((prev) => !prev)}
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           aria-label={isOpen ? 'Close AI Assistant' : 'Open AI Assistant'}
-          className="relative group flex items-center justify-center w-14 h-14 rounded-full bg-gradient-to-br from-[#4A7EB8] via-[#2563eb] to-[#0f2a4a] text-white shadow-2xl shadow-blue-950/70 border-2 border-[#7bb0ed]/60 hover:border-white transition-all cursor-pointer"
+          className="relative group flex items-center justify-center w-12 h-12 rounded-full bg-gradient-to-br from-[#4A7EB8] via-[#2563eb] to-[#0f2a4a] text-white shadow-xl shadow-blue-950/70 border-2 border-[#7bb0ed]/60 hover:border-white transition-all cursor-pointer"
         >
           {/* Drag Indicator Tooltip on Hover */}
           <div className="absolute -top-7 bg-slate-900/90 text-slate-300 text-[10px] px-2 py-0.5 rounded-full border border-white/10 opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1 pointer-events-none whitespace-nowrap shadow-md">
             <Move className="w-2.5 h-2.5 text-[#7bb0ed]" />
-            <span>Drag along edge</span>
+            <span>Drag edge</span>
           </div>
 
           {/* Subtle Outer Radar Ping */}
@@ -572,7 +572,7 @@ Contact: +91 70224 29004 | sales@srtronix.com`;
                 exit={{ rotate: 90, opacity: 0 }}
                 transition={{ duration: 0.2 }}
               >
-                <X className="w-6 h-6" />
+                <X className="w-5 h-5" />
               </motion.div>
             ) : (
               <motion.div
@@ -583,17 +583,17 @@ Contact: +91 70224 29004 | sales@srtronix.com`;
                 transition={{ duration: 0.2 }}
                 className="relative flex items-center justify-center font-bold tracking-wide"
               >
-                <span className="text-[15px] font-black tracking-wider uppercase text-white font-mono drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
+                <span className="text-[13px] font-black tracking-wider uppercase text-white font-mono drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
                   Ask
                 </span>
-                <span className="absolute -top-2 -right-2.5 w-2.5 h-2.5 rounded-full bg-emerald-400 border border-slate-900 animate-pulse shadow-[0_0_8px_#34d399]" />
+                <span className="absolute -top-1.5 -right-2 w-2 h-2 rounded-full bg-emerald-400 border border-slate-900 animate-pulse shadow-[0_0_6px_#34d399]" />
               </motion.div>
             )}
           </AnimatePresence>
         </motion.button>
       </motion.div>
 
-      {/* CHAT WINDOW (Side-Docked Floating Pane, Never Stays in Center) */}
+      {/* CHAT WINDOW (Compact Side-Docked Floating Pane) */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -611,11 +611,11 @@ Contact: +91 70224 29004 | sales@srtronix.com`;
             animate={{ opacity: 1, y: windowY, scale: 1 }}
             exit={{ opacity: 0, y: windowY + 25, scale: 0.94 }}
             transition={{ type: 'spring', damping: 25, stiffness: 320 }}
-            className={`fixed bottom-22 ${
+            className={`fixed bottom-18 sm:bottom-20 ${
               dockSide === 'right'
-                ? 'right-4 sm:right-6 left-4 sm:left-auto'
-                : 'left-4 sm:left-6 right-4 sm:right-auto'
-            } z-50 w-[calc(100vw-2rem)] sm:w-[440px] h-[610px] max-h-[85dvh] flex flex-col rounded-2xl overflow-hidden border border-[#4A7EB8]/40 bg-[#090e17]/95 backdrop-blur-2xl shadow-2xl shadow-black/90 text-slate-200`}
+                ? 'right-3 sm:right-5 left-3 sm:left-auto'
+                : 'left-3 sm:left-5 right-3 sm:right-auto'
+            } z-50 w-[calc(100vw-1.5rem)] sm:w-[370px] h-[510px] max-h-[82dvh] flex flex-col rounded-2xl overflow-hidden border border-[#4A7EB8]/40 bg-[#090e17]/95 backdrop-blur-2xl shadow-2xl shadow-black/90 text-slate-200`}
           >
             {/* CHAT HEADER - DRAGGABLE BAR */}
             <div
@@ -624,47 +624,47 @@ Contact: +91 70224 29004 | sales@srtronix.com`;
                 if ((e.target as HTMLElement).closest('button, a, select, input, textarea')) return;
                 dragControls.start(e);
               }}
-              className="px-4 py-3 bg-gradient-to-r from-[#0f2a4a] via-[#16385e] to-[#0f2a4a] border-b border-[#4A7EB8]/40 flex items-center justify-between shrink-0 cursor-grab active:cursor-grabbing select-none"
+              className="px-3.5 py-2.5 bg-gradient-to-r from-[#0f2a4a] via-[#16385e] to-[#0f2a4a] border-b border-[#4A7EB8]/40 flex items-center justify-between shrink-0 cursor-grab active:cursor-grabbing select-none"
               title="Click and drag header to move up/down or snap to opposite side"
             >
-              <div className="flex items-center gap-2.5">
+              <div className="flex items-center gap-2">
                 {/* Grip Handle */}
-                <div className="flex items-center justify-center p-1 rounded-md text-slate-400 hover:text-white transition-colors cursor-grab" title="Drag to move along side or switch sides">
-                  <GripVertical className="w-4 h-4 text-slate-400/80" />
+                <div className="flex items-center justify-center p-0.5 rounded text-slate-400 hover:text-white transition-colors cursor-grab" title="Drag to move along side or switch sides">
+                  <GripVertical className="w-3.5 h-3.5 text-slate-400/80" />
                 </div>
 
-                <div className="relative flex items-center justify-center px-2.5 h-8 rounded-xl bg-gradient-to-br from-[#4A7EB8] to-[#2563eb] border border-white/20 shadow-md">
-                  <span className="text-[11px] font-black uppercase text-white font-mono tracking-wider">Ask</span>
-                  <span className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-emerald-400 border border-slate-900" />
+                <div className="relative flex items-center justify-center px-2 h-7 rounded-lg bg-gradient-to-br from-[#4A7EB8] to-[#2563eb] border border-white/20 shadow-md">
+                  <span className="text-[10px] font-black uppercase text-white font-mono tracking-wider">Ask</span>
+                  <span className="absolute -bottom-0.5 -right-0.5 w-2 h-2 rounded-full bg-emerald-400 border border-slate-900" />
                 </div>
                 <div>
                   <div className="flex items-center gap-1.5">
-                    <h3 className="text-sm font-bold text-white tracking-wide">SRTRONIX AI</h3>
-                    <span className="px-1.5 py-0.2 rounded bg-cyan-400/20 text-cyan-300 text-[10px] font-mono font-semibold">
-                      24/7 Active
+                    <h3 className="text-xs sm:text-sm font-bold text-white tracking-wide">SRTRONIX AI</h3>
+                    <span className="px-1.5 py-0.2 rounded bg-cyan-400/20 text-cyan-300 text-[9px] font-mono font-semibold">
+                      Online
                     </span>
                   </div>
-                  <p className="text-[10px] text-slate-300 flex items-center gap-1">
+                  <p className="text-[9px] text-slate-300 flex items-center gap-1">
                     <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                    <span>Docked {dockSide === 'right' ? 'Right' : 'Left'} • Movable</span>
+                    <span>Docked {dockSide === 'right' ? 'Right' : 'Left'}</span>
                   </p>
                 </div>
               </div>
 
               {/* Header Action Icons */}
-              <div className="flex items-center gap-1.5 text-slate-300">
+              <div className="flex items-center gap-1 text-slate-300">
                 {/* Switch Side Button (Dock Left / Dock Right) */}
                 <button
                   type="button"
                   onClick={toggleDockSide}
                   title={dockSide === 'right' ? 'Switch to left side' : 'Switch to right side'}
                   aria-label={dockSide === 'right' ? 'Switch to left side' : 'Switch to right side'}
-                  className="p-1.5 rounded-lg hover:bg-white/10 hover:text-white transition-colors cursor-pointer text-slate-300"
+                  className="p-1 rounded-md hover:bg-white/10 hover:text-white transition-colors cursor-pointer text-slate-300"
                 >
                   {dockSide === 'right' ? (
-                    <ArrowLeftToLine className="w-4 h-4" />
+                    <ArrowLeftToLine className="w-3.5 h-3.5" />
                   ) : (
-                    <ArrowRightToLine className="w-4 h-4" />
+                    <ArrowRightToLine className="w-3.5 h-3.5" />
                   )}
                 </button>
 
@@ -674,9 +674,9 @@ Contact: +91 70224 29004 | sales@srtronix.com`;
                   onClick={handleResetPosition}
                   title="Reset to default bottom-right"
                   aria-label="Reset window position"
-                  className="p-1.5 rounded-lg hover:bg-white/10 hover:text-white transition-colors cursor-pointer text-slate-300"
+                  className="p-1 rounded-md hover:bg-white/10 hover:text-white transition-colors cursor-pointer text-slate-300"
                 >
-                  <RotateCcw className="w-4 h-4" />
+                  <RotateCcw className="w-3.5 h-3.5" />
                 </button>
 
                 <a
@@ -684,9 +684,9 @@ Contact: +91 70224 29004 | sales@srtronix.com`;
                   target="_blank"
                   rel="noopener noreferrer"
                   title="Connect on WhatsApp"
-                  className="p-1.5 rounded-lg bg-emerald-500/10 text-emerald-400 hover:bg-emerald-500/20 hover:text-emerald-300 transition-colors"
+                  className="p-1 rounded-md bg-emerald-500/10 text-emerald-400 hover:bg-emerald-500/20 hover:text-emerald-300 transition-colors"
                 >
-                  <WhatsAppIcon className="w-4 h-4 fill-current" />
+                  <WhatsAppIcon className="w-3.5 h-3.5 fill-current" />
                 </a>
 
                 {activeTab === 'chat' && (
@@ -695,9 +695,9 @@ Contact: +91 70224 29004 | sales@srtronix.com`;
                     onClick={handleClearChat}
                     title="Clear conversation"
                     aria-label="Clear conversation"
-                    className="p-1.5 rounded-lg hover:bg-white/10 hover:text-white transition-colors cursor-pointer"
+                    className="p-1 rounded-md hover:bg-white/10 hover:text-white transition-colors cursor-pointer"
                   >
-                    <Trash2 className="w-4 h-4" />
+                    <Trash2 className="w-3.5 h-3.5" />
                   </button>
                 )}
 
@@ -706,59 +706,59 @@ Contact: +91 70224 29004 | sales@srtronix.com`;
                   onClick={() => setIsOpen(false)}
                   title="Minimize chat"
                   aria-label="Minimize chat"
-                  className="p-1.5 rounded-lg hover:bg-white/10 hover:text-white transition-colors cursor-pointer"
+                  className="p-1 rounded-md hover:bg-white/10 hover:text-white transition-colors cursor-pointer"
                 >
-                  <Minimize2 className="w-4 h-4" />
+                  <Minimize2 className="w-3.5 h-3.5" />
                 </button>
               </div>
             </div>
 
             {/* TAB SELECTOR BAR */}
-            <div className="flex border-b border-slate-800 bg-slate-950/80 px-2 py-1.5 text-xs font-medium">
+            <div className="flex border-b border-slate-800 bg-slate-950/80 px-1.5 py-1 text-[11px] font-medium">
               <button
                 type="button"
                 onClick={() => setActiveTab('chat')}
-                className={`flex-1 py-1.5 px-2 rounded-lg flex items-center justify-center gap-1.5 transition-all ${
+                className={`flex-1 py-1 px-1.5 rounded-md flex items-center justify-center gap-1.5 transition-all ${
                   activeTab === 'chat'
                     ? 'bg-[#4A7EB8] text-white shadow-xs font-semibold'
                     : 'text-slate-400 hover:text-white hover:bg-slate-900'
                 }`}
               >
-                <MessageSquare className="w-3.5 h-3.5" />
+                <MessageSquare className="w-3 h-3" />
                 <span>AI Chat</span>
               </button>
 
               <button
                 type="button"
                 onClick={() => setActiveTab('quotation')}
-                className={`flex-1 py-1.5 px-2 rounded-lg flex items-center justify-center gap-1.5 transition-all ${
+                className={`flex-1 py-1 px-1.5 rounded-md flex items-center justify-center gap-1.5 transition-all ${
                   activeTab === 'quotation'
                     ? 'bg-[#4A7EB8] text-white shadow-xs font-semibold'
                     : 'text-slate-400 hover:text-white hover:bg-slate-900'
                 }`}
               >
-                <Calculator className="w-3.5 h-3.5" />
-                <span>Instant Quote</span>
+                <Calculator className="w-3 h-3" />
+                <span>Quote</span>
               </button>
 
               <button
                 type="button"
                 onClick={() => setActiveTab('enquiry')}
-                className={`flex-1 py-1.5 px-2 rounded-lg flex items-center justify-center gap-1.5 transition-all ${
+                className={`flex-1 py-1 px-1.5 rounded-md flex items-center justify-center gap-1.5 transition-all ${
                   activeTab === 'enquiry'
                     ? 'bg-[#4A7EB8] text-white shadow-xs font-semibold'
                     : 'text-slate-400 hover:text-white hover:bg-slate-900'
                 }`}
               >
-                <FileText className="w-3.5 h-3.5" />
-                <span>Send Enquiry</span>
+                <FileText className="w-3 h-3" />
+                <span>Enquiry</span>
               </button>
             </div>
 
             {/* TAB 1: AI CHAT VIEW */}
             {activeTab === 'chat' && (
               <>
-                <div className="flex-1 overflow-y-auto px-4 py-4 space-y-4 text-xs scrollbar-thin scrollbar-thumb-slate-700">
+                <div className="flex-1 overflow-y-auto px-3 py-3 space-y-3 text-xs scrollbar-thin scrollbar-thumb-slate-700">
                   {messages.map((m) => {
                     const isUser = m.role === 'user';
 
@@ -768,16 +768,16 @@ Contact: +91 70224 29004 | sales@srtronix.com`;
                         initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.25 }}
-                        className={`flex gap-2.5 ${isUser ? 'justify-end' : 'justify-start'}`}
+                        className={`flex gap-2 ${isUser ? 'justify-end' : 'justify-start'}`}
                       >
                         {!isUser && (
-                          <div className="w-6 h-6 rounded-full bg-[#0f2a4a] border border-[#4A7EB8]/40 flex items-center justify-center shrink-0 mt-0.5">
-                            <span className="text-[9px] font-black uppercase text-[#7bb0ed] font-mono">Ask</span>
+                          <div className="w-5 h-5 rounded-full bg-[#0f2a4a] border border-[#4A7EB8]/40 flex items-center justify-center shrink-0 mt-0.5">
+                            <span className="text-[8px] font-black uppercase text-[#7bb0ed] font-mono">Ask</span>
                           </div>
                         )}
 
                         <div
-                          className={`max-w-[88%] rounded-2xl px-4 py-3 shadow-md ${
+                          className={`max-w-[86%] rounded-xl px-3 py-2 shadow-md ${
                             isUser
                               ? 'bg-gradient-to-r from-[#2563eb] to-[#4A7EB8] text-white rounded-br-xs'
                               : 'bg-slate-900/90 border border-slate-800 text-slate-200 rounded-bl-xs'
@@ -785,7 +785,7 @@ Contact: +91 70224 29004 | sales@srtronix.com`;
                         >
                           {renderFormattedContent(m.content)}
                           <div
-                            className={`text-[10px] mt-1 text-right select-none ${
+                            className={`text-[9px] mt-0.5 text-right select-none ${
                               isUser ? 'text-blue-100/70' : 'text-slate-500'
                             }`}
                           >
@@ -794,8 +794,8 @@ Contact: +91 70224 29004 | sales@srtronix.com`;
                         </div>
 
                         {isUser && (
-                          <div className="w-6 h-6 rounded-full bg-blue-600 border border-blue-400/40 flex items-center justify-center shrink-0 mt-0.5">
-                            <User className="w-3.5 h-3.5 text-white" />
+                          <div className="w-5 h-5 rounded-full bg-blue-600 border border-blue-400/40 flex items-center justify-center shrink-0 mt-0.5">
+                            <User className="w-3 h-3 text-white" />
                           </div>
                         )}
                       </motion.div>
@@ -807,14 +807,14 @@ Contact: +91 70224 29004 | sales@srtronix.com`;
                     <motion.div
                       initial={{ opacity: 0, y: 8 }}
                       animate={{ opacity: 1, y: 0 }}
-                      className="flex items-center gap-2 text-slate-400 pl-8 text-xs"
+                      className="flex items-center gap-2 text-slate-400 pl-7 text-xs"
                     >
-                      <div className="flex items-center gap-1 px-3 py-2 rounded-2xl bg-slate-900/80 border border-slate-800">
+                      <div className="flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-slate-900/80 border border-slate-800">
                         <span className="w-1.5 h-1.5 rounded-full bg-[#7bb0ed] animate-bounce [animation-delay:-0.3s]" />
                         <span className="w-1.5 h-1.5 rounded-full bg-[#7bb0ed] animate-bounce [animation-delay:-0.15s]" />
                         <span className="w-1.5 h-1.5 rounded-full bg-[#7bb0ed] animate-bounce" />
                       </div>
-                      <span className="text-[11px] font-mono text-slate-400">SRTRONIX AI is typing...</span>
+                      <span className="text-[10px] font-mono text-slate-400">SRTRONIX AI is typing...</span>
                     </motion.div>
                   )}
 
@@ -823,13 +823,13 @@ Contact: +91 70224 29004 | sales@srtronix.com`;
 
                 {/* QUICK SHORTCUT CHIPS */}
                 {messages.length <= 3 && !isLoading && (
-                  <div className="px-3 py-2 border-t border-slate-800/80 bg-slate-950/60 flex flex-wrap gap-1.5 max-h-24 overflow-y-auto">
+                  <div className="px-2.5 py-1.5 border-t border-slate-800/80 bg-slate-950/60 flex flex-wrap gap-1 max-h-20 overflow-y-auto">
                     {INITIAL_SUGGESTIONS.map((s, idx) => (
                       <button
                         key={idx}
                         type="button"
                         onClick={() => handleSendMessage(s)}
-                        className="text-[11px] text-slate-300 hover:text-white bg-slate-900/90 hover:bg-[#0f2a4a] border border-slate-800 hover:border-[#4A7EB8]/60 px-2.5 py-1 rounded-full transition-all text-left"
+                        className="text-[10px] text-slate-300 hover:text-white bg-slate-900/90 hover:bg-[#0f2a4a] border border-slate-800 hover:border-[#4A7EB8]/60 px-2 py-0.5 rounded-full transition-all text-left"
                       >
                         {s}
                       </button>
@@ -838,13 +838,13 @@ Contact: +91 70224 29004 | sales@srtronix.com`;
                 )}
 
                 {/* CHAT INPUT FORM */}
-                <div className="p-3 bg-slate-950 border-t border-slate-800/80">
+                <div className="p-2.5 bg-slate-950 border-t border-slate-800/80">
                   <form
                     onSubmit={(e) => {
                       e.preventDefault();
                       handleSendMessage();
                     }}
-                    className="flex items-center gap-2"
+                    className="flex items-center gap-1.5"
                   >
                     <input
                       ref={inputRef}
@@ -853,20 +853,20 @@ Contact: +91 70224 29004 | sales@srtronix.com`;
                       onChange={(e) => setInputValue(e.target.value)}
                       placeholder="Ask about scopes, benches, quotes, specs..."
                       disabled={isLoading}
-                      className="flex-1 bg-slate-900 text-white placeholder-slate-500 text-xs px-3.5 py-2.5 rounded-xl border border-slate-800 focus:border-[#4A7EB8] focus:outline-none focus:ring-1 focus:ring-[#4A7EB8] transition-all disabled:opacity-50"
+                      className="flex-1 bg-slate-900 text-white placeholder-slate-500 text-xs px-3 py-2 rounded-lg border border-slate-800 focus:border-[#4A7EB8] focus:outline-none focus:ring-1 focus:ring-[#4A7EB8] transition-all disabled:opacity-50"
                     />
 
                     <button
                       type="submit"
                       disabled={!inputValue.trim() || isLoading}
                       aria-label="Send message"
-                      className="flex items-center justify-center w-9 h-9 rounded-xl bg-[#4A7EB8] hover:bg-[#3b6ea4] text-white disabled:opacity-40 disabled:hover:bg-[#4A7EB8] transition-all cursor-pointer shrink-0"
+                      className="flex items-center justify-center w-8 h-8 rounded-lg bg-[#4A7EB8] hover:bg-[#3b6ea4] text-white disabled:opacity-40 disabled:hover:bg-[#4A7EB8] transition-all cursor-pointer shrink-0"
                     >
-                      <Send className="w-4 h-4" />
+                      <Send className="w-3.5 h-3.5" />
                     </button>
                   </form>
 
-                  <div className="mt-2 flex items-center justify-between text-[10px] text-slate-500 px-1">
+                  <div className="mt-1.5 flex items-center justify-between text-[9px] text-slate-500 px-1">
                     <span>Engineered &amp; calibrated in India</span>
                     <a
                       href="https://wa.me/917022429004?text=Hello%20SRTRONIX,%20I%20am%20chatting%20with%20your%20website%20assistant%20and%20would%20like%20to%20connect%20with%20a%20sales%20engineer."
@@ -874,8 +874,8 @@ Contact: +91 70224 29004 | sales@srtronix.com`;
                       rel="noopener noreferrer"
                       className="inline-flex items-center gap-1 text-emerald-400 hover:text-emerald-300 font-medium"
                     >
-                      <WhatsAppIcon className="w-3 h-3 fill-current" />
-                      <span>WhatsApp Sales Desk</span>
+                      <WhatsAppIcon className="w-2.5 h-2.5 fill-current" />
+                      <span>WhatsApp Desk</span>
                     </a>
                   </div>
                 </div>
@@ -884,28 +884,28 @@ Contact: +91 70224 29004 | sales@srtronix.com`;
 
             {/* TAB 2: INSTANT QUOTATION BUILDER */}
             {activeTab === 'quotation' && (
-              <div className="flex-1 overflow-y-auto p-4 flex flex-col justify-between text-xs space-y-4">
+              <div className="flex-1 overflow-y-auto p-3 flex flex-col justify-between text-xs space-y-3 scrollbar-thin scrollbar-thumb-slate-700">
                 <div>
-                  <div className="flex items-center justify-between border-b border-slate-800 pb-2">
+                  <div className="flex items-center justify-between border-b border-slate-800 pb-1.5">
                     <div>
-                      <h4 className="text-sm font-bold text-white flex items-center gap-1.5">
-                        <Calculator className="w-4 h-4 text-[#7bb0ed]" />
+                      <h4 className="text-xs sm:text-sm font-bold text-white flex items-center gap-1.5">
+                        <Calculator className="w-3.5 h-3.5 text-[#7bb0ed]" />
                         <span>Instant Quotation Generator</span>
                       </h4>
-                      <p className="text-[11px] text-slate-400">Approved factory pricing with 18% GST calculation</p>
+                      <p className="text-[10px] text-slate-400">Approved factory pricing with 18% GST calculation</p>
                     </div>
-                    <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-blue-900/40 text-blue-300 border border-blue-700/50">
+                    <span className="text-[9px] font-mono px-1.5 py-0.5 rounded bg-blue-900/40 text-blue-300 border border-blue-700/50">
                       {currentQuoteRef}
                     </span>
                   </div>
 
                   {/* Add Product Controls */}
-                  <div className="mt-3 bg-slate-900/90 border border-slate-800 p-2.5 rounded-xl space-y-2">
-                    <label className="text-[11px] font-semibold text-slate-300 block">Select Instrument Model</label>
+                  <div className="mt-2.5 bg-slate-900/90 border border-slate-800 p-2 rounded-xl space-y-1.5">
+                    <label className="text-[10px] font-semibold text-slate-300 block">Select Instrument Model</label>
                     <select
                       value={selectedProduct}
                       onChange={(e) => setSelectedProduct(e.target.value)}
-                      className="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-white focus:outline-none focus:border-[#4A7EB8]"
+                      className="w-full bg-slate-950 border border-slate-700 rounded-lg px-2 py-1 text-[11px] text-white focus:outline-none focus:border-[#4A7EB8]"
                     >
                       {APPROVED_PRODUCTS.map((prod) => (
                         <option key={prod.id} value={prod.id}>
@@ -914,22 +914,22 @@ Contact: +91 70224 29004 | sales@srtronix.com`;
                       ))}
                     </select>
 
-                    <div className="flex items-center justify-between pt-1">
-                      <div className="flex items-center gap-2">
-                        <span className="text-slate-400 text-[11px]">Quantity:</span>
+                    <div className="flex items-center justify-between pt-0.5">
+                      <div className="flex items-center gap-1.5">
+                        <span className="text-slate-400 text-[10px]">Qty:</span>
                         <div className="flex items-center border border-slate-700 rounded-lg bg-slate-950 overflow-hidden">
                           <button
                             type="button"
                             onClick={() => setQuoteQty((q) => Math.max(1, q - 1))}
-                            className="px-2 py-1 text-slate-300 hover:bg-slate-800"
+                            className="px-1.5 py-0.5 text-slate-300 hover:bg-slate-800"
                           >
                             -
                           </button>
-                          <span className="px-2.5 py-1 font-mono text-white text-[11px]">{quoteQty}</span>
+                          <span className="px-2 py-0.5 font-mono text-white text-[10px]">{quoteQty}</span>
                           <button
                             type="button"
                             onClick={() => setQuoteQty((q) => q + 1)}
-                            className="px-2 py-1 text-slate-300 hover:bg-slate-800"
+                            className="px-1.5 py-0.5 text-slate-300 hover:bg-slate-800"
                           >
                             +
                           </button>
@@ -939,29 +939,29 @@ Contact: +91 70224 29004 | sales@srtronix.com`;
                       <button
                         type="button"
                         onClick={handleAddQuoteItem}
-                        className="px-3 py-1.5 bg-[#4A7EB8] hover:bg-[#3b6ea4] text-white font-medium rounded-lg text-xs transition-colors cursor-pointer"
+                        className="px-2.5 py-1 bg-[#4A7EB8] hover:bg-[#3b6ea4] text-white font-medium rounded-lg text-[11px] transition-colors cursor-pointer"
                       >
-                        + Add to Quote
+                        + Add Item
                       </button>
                     </div>
                   </div>
 
                   {/* Line Items List */}
-                  <div className="mt-3 space-y-1.5 max-h-40 overflow-y-auto">
-                    <div className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider px-1">
+                  <div className="mt-2.5 space-y-1 max-h-32 overflow-y-auto">
+                    <div className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider px-1">
                       Line Items ({quoteItems.length})
                     </div>
                     {quoteItems.length === 0 ? (
-                      <div className="text-slate-500 text-center py-4 italic">No instruments selected yet. Add one above!</div>
+                      <div className="text-slate-500 text-center py-3 italic text-[11px]">No instruments selected yet. Add one above!</div>
                     ) : (
                       quoteItems.map((item) => (
                         <div
                           key={item.id}
-                          className="flex items-center justify-between bg-slate-900/60 border border-slate-800/80 px-2.5 py-2 rounded-lg text-xs"
+                          className="flex items-center justify-between bg-slate-900/60 border border-slate-800/80 px-2 py-1.5 rounded-lg text-xs"
                         >
-                          <div className="flex-1 pr-2">
-                            <span className="text-white font-medium block truncate max-w-[210px]">{item.name}</span>
-                            <span className="text-slate-400 text-[10px]">
+                          <div className="flex-1 pr-1.5">
+                            <span className="text-white font-medium block truncate max-w-[190px] text-[11px]">{item.name}</span>
+                            <span className="text-slate-400 text-[9px]">
                               ₹{item.price.toLocaleString('en-IN')} × {item.qty} ={' '}
                               <strong className="text-slate-200">₹{(item.price * item.qty).toLocaleString('en-IN')}</strong>
                             </span>
@@ -969,10 +969,10 @@ Contact: +91 70224 29004 | sales@srtronix.com`;
                           <button
                             type="button"
                             onClick={() => handleRemoveQuoteItem(item.id)}
-                            className="text-red-400 hover:text-red-300 p-1"
+                            className="text-red-400 hover:text-red-300 p-0.5"
                             title="Remove"
                           >
-                            <X className="w-3.5 h-3.5" />
+                            <X className="w-3 h-3" />
                           </button>
                         </div>
                       ))
@@ -981,53 +981,53 @@ Contact: +91 70224 29004 | sales@srtronix.com`;
                 </div>
 
                 {/* Quotation Summary Card */}
-                <div className="bg-slate-900/90 border border-slate-800 rounded-xl p-3 space-y-2">
-                  <div className="flex justify-between text-slate-300 text-xs">
+                <div className="bg-slate-900/90 border border-slate-800 rounded-xl p-2.5 space-y-1.5">
+                  <div className="flex justify-between text-slate-300 text-[11px]">
                     <span>Ex-Factory Subtotal:</span>
                     <span>₹{quoteSubtotal.toLocaleString('en-IN')}</span>
                   </div>
 
                   {quoteDiscountPercent > 0 && (
-                    <div className="flex justify-between text-emerald-400 text-xs">
+                    <div className="flex justify-between text-emerald-400 text-[11px]">
                       <span>Volume Discount ({quoteDiscountPercent}%):</span>
                       <span>-₹{quoteDiscountAmount.toLocaleString('en-IN')}</span>
                     </div>
                   )}
 
-                  <div className="flex justify-between text-slate-300 text-xs">
-                    <span>GST @ 18% (CGST + SGST / IGST):</span>
+                  <div className="flex justify-between text-slate-300 text-[11px]">
+                    <span>GST @ 18% (CGST + SGST):</span>
                     <span>₹{quoteGst.toLocaleString('en-IN')}</span>
                   </div>
 
-                  <div className="border-t border-slate-800 pt-1.5 flex justify-between items-center text-sm font-bold text-white">
+                  <div className="border-t border-slate-800 pt-1 flex justify-between items-center text-xs font-bold text-white">
                     <span>Grand Total (INR):</span>
-                    <span className="text-cyan-300 font-mono text-base">₹{quoteTotal.toLocaleString('en-IN')}</span>
+                    <span className="text-cyan-300 font-mono text-sm">₹{quoteTotal.toLocaleString('en-IN')}</span>
                   </div>
 
-                  <div className="text-[10px] text-slate-400 flex items-center gap-1 pt-1">
-                    <Info className="w-3 h-3 text-[#7bb0ed] shrink-0" />
+                  <div className="text-[9px] text-slate-400 flex items-center gap-1 pt-0.5">
+                    <Info className="w-2.5 h-2.5 text-[#7bb0ed] shrink-0" />
                     <span>Includes 1–3 yr warranty &amp; NABL calibration. Valid for 30 days.</span>
                   </div>
 
                   {/* Actions: Copy & WhatsApp */}
-                  <div className="grid grid-cols-2 gap-2 pt-1">
+                  <div className="grid grid-cols-2 gap-1.5 pt-1">
                     <button
                       type="button"
                       onClick={handleCopyQuote}
-                      className="flex items-center justify-center gap-1.5 px-3 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-white font-medium text-xs transition-colors cursor-pointer"
+                      className="flex items-center justify-center gap-1 px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-white font-medium text-[11px] transition-colors cursor-pointer"
                     >
-                      {quoteCopied ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
-                      <span>{quoteCopied ? 'Quote Copied!' : 'Copy Quote'}</span>
+                      {quoteCopied ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
+                      <span>{quoteCopied ? 'Copied!' : 'Copy Quote'}</span>
                     </button>
 
                     <a
                       href={quoteWhatsAppUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center justify-center gap-1.5 px-3 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-medium text-xs transition-colors shadow-sm"
+                      className="flex items-center justify-center gap-1 px-2.5 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-medium text-[11px] transition-colors shadow-xs"
                     >
-                      <WhatsAppIcon className="w-3.5 h-3.5 fill-current" />
-                      <span>Send via WhatsApp</span>
+                      <WhatsAppIcon className="w-3 h-3 fill-current" />
+                      <span>Send WhatsApp</span>
                     </a>
                   </div>
                 </div>
@@ -1036,29 +1036,29 @@ Contact: +91 70224 29004 | sales@srtronix.com`;
 
             {/* TAB 3: COLLECT CUSTOMER ENQUIRIES */}
             {activeTab === 'enquiry' && (
-              <div className="flex-1 overflow-y-auto p-4 flex flex-col justify-between text-xs space-y-4">
+              <div className="flex-1 overflow-y-auto p-3 flex flex-col justify-between text-xs space-y-3 scrollbar-thin scrollbar-thumb-slate-700">
                 {enquirySuccessRef ? (
-                  <div className="my-auto text-center space-y-3 p-4 bg-slate-900/90 border border-emerald-500/30 rounded-2xl">
-                    <div className="w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center mx-auto">
-                      <CheckCircle2 className="w-7 h-7" />
+                  <div className="my-auto text-center space-y-2.5 p-3.5 bg-slate-900/90 border border-emerald-500/30 rounded-2xl">
+                    <div className="w-10 h-10 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center mx-auto">
+                      <CheckCircle2 className="w-6 h-6" />
                     </div>
-                    <h4 className="text-base font-bold text-white">Enquiry Received Successfully!</h4>
+                    <h4 className="text-sm font-bold text-white">Enquiry Received Successfully!</h4>
                     <p className="text-xs text-slate-300">
                       Your reference number is:{' '}
-                      <strong className="text-cyan-300 font-mono text-sm block mt-1">{enquirySuccessRef}</strong>
+                      <strong className="text-cyan-300 font-mono text-xs block mt-0.5">{enquirySuccessRef}</strong>
                     </p>
-                    <p className="text-[11px] text-slate-400">
+                    <p className="text-[10px] text-slate-400">
                       Our technical engineering sales desk will contact you via email &amp; phone within 2 business hours.
                     </p>
 
-                    <div className="pt-2 flex flex-col gap-2">
+                    <div className="pt-1.5 flex flex-col gap-1.5">
                       <a
                         href={`https://wa.me/917022429004?text=Hello%20SRTRONIX,%20I%20have%20submitted%20an%20enquiry%20Ref:%20${enquirySuccessRef}.%20Please%20provide%20callback.`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-semibold transition-colors"
+                        className="flex items-center justify-center gap-1.5 px-3 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-xs transition-colors"
                       >
-                        <WhatsAppIcon className="w-4 h-4 fill-current" />
+                        <WhatsAppIcon className="w-3.5 h-3.5 fill-current" />
                         <span>Follow Up on WhatsApp</span>
                       </a>
 
@@ -1068,84 +1068,84 @@ Contact: +91 70224 29004 | sales@srtronix.com`;
                           setEnquirySuccessRef(null);
                           setActiveTab('chat');
                         }}
-                        className="text-slate-400 hover:text-white text-xs underline pt-1"
+                        className="text-slate-400 hover:text-white text-[11px] underline pt-0.5"
                       >
                         Return to AI Chat
                       </button>
                     </div>
                   </div>
                 ) : (
-                  <form onSubmit={handleSubmitEnquiry} className="space-y-3">
-                    <div className="border-b border-slate-800 pb-2">
-                      <h4 className="text-sm font-bold text-white flex items-center gap-1.5">
-                        <FileText className="w-4 h-4 text-[#7bb0ed]" />
-                        <span>Submit Official Customer Enquiry</span>
+                  <form onSubmit={handleSubmitEnquiry} className="space-y-2">
+                    <div className="border-b border-slate-800 pb-1.5">
+                      <h4 className="text-xs sm:text-sm font-bold text-white flex items-center gap-1.5">
+                        <FileText className="w-3.5 h-3.5 text-[#7bb0ed]" />
+                        <span>Submit Customer Enquiry</span>
                       </h4>
-                      <p className="text-[11px] text-slate-400">Request formal proposal, institutional RFQ, or site demo</p>
+                      <p className="text-[10px] text-slate-400">Request formal proposal, institutional RFQ, or site demo</p>
                     </div>
 
                     {enquiryError && (
-                      <div className="p-2.5 rounded-lg bg-red-900/30 border border-red-500/50 text-red-200 text-xs">
+                      <div className="p-2 rounded-lg bg-red-900/30 border border-red-500/50 text-red-200 text-xs">
                         {enquiryError}
                       </div>
                     )}
 
-                    <div className="space-y-1">
-                      <label className="text-[11px] font-medium text-slate-300">Full Name *</label>
+                    <div className="space-y-0.5">
+                      <label className="text-[10px] font-medium text-slate-300">Full Name *</label>
                       <input
                         type="text"
                         required
                         value={enquiryForm.fullName}
                         onChange={(e) => setEnquiryForm({ ...enquiryForm, fullName: e.target.value })}
                         placeholder="e.g. Dr. Rajesh Kumar"
-                        className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-[#4A7EB8]"
+                        className="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-white focus:outline-none focus:border-[#4A7EB8]"
                       />
                     </div>
 
                     <div className="grid grid-cols-2 gap-2">
-                      <div className="space-y-1">
-                        <label className="text-[11px] font-medium text-slate-300">Phone / WhatsApp *</label>
+                      <div className="space-y-0.5">
+                        <label className="text-[10px] font-medium text-slate-300">Phone / WhatsApp *</label>
                         <input
                           type="tel"
                           required
                           value={enquiryForm.phone}
                           onChange={(e) => setEnquiryForm({ ...enquiryForm, phone: e.target.value })}
                           placeholder="+91 98765 43210"
-                          className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-[#4A7EB8]"
+                          className="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-white focus:outline-none focus:border-[#4A7EB8]"
                         />
                       </div>
 
-                      <div className="space-y-1">
-                        <label className="text-[11px] font-medium text-slate-300">Email Address *</label>
+                      <div className="space-y-0.5">
+                        <label className="text-[10px] font-medium text-slate-300">Email Address *</label>
                         <input
                           type="email"
                           required
                           value={enquiryForm.email}
                           onChange={(e) => setEnquiryForm({ ...enquiryForm, email: e.target.value })}
-                          placeholder="name@institution.edu"
-                          className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-[#4A7EB8]"
+                          placeholder="name@inst.ac.in"
+                          className="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-white focus:outline-none focus:border-[#4A7EB8]"
                         />
                       </div>
                     </div>
 
-                    <div className="space-y-1">
-                      <label className="text-[11px] font-medium text-slate-300">Company / University / Lab *</label>
+                    <div className="space-y-0.5">
+                      <label className="text-[10px] font-medium text-slate-300">Company / University / Lab *</label>
                       <input
                         type="text"
                         required
                         value={enquiryForm.company}
                         onChange={(e) => setEnquiryForm({ ...enquiryForm, company: e.target.value })}
-                        placeholder="e.g. IIT Bombay / Embedded Labs India"
-                        className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-[#4A7EB8]"
+                        placeholder="e.g. IIT Bombay / Embedded Labs"
+                        className="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-white focus:outline-none focus:border-[#4A7EB8]"
                       />
                     </div>
 
-                    <div className="space-y-1">
-                      <label className="text-[11px] font-medium text-slate-300">Product Interested In</label>
+                    <div className="space-y-0.5">
+                      <label className="text-[10px] font-medium text-slate-300">Product Interested In</label>
                       <select
                         value={enquiryForm.product}
                         onChange={(e) => setEnquiryForm({ ...enquiryForm, product: e.target.value })}
-                        className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-[#4A7EB8]"
+                        className="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-white focus:outline-none focus:border-[#4A7EB8]"
                       >
                         <option value="Smart Work Bench Station">Smart Work Bench Station (Modular Console)</option>
                         <option value="Digital Oscilloscopes (SDS1102 / HDS272S / TAO3000)">Digital Oscilloscopes Range</option>
@@ -1156,23 +1156,23 @@ Contact: +91 70224 29004 | sales@srtronix.com`;
                       </select>
                     </div>
 
-                    <div className="space-y-1">
-                      <label className="text-[11px] font-medium text-slate-300">Requirement / Message</label>
+                    <div className="space-y-0.5">
+                      <label className="text-[10px] font-medium text-slate-300">Requirement / Message</label>
                       <textarea
                         rows={2}
                         value={enquiryForm.message}
                         onChange={(e) => setEnquiryForm({ ...enquiryForm, message: e.target.value })}
                         placeholder="Specify quantities, target specs, or tender requirements..."
-                        className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-[#4A7EB8]"
+                        className="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-white focus:outline-none focus:border-[#4A7EB8]"
                       />
                     </div>
 
                     <button
                       type="submit"
                       disabled={isSubmittingEnquiry}
-                      className="w-full py-2.5 bg-gradient-to-r from-[#4A7EB8] to-[#2563eb] hover:from-[#3b6ea4] hover:to-[#1d4ed8] text-white font-semibold rounded-xl text-xs transition-all shadow-md disabled:opacity-50 cursor-pointer"
+                      className="w-full py-2 bg-gradient-to-r from-[#4A7EB8] to-[#2563eb] hover:from-[#3b6ea4] hover:to-[#1d4ed8] text-white font-semibold rounded-lg text-xs transition-all shadow-md disabled:opacity-50 cursor-pointer"
                     >
-                      {isSubmittingEnquiry ? 'Submitting Enquiry...' : 'Submit Enquiry & Request Callback'}
+                      {isSubmittingEnquiry ? 'Submitting...' : 'Submit Enquiry & Request Callback'}
                     </button>
                   </form>
                 )}
